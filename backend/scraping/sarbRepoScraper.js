@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-const extractMarketRates = async (url) => {
+const sarbRepoScraper = async (url) => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -19,9 +19,11 @@ const extractMarketRates = async (url) => {
       // Extract data from each row
       const results = [];
       rows.forEach((row) => {
-        const date = row.querySelector("td.date")?.textContent.trim() || "N/A";
-        const value = row.querySelector("td.val")?.textContent.trim() || "N/A";
-        results.push({ Date: date, Value: value });
+        const name = row.querySelector("td.mcode")?.textContent.trim() || "N/A";
+        const date =
+          row.querySelector("td.mperiod")?.textContent.trim() || "N/A";
+        const value = row.querySelector("td.mval")?.textContent.trim() || "N/A";
+        results.push({ Name: name, Date: date, Value: value });
       });
 
       return results;
@@ -36,4 +38,4 @@ const extractMarketRates = async (url) => {
   }
 };
 
-export default extractMarketRates;
+export default sarbRepoScraper;

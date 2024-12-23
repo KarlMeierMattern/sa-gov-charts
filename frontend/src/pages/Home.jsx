@@ -13,6 +13,9 @@ const Home = () => {
       <Link className="underline text-blue-600" to="/gov/sarb-gdp">
         SARB GDP Data
       </Link>
+      <Link className="underline text-blue-600" to="/gov/sarb-repo">
+        SARB Repo Data
+      </Link>
     </div>
   );
 };

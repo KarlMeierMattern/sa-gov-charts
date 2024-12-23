@@ -3,16 +3,22 @@ import {
   postSarbGdpData,
   getSarbGdpData,
 } from "../controllers/sarbGdpController.js";
-import { sarbRepoController } from "../controllers/sarbRepoController.js";
+import {
+  postSarbRepoData,
+  getSarbRepoData,
+} from "../controllers/sarbRepoController.js";
 import { statssaController } from "../controllers/statssaController.js";
 import { worldbankController } from "../controllers/worldbankController.js";
 
 const router = express.Router();
 
-// SARB
+// SARB GDP
 router.post("/sarb-gdp", postSarbGdpData); // call the API and post to database
 router.get("/sarb-gdp", getSarbGdpData); // front-end requests data from database to avoid IP ban for scraping too often
-router.get("/sarb-repo", sarbRepoController);
+
+// SARB Repo
+router.post("/sarb-repo", postSarbRepoData);
+router.get("/sarb-repo", getSarbRepoData);
 
 // Worl Bank
 router.get("/world-bank", worldbankController);

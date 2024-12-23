@@ -4,7 +4,7 @@ import puppeteer from "puppeteer";
 const sarbGdpScraper = async (url, selector) => {
   try {
     // Launch Puppeteer browser
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     // Navigate to the page

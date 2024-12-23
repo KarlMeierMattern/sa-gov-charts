@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const SARB = () => {
+const SarbRepo = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ const SARB = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/gov/sarb-gdp"); // fetch from the backend
+        const response = await axios.get("http://localhost:3000/gov/sarb-repo"); // fetch from the backend
         setResponse(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -27,13 +27,14 @@ const SARB = () => {
 
   return (
     <div>
-      <h1>SARB GDP Data</h1>
-      {response ? (
+      <h1>SARB Repo Data</h1>
+      {response && response.length > 0 ? (
         <ul>
           {response.map((item, index) => (
             <li key={index}>
-              <strong>ID:</strong> {item.id}
-              <pre>{JSON.stringify(item.data, null, 2)}</pre>
+              <strong>Name:</strong> {item.name} <br />
+              <strong>Last Period:</strong> {item.lastPeriod} <br />
+              <strong>Value:</strong> {item.value}
             </li>
           ))}
         </ul>
@@ -44,4 +45,4 @@ const SARB = () => {
   );
 };
 
-export default SARB;
+export default SarbRepo;
