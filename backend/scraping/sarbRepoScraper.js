@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 const sarbRepoScraper = async (url) => {
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true }); // browser operates without a GUI = faster and consumes less memory
     const page = await browser.newPage();
 
     // Navigate to the URL

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx", // React 17+ JSX transform
+    "paths": {
+      "@/*": ["src/*"] // Ensure paths are correct
+    }
+  }
+}
