@@ -20,6 +20,14 @@ import {
   postSarbAllData,
   getSarbAllData,
 } from "../controllers/sarbAllController.js";
+import {
+  postSarbOtherIndicatorsController,
+  getSarbOtherIndicatorsController,
+} from "../controllers/sarbOtherIndicatorsController.js";
+import {
+  postSarbRealGdpController,
+  getSarbRealGdpController,
+} from "../controllers/sarbRealGdpController.js";
 import { worldbankController } from "../controllers/worldbankController.js";
 
 const router = express.Router();
@@ -39,6 +47,14 @@ router.get("/sarb-overview", getSarbOverview);
 // SARB All
 router.post("/sarb-all", postSarbAllData);
 router.get("/sarb-all", getSarbAllData);
+
+// SARB Real GDP data
+router.post("/sarb-other", postSarbOtherIndicatorsController);
+router.get("/sarb-other", getSarbOtherIndicatorsController);
+
+// SARB Real GDP data
+router.post("/sarb-real-gdp", postSarbRealGdpController);
+router.get("/sarb-real-gdp", getSarbRealGdpController);
 
 // Stats SA
 router.post("/stats-sa", postStatsSaController);

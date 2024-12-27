@@ -6,7 +6,7 @@ const getSarbOverview = async (req, res) => {
   try {
     const url = process.env.SARB_OVERVIEW;
     const data = await sarbOverviewScraper(url);
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
