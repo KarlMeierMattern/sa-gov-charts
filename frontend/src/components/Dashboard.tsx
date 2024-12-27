@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SarbRepo from "../SarbRepo";
 import SarbGdp from "../SarbGdp";
+import SarbGdpIndustry from "../SarbGdpIndustry";
+import SarbExpCon from "../SarbExpCon";
+import SarbProdEmploy from "../SarbProdEmploy";
+import SarbCashFin from "../SarbCashFin";
+import SarbExtFin from "../SarbExtFin";
+import SarbResCur from "../SarbResCur";
 
 interface DashboardProps {
   category: string;
@@ -26,6 +32,18 @@ export default function Dashboard({ category }: DashboardProps) {
         return <SarbRepo />;
       case "GDP":
         return <SarbGdp />;
+      case "GDP Industry":
+        return <SarbGdpIndustry />;
+      case "Expenditure & Consumption":
+        return <SarbExpCon />;
+      case "Production & Employment":
+        return <SarbProdEmploy />;
+      case "Cashflow & Financing":
+        return <SarbCashFin />;
+      case "External Financing":
+        return <SarbExtFin />;
+      case "Reserves & Currencies":
+        return <SarbResCur />;
       default:
         return <div>Select a category</div>;
     }

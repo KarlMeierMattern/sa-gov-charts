@@ -10,7 +10,16 @@ export default function Sidebar({
   activeCategory,
   setActiveCategory,
 }: SidebarProps) {
-  const categories = ["Market Rates", "GDP"];
+  const categories = [
+    "Market Rates",
+    "GDP",
+    "GDP Industry",
+    "Expenditure & Consumption",
+    "Production & Employment",
+    "Cashflow & Financing",
+    "External Financing",
+    "Reserves & Currencies",
+  ];
 
   return (
     <nav className="w-64 bg-background border-r border-border p-4">

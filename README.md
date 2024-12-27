@@ -67,3 +67,8 @@ Partnerships:
 • Collaborate with government departments or universities to access datasets not easily found online.
 
 Ideas for Execution: 1. Interactive Dashboards: Use frameworks like D3.js or Chart.js for creating dynamic, easy-to-understand visuals. 2. Focus on Local Languages: Include explanations and labels in major South African languages to ensure inclusivity. 3. Drill-Down Visualizations: Allow users to explore national trends but also zoom in on provincial or district levels. 4. Public Feedback Loop: Enable users to submit insights or concerns based on the data visualizations.
+
+## Things to include on the website
+
+Nominal effective exchange rate
+The weighted average exchange rate of the rand is based on trade in and consumption of manufactured goods between South Africa and its most important trading partners. The methodology applied is described in an article in the June 2020 Quarterly Bulletin. As from 1 January 2015, the weighted average exchange rate of the rand is calculated against twenty currencies. The weights of the five major currencies are in brackets: Euro (30,68), Chinese yuan (24,53), US dollar (10,56), Japanese yen (4,95), Indian rupee (4,85). Index: 2015=100

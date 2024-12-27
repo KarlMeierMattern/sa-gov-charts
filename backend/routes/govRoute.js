@@ -7,7 +7,19 @@ import {
   postSarbRepoData,
   getSarbRepoData,
 } from "../controllers/sarbRepoController.js";
-import { statssaController } from "../controllers/statssaController.js";
+import {
+  postStatsSaController,
+  getStatsSaController,
+  downloadStats,
+} from "../controllers/statSaController.js";
+import {
+  postSarbOverview,
+  getSarbOverview,
+} from "../controllers/sarbOverviewController.js";
+import {
+  postSarbAllData,
+  getSarbAllData,
+} from "../controllers/sarbAllController.js";
 import { worldbankController } from "../controllers/worldbankController.js";
 
 const router = express.Router();
@@ -20,10 +32,20 @@ router.get("/sarb-gdp", getSarbGdpData); // front-end requests data from databas
 router.post("/sarb-repo", postSarbRepoData);
 router.get("/sarb-repo", getSarbRepoData);
 
-// Worl Bank
-router.get("/world-bank", worldbankController);
+// SARB Overview
+router.post("/sarb-overview", postSarbOverview);
+router.get("/sarb-overview", getSarbOverview);
+
+// SARB All
+router.post("/sarb-all", postSarbAllData);
+router.get("/sarb-all", getSarbAllData);
 
 // Stats SA
-router.get("/stats-sa", statssaController);
+router.post("/stats-sa", postStatsSaController);
+// router.get("/stats-sa", getStatsSaController);
+router.get("/stats-sa", downloadStats);
+
+// World Bank
+router.get("/world-bank", worldbankController);
 
 export default router;
