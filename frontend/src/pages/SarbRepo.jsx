@@ -168,9 +168,10 @@ const SarbRepo = () => {
         <span className="font-bold">South African Reserve Bank (SARB)</span>{" "}
         lends money to commercial banks. It influences the interest rates banks
         charge customers for loans and pay on savings, impacting borrowing and
-        saving costs. The current repo is{" "}
-        <span className="font-bold">{currentRepo}%</span>. The prime rate is{" "}
-        <span className="font-bold">{primeRate}%</span>
+        saving costs. <br></br>
+        <br></br>The current repo rate is{" "}
+        <span className="font-bold">{currentRepo}%</span> while the current
+        prime rate is <span className="font-bold">{primeRate}%.</span>
       </div>
       <div className="grid grid-cols-2 gap-4 p-8">
         {/* Chart 1: Interest Rates */}

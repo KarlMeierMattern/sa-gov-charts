@@ -23,17 +23,17 @@ const gdpSchema = mongoose.Schema(
         default: "N/A",
       },
       latestData: {
-        type: String,
+        type: Number,
         required: true,
         default: "N/A",
       },
       previousPeriod: {
-        type: String,
+        type: Number,
         required: true,
         default: "N/A",
       },
       percentageChange: {
-        type: String,
+        type: Number,
         required: true,
         default: "N/A",
       },
