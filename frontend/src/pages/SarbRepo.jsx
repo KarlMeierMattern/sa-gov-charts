@@ -101,7 +101,12 @@ const SarbRepo = () => {
 
   // Data for Chart 3: Currency Exchange Rates
   const currencyRates = {
-    labels: ["ZAR/USD", "ZAR/GBP", "ZAR/Euro", "ZAR/Yen"],
+    labels: [
+      "ZAR/USD",
+      "ZAR/GBP",
+      "ZAR/Euro",
+      // "ZAR/Yen"
+    ],
     datasets: [
       {
         label: "Exchange Rate (Rand)",
@@ -109,7 +114,7 @@ const SarbRepo = () => {
           "Rand per US Dollar",
           "Rand per British Pound",
           "Rand per Euro",
-          "Rand per Japanese Yen",
+          // "Rand per Japanese Yen",
         ]
           .map((label) => response.find((item) => item.name === label)?.value)
           .map((value) => parseFloat(value)),
@@ -128,7 +133,7 @@ const SarbRepo = () => {
       "R186",
       "5-10 years",
       "10 years +",
-      "Nominal effective exchange rate",
+      // "Nominal effective exchange rate",
     ],
     datasets: [
       {
@@ -139,7 +144,7 @@ const SarbRepo = () => {
           "10,5% 2026 (R186) (closing yields)",
           "5-10 years (daily average bond yields)",
           "10 years and longer (daily average bond yields)",
-          "Nominal effective exchange rate",
+          // "Nominal effective exchange rate",
         ]
           .map((label) => response.find((item) => item.name === label)?.value)
           .map((value) => parseFloat(value)),
@@ -150,54 +155,69 @@ const SarbRepo = () => {
     ],
   };
 
+  const currentRepo =
+    response.find((item) => item.name === "Repo rate")?.value || 0; // Use optional chaining and provide a default value
+
+  const primeRate =
+    response.find((item) => item.name === "Prime lending rate")?.value || 0;
+
   return (
-    <div className="grid grid-cols-2 gap-4 p-8">
-      {/* Chart 1: Interest Rates */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Interest Rates</h2>
-        <Bar
-          data={interestRates}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true } },
-          }}
-        />
+    <div>
+      <div className="p-8">
+        The repo rate in South Africa is the interest rate at which the{" "}
+        <span className="font-bold">South African Reserve Bank (SARB)</span>{" "}
+        lends money to commercial banks. It influences the interest rates banks
+        charge customers for loans and pay on savings, impacting borrowing and
+        saving costs. The current repo is{" "}
+        <span className="font-bold">{currentRepo}%</span>. The prime rate is{" "}
+        <span className="font-bold">{primeRate}%</span>
       </div>
+      <div className="grid grid-cols-2 gap-4 p-8">
+        {/* Chart 1: Interest Rates */}
+        <div className="p-4 border rounded shadow">
+          <h2 className="text-lg font-bold mb-4">Interest Rates</h2>
+          <Bar
+            data={interestRates}
+            options={{
+              responsive: true,
+              plugins: { tooltip: { enabled: true } },
+            }}
+          />
+        </div>
 
-      {/* Chart 2: Treasury and NCD Rates */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Treasury and NCD Rates</h2>
-        <Bar
-          data={treasuryRates}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true } },
-          }}
-        />
-      </div>
-
-      {/* Chart 3: Currency Exchange Rates */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Currency Exchange Rates</h2>
-        <Bar
-          data={currencyRates}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true } },
-          }}
-        />
-      </div>
-
-      {/* Chart 4: Bond Yields and Indices */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Bond Yields and Indices</h2>
-        <Bar
-          data={bondYields}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true } },
-          }}
-        />
+        {/* Chart 2: Treasury and NCD Rates */}
+        <div className="p-4 border rounded shadow">
+          <h2 className="text-lg font-bold mb-4">Treasury and NCD Rates</h2>
+          <Bar
+            data={treasuryRates}
+            options={{
+              responsive: true,
+              plugins: { tooltip: { enabled: true } },
+            }}
+          />
+        </div>
+        {/* Chart 3: Currency Exchange Rates */}
+        <div className="p-4 border rounded shadow">
+          <h2 className="text-lg font-bold mb-4">Currency Exchange Rates</h2>
+          <Bar
+            data={currencyRates}
+            options={{
+              responsive: true,
+              plugins: { tooltip: { enabled: true } },
+            }}
+          />
+        </div>
+        {/* Chart 4: Bond Yields and Indices */}
+        <div className="p-4 border rounded shadow">
+          <h2 className="text-lg font-bold mb-4">Bond Yields and Indices</h2>
+          <Bar
+            data={bondYields}
+            options={{
+              responsive: true,
+              plugins: { tooltip: { enabled: true } },
+            }}
+          />
+        </div>
       </div>
     </div>
   );

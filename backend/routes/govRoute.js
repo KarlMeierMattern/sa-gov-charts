@@ -48,7 +48,7 @@ router.get("/sarb-overview", getSarbOverview);
 router.post("/sarb-all", postSarbAllData);
 router.get("/sarb-all", getSarbAllData);
 
-// SARB Real GDP data
+// SARB Other Indicators
 router.post("/sarb-other", postSarbOtherIndicatorsController);
 router.get("/sarb-other", getSarbOtherIndicatorsController);
 

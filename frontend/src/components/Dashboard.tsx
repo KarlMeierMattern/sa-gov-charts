@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import SarbRepo from "../SarbRepo";
-import SarbGdp from "../SarbGdp";
-import SarbGdpIndustry from "../SarbGdpIndustry";
-import SarbExpCon from "../SarbExpCon";
-import SarbProdEmploy from "../SarbProdEmploy";
-import SarbCashFin from "../SarbCashFin";
-import SarbExtFin from "../SarbExtFin";
-import SarbResCur from "../SarbResCur";
+import SarbRepo from "../pages/SarbRepo";
+import SarbGdp from "../pages/SarbGdp";
+import SarbGdpIndustry from "../pages/SarbGdpIndustry";
+import SarbExpCon from "../pages/SarbExpCon";
+import SarbProdEmploy from "../pages/SarbProdEmploy";
+import SarbCashFin from "../pages/SarbCashFin";
+import SarbExtFin from "../pages/SarbExtFin";
+import SarbResCur from "../pages/SarbResCur";
 
 interface DashboardProps {
   category: string;
