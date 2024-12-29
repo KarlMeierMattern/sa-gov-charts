@@ -40,14 +40,12 @@ const postSarbGdpData = async (req, res) => {
         const data = await sarbGdpScraper(url, id); // Scrape the data
         return {
           id,
-          data: {
-            industry: data.industry,
-            unitDescription: data.unitDescription,
-            dateOfLatest: data.dateOfLatest,
-            latestData: data.latestData,
-            previousPeriod: data.previousPeriod,
-            percentageChange: data.percentageChange,
-          },
+          industry: data.industry,
+          unitDescription: data.unitDescription,
+          dateOfLatest: data.dateOfLatest,
+          latestData: data.latestData,
+          previousPeriod: data.previousPeriod,
+          percentageChange: data.percentageChange,
         };
       })
     );

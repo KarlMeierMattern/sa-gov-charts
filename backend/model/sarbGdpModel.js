@@ -6,37 +6,35 @@ const gdpSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    data: {
-      industry: {
-        type: String,
-        required: true,
-        default: "N/A",
-      },
-      unitDescription: {
-        type: String,
-        required: true,
-        default: "N/A",
-      },
-      dateOfLatest: {
-        type: String,
-        required: true,
-        default: "N/A",
-      },
-      latestData: {
-        type: Number,
-        required: true,
-        default: "N/A",
-      },
-      previousPeriod: {
-        type: Number,
-        required: true,
-        default: "N/A",
-      },
-      percentageChange: {
-        type: Number,
-        required: true,
-        default: "N/A",
-      },
+    industry: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    unitDescription: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    dateOfLatest: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    latestData: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    previousPeriod: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    percentageChange: {
+      type: String,
+      required: true,
+      default: "N/A",
     },
   },
   { timestamps: true } // Optional: adds createdAt and updatedAt timestamps

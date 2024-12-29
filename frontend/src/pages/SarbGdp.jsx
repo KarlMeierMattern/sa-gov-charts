@@ -36,109 +36,6 @@ const SarbGdp = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  // Prepare data for Chart 1: GDP by Industry
-  const gdpData = {
-    labels: [
-      "Agriculture, forestry and fishing",
-      "Mining and quarrying",
-      "Manufacturing",
-      "Electricity and water",
-      "Construction (contractors)",
-      "Wholesale and retail trade, catering and accommodation",
-      "Transport, storage and communication",
-      "Finance and insurance, real estate and business services",
-      "Personal services",
-      "General government services",
-      "Total value added at basic prices",
-      "GDP at market prices (current, sa)",
-    ],
-    datasets: [
-      {
-        label: "Latest Data (R Million)",
-        data: response.map((item) => parseFloat(item.data.latestData)), // Access 'latestData' from the 'data' field
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-      {
-        label: "Previous Period (R Million)",
-        data: response.map((item) => parseFloat(item.data.previousPeriod)), // Access 'previousPeriod' from the 'data' field
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
-      },
-      {
-        label: "Percentage Change (%)",
-        data: response.map((item) => parseFloat(item.data.percentageChange)), // Access 'percentageChange' from the 'data' field
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const gdpLabels = [
-    "Agriculture, forestry and fishing",
-    "Mining and quarrying",
-    "Manufacturing",
-    "Electricity and water",
-    "Construction (contractors)",
-    "Wholesale and retail trade, catering and accommodation",
-    "Transport, storage and communication",
-    "Finance and insurance, real estate and business services",
-    "Personal services",
-    "General government services",
-    "Total value added at basic prices",
-  ];
-
-  // for each label find the value and sum the values
-  const mapped = gdpLabels.map((item) => {
-    const found = response.find((unit) => unit.data.industry === item);
-    return found ? parseFloat(found.data.latestData) : 0; // Return the value or 0 if not found
-  });
-  const totalGDP = mapped.reduce((acc, value) => acc + value, 0);
-
-  const privateCon =
-    response.find(
-      (item) => item.data.industry === "Private consumption expenditure (sa)"
-    )?.data.latestData || 0;
-
-  const conGov =
-    response.find(
-      (item) =>
-        item.data.industry ===
-        "Consumption expenditure by general government (sa)"
-    )?.data.latestData || 0;
-
-  const fixInv =
-    response.find(
-      (item) => item.data.industry === "Gross domestic fixed investment (sa)"
-    )?.data.latestData || 0;
-
-  const changeInv =
-    response.find((item) => item.data.industry === "Change in inventories (sa)")
-      ?.data.latestData || 0;
-
-  const exports =
-    response.find(
-      (item) =>
-        item.data.industry === "Exports of goods and non-factor services (sa)"
-    )?.data.latestData || 0;
-
-  const imports =
-    response.find(
-      (item) =>
-        item.data.industry === "Imports of goods and non-factor services (sa)"
-    )?.data.latestData || 0;
-
-  const residItem =
-    response.find((item) => item.data.industry === "Residual item (sa)")?.data
-      .latestData || 0;
-
-  const gdp =
-    response.find((item) => item.data.industry === "Gross domestic expenditure")
-      ?.data.latestData || 0;
-
   const gdpExpApp = [
     "Private consumption expenditure (sa)",
     "Consumption expenditure by general government (sa)",
@@ -149,31 +46,121 @@ const SarbGdp = () => {
     "Imports of goods and non-factor services (sa)",
   ];
 
-  const gdpMapped = gdpExpApp.map((item) => {
-    const responseFound = response.find((unit) => unit.data.industry === item);
-    return responseFound ? parseFloat(responseFound.data.latestData) : 0;
-  });
-  const calcGdp =
-    gdpMapped.reduce((acc, value) => acc + value, 0) - 2 * imports;
+  // Prepare data for Chart 1: GDP by Industry
+  const gdpData = {
+    labels: gdpExpApp,
+    datasets: [
+      {
+        label: "Latest Data (R Million)",
+        data: [
+          "Private consumption expenditure (sa)",
+          "Consumption expenditure by general government (sa)",
+          "Gross domestic fixed investment (sa)",
+          "Change in inventories (sa)",
+          "Residual item (sa)",
+          "Exports of goods and non-factor services (sa)",
+          "Imports of goods and non-factor services (sa)",
+        ]
+          .map(
+            (label) =>
+              response.find((item) => item.industry === label)?.latestData || 0
+          )
+          .map((value) => parseFloat(value)),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Previous Period (R Million)",
+        data: [
+          "Private consumption expenditure (sa)",
+          "Consumption expenditure by general government (sa)",
+          "Gross domestic fixed investment (sa)",
+          "Change in inventories (sa)",
+          "Residual item (sa)",
+          "Exports of goods and non-factor services (sa)",
+          "Imports of goods and non-factor services (sa)",
+        ]
+          .map(
+            (label) =>
+              response.find((item) => item.industry === label)
+                ?.previousPeriod || 0
+          )
+          .map((value) => parseFloat(value)),
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const privateCon =
+    response.find(
+      (item) => item.industry === "Private consumption expenditure (sa)"
+    )?.latestData || 0;
+
+  const conGov =
+    response.find(
+      (item) =>
+        item.industry === "Consumption expenditure by general government (sa)"
+    )?.latestData || 0;
+
+  const fixInv =
+    response.find(
+      (item) => item.industry === "Gross domestic fixed investment (sa)"
+    )?.latestData || 0;
+
+  const changeInv =
+    response.find((item) => item.industry === "Change in inventories (sa)")
+      ?.latestData || 0;
+
+  const exports =
+    response.find(
+      (item) =>
+        item.industry === "Exports of goods and non-factor services (sa)"
+    )?.latestData || 0;
+
+  const imports =
+    response.find(
+      (item) =>
+        item.industry === "Imports of goods and non-factor services (sa)"
+    )?.latestData || 0;
+
+  const residItem =
+    response.find((item) => item.industry === "Residual item (sa)")
+      ?.latestData || 0;
+
+  const gdp =
+    response.find((item) => item.industry === "Gross domestic expenditure")
+      ?.latestData || 0;
+
+  // const gdpMapped = gdpExpApp.map((item) => {
+  //   const responseFound = response.find((unit) => unit.data.industry === item);
+  //   return responseFound ? parseFloat(responseFound.data.latestData) : 0;
+  // });
+  // const calcGdp =
+  //   gdpMapped.reduce((acc, value) => acc + value, 0) - 2 * imports;
+
+  const quarterReported =
+    response.find((item) => item.industry === "Gross domestic expenditure")
+      ?.dateOfLatest || 0;
 
   return (
     <div>
       <div className="p-8">
-        The industry that contributes repo rate in South Africa is:
-        <br></br>Total GDP is <span className="font-bold">{totalGDP}</span>
-        <br></br>
-        <br></br>
+        The seasonally adjusted and annualised GDP for South Africa at{" "}
+        {quarterReported} is R{parseFloat(gdp).toLocaleString()}m
+        <br />
+        <br />
         <span className="font-bold">Expenditure Approach</span>
-        <br></br>
-        <br></br>
-        The GDP expenditure is calculated as:
-        <br></br>
-        <span className="font-bold">GDP</span> = C + G + I + &Delta;I + (X - M).
-        <br></br>
-        <br></br>
+        <br />
+        Under the expenditure approach GDP is calculated as:{" "}
+        <span className="bg-yellow-300">C + G + I + &Delta;I + (X - M).</span>
+        <br />
+        <br />
         Where:
-        <br></br>
-        <br></br>
+        <br />
+        <br />
         <span className="font-bold">C</span>: Private Consumption Expenditure =
         R{parseFloat(privateCon).toLocaleString()}m<br></br>
         <span className="font-bold">G</span>: Government Consumption Expenditure
@@ -189,21 +176,18 @@ const SarbGdp = () => {
         <span className="font-bold">Residual</span> ={" "}
         {parseFloat(residItem).toLocaleString()}m<br></br>
         <br></br>
-        GDP = {calcGdp.toLocaleString()}
+        <span className="bg-yellow-300">
+          GDP = R{parseFloat(gdp).toLocaleString()}m
+        </span>
       </div>
       <div className="grid grid-cols-1 gap-4 p-8">
         <div className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">SARB GDP Data by Industry</h2>
+          <h2 className="text-lg font-bold mb-4">SARB GDP Data</h2>
           <Bar
             data={gdpData}
             options={{
               responsive: true,
               plugins: { tooltip: { enabled: true } },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                },
-              },
             }}
           />
         </div>
