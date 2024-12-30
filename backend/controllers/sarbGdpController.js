@@ -1,3 +1,5 @@
+// https://www.resbank.co.za/en/home/what-we-do/statistics/releases/economic-and-financial-data-for-south-africa
+
 import sarbGdpScraper from "../scraping/sarbGdpScraper.js";
 import { sarbGdpSchema } from "../model/sarbGdpModel.js";
 

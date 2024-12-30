@@ -1,3 +1,5 @@
+// https://resbank.co.za/en/home/what-we-do/statistics/releases/national-summary-data-page
+
 import mongoose from "mongoose";
 
 const allSchema = mongoose.Schema(

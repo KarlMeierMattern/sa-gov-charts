@@ -1,3 +1,5 @@
+// https://resbank.co.za/en/home/what-we-do/statistics/releases/national-summary-data-page
+
 import sarbAllScraper from "../scraping/sarbAllScraper.js";
 import { allSarbSchema } from "../model/sarbAllModel.js";
 

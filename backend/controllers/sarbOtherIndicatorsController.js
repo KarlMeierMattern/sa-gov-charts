@@ -5,7 +5,7 @@ import { sarbOtherIndicatorsSchema } from "../model/sarbOtherIndicators.js";
 
 const postSarbOtherIndicatorsController = async (req, res) => {
   try {
-    const url = process.env.SARB_REAL_GDP;
+    const url = process.env.SARB_OTHER;
     const data = await sarbOtherIndicatorsScraper(url);
 
     // Loop through each scraped data and insert it into the database
