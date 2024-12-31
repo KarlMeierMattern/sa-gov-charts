@@ -125,7 +125,7 @@ const SarbCashFin = () => {
           data={cashFinance}
           options={{
             responsive: true,
-            plugins: { tooltip: { enabled: true } },
+            plugins: { tooltip: { enabled: true }, datalabels: false },
           }}
         />
       </div>

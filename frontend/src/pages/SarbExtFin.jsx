@@ -92,7 +92,7 @@ const SarbExtFin = () => {
           data={exFinance}
           options={{
             responsive: true,
-            plugins: { tooltip: { enabled: true } },
+            plugins: { tooltip: { enabled: true }, datalabels: false },
           }}
         />
       </div>

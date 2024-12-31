@@ -181,7 +181,7 @@ const SarbRepo = () => {
             data={interestRates}
             options={{
               responsive: true,
-              plugins: { tooltip: { enabled: true } },
+              plugins: { tooltip: { enabled: true }, datalabels: false },
             }}
           />
         </div>
@@ -193,7 +193,7 @@ const SarbRepo = () => {
             data={treasuryRates}
             options={{
               responsive: true,
-              plugins: { tooltip: { enabled: true } },
+              plugins: { tooltip: { enabled: true }, datalabels: false },
             }}
           />
         </div>
@@ -204,7 +204,7 @@ const SarbRepo = () => {
             data={currencyRates}
             options={{
               responsive: true,
-              plugins: { tooltip: { enabled: true } },
+              plugins: { tooltip: { enabled: true }, datalabels: false },
             }}
           />
         </div>
@@ -215,7 +215,7 @@ const SarbRepo = () => {
             data={bondYields}
             options={{
               responsive: true,
-              plugins: { tooltip: { enabled: true } },
+              plugins: { tooltip: { enabled: true }, datalabels: false },
             }}
           />
         </div>
