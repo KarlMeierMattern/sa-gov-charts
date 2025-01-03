@@ -11,6 +11,7 @@ export default function Sidebar({
   setActiveCategory,
 }: SidebarProps) {
   const categories = [
+    "Overview",
     "Market Rates",
     "GDP by Expenditure",
     "GDP by Industry",

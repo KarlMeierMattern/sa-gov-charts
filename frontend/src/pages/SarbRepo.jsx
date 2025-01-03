@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   BarElement,
@@ -161,17 +161,41 @@ const SarbRepo = () => {
   const primeRate =
     response.find((item) => item.name === "Prime lending rate")?.value || 0;
 
+  const currentPeriod =
+    response.find((item) => item.name === "Repo rate")?.lastPeriod || 0;
+
+  const date = new Date(currentPeriod);
+
+  // Get the day, month, and year
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  // Format the output
+  const formattedDate = `${day} ${month} ${year}`;
+
   return (
     <div>
       <div className="p-8">
-        The repo rate in South Africa is the interest rate at which the{" "}
-        <span className="font-bold">South African Reserve Bank (SARB)</span>{" "}
-        lends money to commercial banks. It influences the interest rates banks
-        charge customers for loans and pay on savings, impacting borrowing and
-        saving costs. <br></br>
-        <br></br>The current repo rate is{" "}
-        <span className="font-bold">{currentRepo}%</span> while the current
-        prime rate is <span className="font-bold">{primeRate}%.</span>
+        As at <span className="font-bold bg-yellow-300">{formattedDate}</span>{" "}
+        the current repo rate in South Africa is{" "}
+        <span className="font-bold bg-yellow-300">{currentRepo}%</span> while
+        the current prime rate is{" "}
+        <span className="font-bold bg-yellow-300">{primeRate}%</span>.
+        <br />
+        <br />
+        When you hear people talking the "interest rate" they're generally
+        talking about the repo rate (repurchase rate). This is the interest rate
+        at which the{" "}
+        <span className="font-bold">
+          South African Reserve Bank (SARB)
+        </span>{" "}
+        lends money to commercial banks. Banks then use the repo rate to
+        determine the interest rate that they charge you to borrow money and the
+        rate they pay you on your savings. Generally, the best available rate
+        you can get at the bank is known as prime, which is the repo rate plus a
+        certain margin.
+        <br></br>
       </div>
       <div className="grid grid-cols-2 gap-4 p-8">
         {/* Chart 1: Interest Rates */}

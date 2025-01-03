@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SarbOverview from "../pages/SarbOverview";
 import SarbRepo from "../pages/SarbRepo";
 import SarbGdp from "../pages/SarbGdp";
 import SarbGdpIndustry from "../pages/SarbGdpIndustry";
@@ -28,6 +29,8 @@ export default function Dashboard({ category }: DashboardProps) {
 
   const renderContent = () => {
     switch (category) {
+      case "Overview":
+        return <SarbOverview />;
       case "Market Rates":
         return <SarbRepo />;
       case "GDP by Expenditure":
