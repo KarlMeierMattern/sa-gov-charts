@@ -12,20 +12,37 @@ const sarbOtherIndicatorsScraper = async (url) => {
     // Wait for table element with longer timeout
     await page.waitForSelector("table", { timeout: 60000 });
 
+    await page.goto(url, { waitUntil: "networkidle0" });
+
     const data = await page.evaluate(() => {
+      const results = [];
+      const cpiText = document
+        .querySelector(".header__statitem")
+        ?.textContent.trim()
+        .match(/\d+(\.\d+)?%/)?.[0];
+
+      const cpi = cpiText ? parseFloat(cpiText.replace("%", "")) : null;
+
+      results.push({
+        Name: "CPI",
+        Value: cpi,
+        Date: "na",
+      });
+
       const rows = document.querySelectorAll("table tr");
 
-      const results = [];
       rows.forEach((row) => {
         const cells = row.querySelectorAll("td");
         if (cells.length >= 2) {
-          const date = cells[0]?.textContent.trim() || "N/A";
+          const name = cells[0]?.textContent.trim() || "N/A";
           const val = cells[1]?.textContent.trim() || "N/A";
+          const date = cells[2]?.textContent.trim() || "N/A";
 
-          if (date !== "N/A" && val !== "N/A") {
+          if (name !== "N/A" && val !== "N/A" && date !== "N/A") {
             results.push({
-              Date: date,
+              Name: name,
               Value: parseFloat(val),
+              Date: date,
             });
           }
         }

@@ -1,6 +1,5 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -12,18 +11,14 @@ import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
 import { Overview } from "@/components/ui/overview";
 import { RecentSales } from "@/components/ui/recent-sales";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LineChart, BarChart } from "@/components/ui/chart2";
 import {
   DollarSign,
   TrendingUp,
   Users,
   ArrowUpDown,
-  BarChart2,
   Activity,
   Briefcase,
-  ShoppingCart,
   Zap,
-  ThumbsUp,
 } from "lucide-react";
 
 // Mock data - replace with real data in a production environment
@@ -48,10 +43,74 @@ const mockData = {
 };
 
 export default function SarbOverview() {
-  const [dateRange, setDateRange] = useState({
-    from: new Date(2023, 0, 1),
-    to: new Date(),
-  });
+  const [response, setResponse] = useState(null);
+  const [responseEmploy, setResponseEmploy] = useState(null);
+
+  const [loadingOther, setLoadingOther] = useState(true);
+  const [loadingAll, setLoadingAll] = useState(true);
+
+  const [errorOther, setErrorOther] = useState(null);
+  const [errorAll, setErrorAll] = useState(null);
+
+  useEffect(() => {
+    const fetchOtherData = async () => {
+      try {
+        setLoadingOther(true);
+        const response = await axios.get(
+          "http://localhost:3000/gov/sarb-other"
+        );
+        setResponse(response.data);
+      } catch (error) {
+        console.error(error);
+        setErrorOther("Failed to fetch data for SARB Other.");
+      } finally {
+        setLoadingOther(false);
+      }
+    };
+
+    fetchOtherData();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        setLoadingAll(true);
+        const response = await axios.get("http://localhost:3000/gov/sarb-all");
+        setResponseEmploy(response.data);
+      } catch (error) {
+        console.error(error);
+        setErrorAll("Failed to fetch data for SARB All.");
+      } finally {
+        setLoadingAll(false);
+      }
+    };
+
+    fetchAllData();
+  }, []);
+
+  if (loadingOther || loadingAll) return <div>Loading...</div>;
+  if (errorOther) return <div>Error: {errorOther}</div>;
+  if (errorAll) return <div>Error: {errorAll}</div>;
+
+  const inflationRate = response.find((item) => item.name === "CPI")?.value;
+
+  const repoRate = response.find(
+    (item) => item.name === "Dates of change in the repurchase rate"
+  )?.value;
+
+  const primeRate = response.find(
+    (item) => item.name === "Dates of change in the prime lending rate"
+  )?.value;
+
+  const realGdpGrowth = response.find(
+    (item) => item.name === "Real GDP growth rate"
+  )?.value;
+
+  const unemployRate = responseEmploy.find(
+    (item) =>
+      item.sector ===
+      "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website"
+  )?.currentValue;
 
   return (
     <div className="flex-col md:flex">
@@ -60,16 +119,16 @@ export default function SarbOverview() {
           <h2 className="text-3xl font-bold tracking-tight">
             Economic Dashboard
           </h2>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <CalendarDateRangePicker date={dateRange} setDate={setDateRange} />
-          </div>
+          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
+          {/* <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
-          </TabsList>
+          </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
@@ -80,9 +139,7 @@ export default function SarbOverview() {
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.inflationRate}%
-                  </div>
+                  <div className="text-2xl font-bold">{inflationRate}%</div>
                   <p className="text-xs text-muted-foreground">
                     Consumer Price Index (CPI)
                   </p>
@@ -91,14 +148,26 @@ export default function SarbOverview() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Interest Rate
+                    Repo Rate
                   </CardTitle>
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.interestRate}%
-                  </div>
+                  <div className="text-2xl font-bold">{repoRate}%</div>
+                  <p className="text-xs text-muted-foreground">
+                    Key policy rate
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Prime Rate
+                  </CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{primeRate}%</div>
                   <p className="text-xs text-muted-foreground">
                     Key policy rate
                   </p>
@@ -109,12 +178,9 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     GDP Growth
                   </CardTitle>
-                  <BarChart2 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.gdpGrowth}%
-                  </div>
+                  <div className="text-2xl font-bold">{realGdpGrowth}%</div>
                   <p className="text-xs text-muted-foreground">
                     Real GDP growth rate
                   </p>
@@ -128,9 +194,7 @@ export default function SarbOverview() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.unemploymentRate}%
-                  </div>
+                  <div className="text-2xl font-bold">{unemployRate}%</div>
                   <p className="text-xs text-muted-foreground">
                     Of labor force
                   </p>
@@ -162,9 +226,7 @@ export default function SarbOverview() {
                   <CardTitle>Currency Exchange Rate</CardTitle>
                   <CardDescription>USD/ZAR FX Rate over time</CardDescription>
                 </CardHeader>
-                <CardContent className="pl-2">
-                  <LineChart className="h-[200px]" />
-                </CardContent>
+                <CardContent className="pl-2"></CardContent>
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
@@ -173,9 +235,7 @@ export default function SarbOverview() {
                     Debt-to-GDP and Budget Balance
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <BarChart className="h-[200px]" />
-                </CardContent>
+                <CardContent></CardContent>
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -189,7 +249,6 @@ export default function SarbOverview() {
                 <CardContent>
                   <div className="text-2xl font-bold">${mockData.fdi}B</div>
                   <p className="text-xs text-muted-foreground">Net inflow</p>
-                  <LineChart className="h-[80px] mt-4" />
                 </CardContent>
               </Card>
               <Card>
@@ -204,7 +263,6 @@ export default function SarbOverview() {
                     {mockData.currentAccountBalance}%
                   </div>
                   <p className="text-xs text-muted-foreground">Of GDP</p>
-                  <LineChart className="h-[80px] mt-4" />
                 </CardContent>
               </Card>
               <Card>
@@ -221,7 +279,6 @@ export default function SarbOverview() {
                   <p className="text-xs text-muted-foreground">
                     Below poverty line
                   </p>
-                  <LineChart className="h-[80px] mt-4" />
                 </CardContent>
               </Card>
             </div>
@@ -296,7 +353,6 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold mb-2">
                     {mockData.businessConfidence}
                   </div>
-                  <LineChart className="h-[200px]" />
                 </CardContent>
               </Card>
               <Card>
@@ -307,7 +363,6 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold mb-2">
                     {mockData.consumerConfidence}
                   </div>
-                  <LineChart className="h-[200px]" />
                 </CardContent>
               </Card>
             </div>

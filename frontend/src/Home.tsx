@@ -8,7 +8,7 @@ import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("Market Rates");
+  const [activeCategory, setActiveCategory] = useState("Overview");
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

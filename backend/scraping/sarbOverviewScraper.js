@@ -1,4 +1,5 @@
 // https://www.resbank.co.za/en/home/what-we-do/monetary-policy
+// This scraper is not being used
 
 import puppeteer from "puppeteer";
 
@@ -19,9 +20,6 @@ const sarbOverviewScraper = async (url) => {
         .match(/\d+(\.\d+)?%/)?.[0];
       const repoRate = document
         .querySelector(".rateindicator__pcnt.mb-0")
-        ?.textContent.trim();
-      const inflation = document
-        .querySelector("p.rateindicator__pcnt")
         ?.textContent.trim();
       const target = document
         .querySelector(".rateindicator__pcnttarget")

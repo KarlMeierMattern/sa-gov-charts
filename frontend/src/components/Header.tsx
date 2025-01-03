@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ModeToggle } from "./ModeToggle";
 
 export default function Header() {

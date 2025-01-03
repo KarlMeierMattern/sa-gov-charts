@@ -10,14 +10,16 @@ const postSarbOtherIndicatorsController = async (req, res) => {
 
     // Loop through each scraped data and insert it into the database
     const parsedData = data.map((item) => ({
-      name: item.Date,
+      name: item.Name,
       value: item.Value,
+      date: item.Date,
     }));
 
     for (const result of parsedData) {
       const existingEntry = await sarbOtherIndicatorsSchema.findOne({
         name: result.name,
         value: result.value,
+        date: result.date,
       });
       if (!existingEntry) {
         await sarbOtherIndicatorsSchema.create(result);
