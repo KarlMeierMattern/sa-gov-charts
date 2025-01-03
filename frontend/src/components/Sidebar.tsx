@@ -12,8 +12,8 @@ export default function Sidebar({
 }: SidebarProps) {
   const categories = [
     "Market Rates",
-    "GDP",
-    "GDP Industry",
+    "GDP by Expenditure",
+    "GDP by Industry",
     "Expenditure & Consumption",
     "Production & Employment",
     "Cashflow & Financing",

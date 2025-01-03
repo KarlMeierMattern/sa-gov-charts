@@ -30,9 +30,9 @@ export default function Dashboard({ category }: DashboardProps) {
     switch (category) {
       case "Market Rates":
         return <SarbRepo />;
-      case "GDP":
+      case "GDP by Expenditure":
         return <SarbGdp />;
-      case "GDP Industry":
+      case "GDP by Industry":
         return <SarbGdpIndustry />;
       case "Expenditure & Consumption":
         return <SarbExpCon />;
