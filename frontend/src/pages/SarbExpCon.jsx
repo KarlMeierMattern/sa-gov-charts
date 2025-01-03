@@ -40,11 +40,6 @@ const SarbExpCon = () => {
   // Data for Chart 3: Expenditure and Consumption
   const expConsumption = {
     labels: [
-      "Private consumption expenditure (sa)",
-      "Consumption expenditure by general government (sa)",
-      "Gross domestic fixed investment (sa)",
-      "Change in inventories (sa)",
-      "Residual item (sa)",
       "Gross domestic expenditure",
       "Exports of goods and non-factor services (sa)",
       "Imports of goods and non-factor services (sa)",
@@ -59,11 +54,6 @@ const SarbExpCon = () => {
       {
         label: "Current Data (R Million)",
         data: [
-          "Private consumption expenditure (sa)",
-          "Consumption expenditure by general government (sa)",
-          "Gross domestic fixed investment (sa)",
-          "Change in inventories (sa)",
-          "Residual item (sa)",
           "Gross domestic expenditure",
           "Exports of goods and non-factor services (sa)",
           "Imports of goods and non-factor services (sa)",
@@ -86,11 +76,6 @@ const SarbExpCon = () => {
       {
         label: "Previous Data (R Million)",
         data: [
-          "Private consumption expenditure (sa)",
-          "Consumption expenditure by general government (sa)",
-          "Gross domestic fixed investment (sa)",
-          "Change in inventories (sa)",
-          "Residual item (sa)",
           "Gross domestic expenditure",
           "Exports of goods and non-factor services (sa)",
           "Imports of goods and non-factor services (sa)",
