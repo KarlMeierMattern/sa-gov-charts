@@ -197,7 +197,7 @@ const SarbRepo = () => {
         certain margin.
         <br></br>
       </div>
-      <div className="grid grid-cols-2 gap-4 p-8">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
         {/* Chart 1: Interest Rates */}
         <div className="p-4 border rounded shadow">
           <h2 className="text-lg font-bold mb-4">Interest Rates</h2>

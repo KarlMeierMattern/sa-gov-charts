@@ -19,6 +19,8 @@ import {
   Activity,
   Briefcase,
   Zap,
+  BadgeDollarSign,
+  CirclePercent,
 } from "lucide-react";
 
 // Mock data - replace with real data in a production environment
@@ -96,21 +98,21 @@ export default function SarbOverview() {
 
   const repoRate = response.find(
     (item) => item.name === "Dates of change in the repurchase rate"
-  )?.value;
+  );
 
   const primeRate = response.find(
     (item) => item.name === "Dates of change in the prime lending rate"
-  )?.value;
+  );
 
   const realGdpGrowth = response.find(
     (item) => item.name === "Real GDP growth rate"
-  )?.value;
+  );
 
   const unemployRate = responseEmploy.find(
     (item) =>
       item.sector ===
       "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website"
-  )?.currentValue;
+  );
 
   return (
     <div className="flex-col md:flex">
@@ -130,7 +132,7 @@ export default function SarbOverview() {
             <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -150,12 +152,12 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     Repo Rate
                   </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <CirclePercent className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{repoRate}%</div>
+                  <div className="text-2xl font-bold">{repoRate?.value}%</div>
                   <p className="text-xs text-muted-foreground">
-                    Key policy rate
+                    Key policy rate @ {repoRate.date}
                   </p>
                 </CardContent>
               </Card>
@@ -164,12 +166,12 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     Prime Rate
                   </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <CirclePercent className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{primeRate}%</div>
+                  <div className="text-2xl font-bold">{primeRate?.value}%</div>
                   <p className="text-xs text-muted-foreground">
-                    Key policy rate
+                    Key policy rate @ {primeRate?.date}
                   </p>
                 </CardContent>
               </Card>
@@ -178,11 +180,14 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     GDP Growth
                   </CardTitle>
+                  <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{realGdpGrowth}%</div>
+                  <div className="text-2xl font-bold">
+                    {realGdpGrowth?.value}%
+                  </div>
                   <p className="text-xs text-muted-foreground">
-                    Real GDP growth rate
+                    Real GDP growth rate @ {realGdpGrowth?.date}
                   </p>
                 </CardContent>
               </Card>
@@ -194,9 +199,11 @@ export default function SarbOverview() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{unemployRate}%</div>
+                  <div className="text-2xl font-bold">
+                    {unemployRate?.currentValue}%
+                  </div>
                   <p className="text-xs text-muted-foreground">
-                    Of labor force
+                    Of labor force for {unemployRate?.period}
                   </p>
                 </CardContent>
               </Card>
@@ -212,8 +219,8 @@ export default function SarbOverview() {
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
-                  <CardTitle>Trade Balance</CardTitle>
-                  <CardDescription>Exports vs Imports</CardDescription>
+                  <CardTitle>GDP</CardTitle>
+                  <CardDescription>By Expenditure Type</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentSales />
