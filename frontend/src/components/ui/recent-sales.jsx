@@ -58,7 +58,7 @@ export function RecentSales() {
 
   const residItem =
     response.find((item) => item.sector === "Residual item (sa)")
-      ?.currentValue || 0;
+      ?.currentValue * -1 || 0;
 
   const gdp =
     response.find(
@@ -81,7 +81,7 @@ export function RecentSales() {
             Private Consumption Expenditure{" "}
           </p>
         </div>
-        <div className="ml-auto font-medium">
+        <div className="ml-auto text-sm font-medium">
           R{parseFloat(privateCon).toLocaleString()}m
         </div>
       </div>
@@ -92,10 +92,10 @@ export function RecentSales() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">
-            Government Consumption Expenditure
+            + Government Consumption Expenditure
           </p>
         </div>
-        <div className="ml-auto font-medium">
+        <div className="ml-auto text-sm font-medium">
           {" "}
           R{parseFloat(conGov).toLocaleString()}m
         </div>
@@ -107,10 +107,10 @@ export function RecentSales() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">
-            Gross Domestic Fixed Investment
+            + Gross Domestic Fixed Investment
           </p>
         </div>
-        <div className="ml-auto font-medium">
+        <div className="ml-auto text-sm font-medium">
           R{parseFloat(fixInv).toLocaleString()}m
         </div>
       </div>
@@ -121,10 +121,10 @@ export function RecentSales() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">
-            Change in Inventories
+            + Change in Inventories
           </p>
         </div>
-        <div className="ml-auto font-medium">
+        <div className="ml-auto text-sm font-medium">
           R{parseFloat(changeInv).toLocaleString()}m
         </div>
       </div>
@@ -134,9 +134,9 @@ export function RecentSales() {
           <AvatarFallback>E</AvatarFallback>
         </Avatar>
         <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Exports</p>
+          <p className="text-sm font-medium leading-none">+ Exports</p>
         </div>
-        <div className="ml-auto font-medium">
+        <div className="ml-auto text-sm font-medium">
           R{parseFloat(exports).toLocaleString()}m
         </div>
       </div>
@@ -146,10 +146,31 @@ export function RecentSales() {
           <AvatarFallback>I</AvatarFallback>
         </Avatar>
         <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Imports</p>
+          <p className="text-sm font-medium leading-none">- Imports</p>
         </div>
-        <div className="ml-auto font-medium">
-          R{parseFloat(imports).toLocaleString()}m
+        <div className="ml-auto text-sm font-medium">
+          R({parseFloat(imports).toLocaleString()})m
+        </div>
+      </div>
+      <div className="flex items-center">
+        <Avatar className="h-9 w-9">
+          <AvatarImage src="/avatars/05.png" alt="Avatar" />
+          <AvatarFallback>R</AvatarFallback>
+        </Avatar>
+        <div className="ml-4 space-y-1">
+          <p className="text-sm font-medium leading-none">+ Residual item</p>
+        </div>
+        <div className="ml-auto text-sm font-medium">
+          R({parseFloat(residItem).toLocaleString()})m
+        </div>
+      </div>
+      <hr className="my-4 border-t border-gray-200 w-full" />
+      <div className="flex items-center">
+        <div className="ml-4 space-y-1">
+          <p className="text-base font-bold leading-none">GDP</p>
+        </div>
+        <div className="ml-auto text-base font-bold">
+          R{parseFloat(gdp).toLocaleString()}m
         </div>
       </div>
     </div>

@@ -7,12 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
+// import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
 import { Overview } from "@/components/ui/overview";
 import { RecentSales } from "@/components/ui/recent-sales";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  DollarSign,
+  TrendingUpDown,
   TrendingUp,
   Users,
   ArrowUpDown,
@@ -21,15 +21,14 @@ import {
   Zap,
   BadgeDollarSign,
   CirclePercent,
+  Gem,
+  DollarSign,
+  Banknote,
+  Info,
 } from "lucide-react";
 
 // Mock data - replace with real data in a production environment
 const mockData = {
-  inflationRate: 5.2,
-  interestRate: 3.5,
-  gdpGrowth: 2.8,
-  unemploymentRate: 7.1,
-  exchangeRate: 15.23,
   tradeBalance: -2.5,
   debtToGDP: 68.2,
   budgetDeficit: -4.3,
@@ -46,14 +45,18 @@ const mockData = {
 
 export default function SarbOverview() {
   const [response, setResponse] = useState(null);
-  const [responseEmploy, setResponseEmploy] = useState(null);
+  const [responseAll, setResponseAll] = useState(null);
+  const [responseFx, setResponseFx] = useState(null);
 
   const [loadingOther, setLoadingOther] = useState(true);
   const [loadingAll, setLoadingAll] = useState(true);
+  const [loadingFx, setLoadingFx] = useState(true);
 
   const [errorOther, setErrorOther] = useState(null);
   const [errorAll, setErrorAll] = useState(null);
+  const [errorFx, setErrorFx] = useState(null);
 
+  // Fetch inflation rate, repo rate, prime rate, GDP growth data
   useEffect(() => {
     const fetchOtherData = async () => {
       try {
@@ -73,12 +76,13 @@ export default function SarbOverview() {
     fetchOtherData();
   }, []);
 
+  // Fetch unemployment, population data
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setLoadingAll(true);
         const response = await axios.get("http://localhost:3000/gov/sarb-all");
-        setResponseEmploy(response.data);
+        setResponseAll(response.data);
       } catch (error) {
         console.error(error);
         setErrorAll("Failed to fetch data for SARB All.");
@@ -90,9 +94,28 @@ export default function SarbOverview() {
     fetchAllData();
   }, []);
 
-  if (loadingOther || loadingAll) return <div>Loading...</div>;
+  // Fetch US/ZAR FX rate data
+  useEffect(() => {
+    const fetchFxData = async () => {
+      try {
+        setLoadingFx(true);
+        const response = await axios.get("http://localhost:3000/gov/sarb-repo"); // fetch from the backend
+        setResponseFx(response.data);
+      } catch (error) {
+        console.log("Error fetching data:", error);
+        setErrorFx("Failed to fetch data");
+      } finally {
+        setLoadingFx(false);
+      }
+    };
+
+    fetchFxData();
+  }, []);
+
+  if (loadingOther || loadingAll || loadingFx) return <div>Loading...</div>;
   if (errorOther) return <div>Error: {errorOther}</div>;
   if (errorAll) return <div>Error: {errorAll}</div>;
+  if (errorFx) return <div>Error: {errorFx}</div>;
 
   const inflationRate = response.find((item) => item.name === "CPI")?.value;
 
@@ -108,18 +131,30 @@ export default function SarbOverview() {
     (item) => item.name === "Real GDP growth rate"
   );
 
-  const unemployRate = responseEmploy.find(
+  const unemployRate = responseAll.find(
     (item) =>
       item.sector ===
       "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website"
   );
 
+  const population = responseAll.find(
+    (item) => item.sector === "POPULATION (mid-year estimates as at 30 June)"
+  );
+
+  const usZarRate = responseFx.find(
+    (item) => item.name === "Rand per US Dollar"
+  );
+
+  const quarterReported =
+    responseAll.find((item) => item.sector === "Gross domestic expenditure")
+      ?.period || 0;
+
   return (
     <div className="flex-col md:flex">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Economic Dashboard
+          <h2 className="text-3xl font-bold tracking-tight pb-4">
+            Macro Dashboard
           </h2>
           {/* <div className="flex items-center space-x-2">
             <CalendarDateRangePicker date={dateRange} setDate={setDateRange} />
@@ -132,7 +167,7 @@ export default function SarbOverview() {
             <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -142,9 +177,12 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{inflationRate}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Consumer Price Index (CPI)
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Consumer Price Index (CPI)
+                    </p>
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -152,12 +190,12 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     Repo Rate
                   </CardTitle>
-                  <CirclePercent className="h-4 w-4 text-muted-foreground" />
+                  <Banknote className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{repoRate?.value}%</div>
                   <p className="text-xs text-muted-foreground">
-                    Key policy rate @ {repoRate.date}
+                    Key central bank policy rate @ {repoRate.date}
                   </p>
                 </CardContent>
               </Card>
@@ -166,31 +204,36 @@ export default function SarbOverview() {
                   <CardTitle className="text-sm font-medium">
                     Prime Rate
                   </CardTitle>
-                  <CirclePercent className="h-4 w-4 text-muted-foreground" />
+                  <Gem className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{primeRate?.value}%</div>
                   <p className="text-xs text-muted-foreground">
-                    Key policy rate @ {primeRate?.date}
+                    Rate that commercial banks charge their most creditworthy
+                    customers @ {primeRate?.date}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    GDP Growth
+                    Real GDP Growth
                   </CardTitle>
-                  <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />
+                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
                     {realGdpGrowth?.value}%
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Real GDP growth rate @ {realGdpGrowth?.date}
+                    Economic growth, adjusted for inflation, reflecting the
+                    increase in the value of goods and services produced @{" "}
+                    {realGdpGrowth?.date}
                   </p>
                 </CardContent>
               </Card>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -207,6 +250,38 @@ export default function SarbOverview() {
                   </p>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Population
+                  </CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {(population?.currentValue / 1000).toFixed(0)}m
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Population for {population?.period}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    USD/ZAR Exchange Rate
+                  </CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {parseFloat(usZarRate?.value).toFixed(2)}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    FX Rate @ {usZarRate?.lastPeriod}
+                  </p>
+                </CardContent>
+              </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
@@ -220,21 +295,122 @@ export default function SarbOverview() {
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>GDP</CardTitle>
-                  <CardDescription>By Expenditure Type</CardDescription>
+                  <CardDescription>
+                    By expenditure type seasonally adjusted and annualised at{" "}
+                    {quarterReported}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentSales />
                 </CardContent>
               </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
-                <CardHeader>
-                  <CardTitle>Currency Exchange Rate</CardTitle>
-                  <CardDescription>USD/ZAR FX Rate over time</CardDescription>
+
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Trade Balance
+                  </CardTitle>
+                  <Banknote className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
-                <CardContent className="pl-2"></CardContent>
+                <CardContent>
+                  <div className="text-2xl font-bold">{repoRate?.value}%</div>
+                  <p className="text-xs text-muted-foreground">
+                    Exports and imports of goods and services. Forms part of the
+                    current account.
+                  </p>
+                </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Budget Balance
+                  </CardTitle>
+                  <Gem className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{primeRate?.value}%</div>
+                  <p className="text-xs text-muted-foreground">
+                    Government Revenue - Expenses.
+                    <br />
+                    Positive = Budget Surplus (government saves). Negative =
+                    Budget Deficit (government borrows).
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Current Account
+                  </CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{inflationRate}%</div>
+                  <p className="text-xs text-muted-foreground">
+                    Trade balance + income from abroad + transfers
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Capital Account
+                  </CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {unemployRate?.currentValue}%
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Tracks one-time transfers of capital assets (e.g., debt
+                    forgiveness, land purchases).
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Financial Account
+                  </CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {parseFloat(usZarRate).toFixed(2)}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Tracks investments and financial flows (e.g., foreign direct
+                    investment, stock/bond purchases, and reserve assets).
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Balance of Payments{" "}
+                  </CardTitle>
+                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {realGdpGrowth?.value}%
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Current account + capital account + financial account.
+                    <br />
+                    Tracks all economic transactions between a country and the
+                    world.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Government Finances</CardTitle>
@@ -269,7 +445,9 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold">
                     {mockData.currentAccountBalance}%
                   </div>
-                  <p className="text-xs text-muted-foreground">Of GDP</p>
+                  <p className="text-xs text-muted-foreground">
+                    (Government Revenue - Government Expenditure) / GDP
+                  </p>
                 </CardContent>
               </Card>
               <Card>
