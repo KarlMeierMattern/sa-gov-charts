@@ -19,13 +19,17 @@ import {
   Activity,
   Briefcase,
   Zap,
-  BadgeDollarSign,
-  CirclePercent,
   Gem,
   DollarSign,
   Banknote,
   Info,
 } from "lucide-react";
+
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 // Mock data - replace with real data in a production environment
 const mockData = {
@@ -55,6 +59,8 @@ export default function SarbOverview() {
   const [errorOther, setErrorOther] = useState(null);
   const [errorAll, setErrorAll] = useState(null);
   const [errorFx, setErrorFx] = useState(null);
+
+  const [isHovered, setIsHovered] = useState(false);
 
   // Fetch inflation rate, repo rate, prime rate, GDP growth data
   useEffect(() => {
@@ -181,7 +187,15 @@ export default function SarbOverview() {
                     <p className="text-xs text-muted-foreground">
                       Consumer Price Index (CPI)
                     </p>
-                    <Info className="h-4 w-4 text-muted-foreground" />
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        The inflation rate is...
+                      </HoverCardContent>
+                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -194,9 +208,21 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{repoRate?.value}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Key central bank policy rate @ {repoRate.date}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      @ {repoRate.date}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Set by the central bank, affects the overall cost of
+                        borrowing in the economy.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -208,10 +234,21 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{primeRate?.value}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Rate that commercial banks charge their most creditworthy
-                    customers @ {primeRate?.date}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      @ {primeRate?.date}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Rate that commercial banks charge their most
+                        creditworthy customers.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -225,11 +262,21 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold">
                     {realGdpGrowth?.value}%
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Economic growth, adjusted for inflation, reflecting the
-                    increase in the value of goods and services produced @{" "}
-                    {realGdpGrowth?.date}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      @ {realGdpGrowth?.date}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Economic growth, adjusted for inflation, reflecting the
+                        increase in the value of goods and services produced.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -316,10 +363,28 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{repoRate?.value}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Exports and imports of goods and services. Forms part of the
-                    current account.
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Exports and imports of goods and services. Forms part of
+                      the current account.
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        (Exports - Imports): Value of goods and services sold to
+                        (exports) and bought from (imports) other countries.
+                        Forms part of the current account.
+                        <br />
+                        <br />
+                        Trade Surplus: Exports > Imports.
+                        <br />
+                        Trade Deficit: Imports > Exports.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>

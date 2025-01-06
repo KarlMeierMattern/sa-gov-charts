@@ -65,10 +65,6 @@ export function RecentSales() {
       (item) => item.sector === "GDP at market prices (current, sa)"
     )?.currentValue || 0;
 
-  const quarterReported =
-    response.find((item) => item.sector === "Gross domestic expenditure")
-      ?.period || 0;
-
   return (
     <div className="space-y-4">
       <div className="flex items-center">
