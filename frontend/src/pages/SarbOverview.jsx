@@ -51,16 +51,17 @@ export default function SarbOverview() {
   const [response, setResponse] = useState(null);
   const [responseAll, setResponseAll] = useState(null);
   const [responseFx, setResponseFx] = useState(null);
+  const [responseJse, setResponseJse] = useState(null);
 
   const [loadingOther, setLoadingOther] = useState(true);
   const [loadingAll, setLoadingAll] = useState(true);
   const [loadingFx, setLoadingFx] = useState(true);
+  const [loadingJse, setLoadingJse] = useState(true);
 
   const [errorOther, setErrorOther] = useState(null);
   const [errorAll, setErrorAll] = useState(null);
   const [errorFx, setErrorFx] = useState(null);
-
-  const [isHovered, setIsHovered] = useState(false);
+  const [errorJse, setErrorJse] = useState(null);
 
   // Fetch inflation rate, repo rate, prime rate, GDP growth data
   useEffect(() => {
@@ -118,10 +119,30 @@ export default function SarbOverview() {
     fetchFxData();
   }, []);
 
-  if (loadingOther || loadingAll || loadingFx) return <div>Loading...</div>;
+  // Fetch JSE data
+  useEffect(() => {
+    const fetchJseData = async () => {
+      try {
+        setLoadingJse(true);
+        const response = await axios.get("http://localhost:3000/gov/jse"); // fetch from the backend
+        setResponseJse(response.data);
+      } catch (error) {
+        console.log("Error fetching data:", error);
+        setErrorJse("Failed to fetch data");
+      } finally {
+        setLoadingJse(false);
+      }
+    };
+
+    fetchJseData();
+  }, []);
+
+  if (loadingOther || loadingAll || loadingFx || loadingJse)
+    return <div>Loading...</div>;
   if (errorOther) return <div>Error: {errorOther}</div>;
   if (errorAll) return <div>Error: {errorAll}</div>;
   if (errorFx) return <div>Error: {errorFx}</div>;
+  if (errorJse) return <div>Error: {errorJse}</div>;
 
   const inflationRate = response.find((item) => item.name === "CPI")?.value;
 
@@ -154,6 +175,54 @@ export default function SarbOverview() {
   const quarterReported =
     responseAll.find((item) => item.sector === "Gross domestic expenditure")
       ?.period || 0;
+
+  const exports =
+    responseAll.find(
+      (item) => item.sector === "Exports of goods and non-factor services (sa)"
+    )?.currentValue || 0;
+
+  const imports =
+    responseAll.find(
+      (item) => item.sector === "Imports of goods and non-factor services (sa)"
+    )?.currentValue || 0;
+
+  const tradeBalance = exports - imports;
+
+  const budgetBalance =
+    response.find(
+      (item) =>
+        item.name === "National government balance as % of GDP (Fiscal year)"
+    )?.value || 0;
+
+  const currentAccount =
+    responseAll.find((item) => item.sector === "Current account (nsa)")
+      ?.currentValue || 0;
+
+  const gdp =
+    responseAll.find(
+      (item) => item.sector === "GDP at market prices (current, sa)"
+    )?.currentValue || 0;
+
+  const currentAccountPercentGdp = (currentAccount / gdp) * 100;
+
+  const capitalAccount =
+    responseAll.find((item) => item.sector === "Capital account (nsa)")
+      ?.currentValue || 0;
+
+  const financialAccount =
+    responseAll.find((item) => item.sector === "Financial account")
+      ?.currentValue || 0;
+
+  const balanceOfPayments = currentAccount + capitalAccount + financialAccount;
+
+  const totalDebt = responseAll.find(
+    (item) => item.sector === "Total gross loan debt (nsa)"
+  );
+
+  const debtPercentGdp = (totalDebt?.currentValue / gdp) * 100;
+
+  const allShareIndex =
+    responseJse.find((item) => item.name === "All Share")?.value || 0;
 
   return (
     <div className="flex-col md:flex">
@@ -292,9 +361,20 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold">
                     {unemployRate?.currentValue}%
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Of labor force for {unemployRate?.period}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Of labor force for {unemployRate?.period}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -308,9 +388,20 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold">
                     {(population?.currentValue / 1000).toFixed(0)}m
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Population for {population?.period}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Population for {population?.period}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -324,9 +415,20 @@ export default function SarbOverview() {
                   <div className="text-2xl font-bold">
                     {parseFloat(usZarRate?.value).toFixed(2)}
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    FX Rate @ {usZarRate?.lastPeriod}
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      FX Rate @ {usZarRate?.lastPeriod}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -352,7 +454,6 @@ export default function SarbOverview() {
                 </CardContent>
               </Card>
             </div>
-
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -362,7 +463,9 @@ export default function SarbOverview() {
                   <Banknote className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{repoRate?.value}%</div>
+                  <div className="text-2xl font-bold">
+                    R{parseFloat(tradeBalance).toLocaleString()}m
+                  </div>
                   <div className="flex flex-row justify-between">
                     <p className="text-xs text-muted-foreground">
                       Exports and imports of goods and services. Forms part of
@@ -379,9 +482,9 @@ export default function SarbOverview() {
                         Forms part of the current account.
                         <br />
                         <br />
-                        Trade Surplus: Exports > Imports.
+                        Trade Surplus: Exports &gt Imports.
                         <br />
-                        Trade Deficit: Imports > Exports.
+                        Trade Deficit: Imports &lt Exports.
                       </HoverCardContent>
                     </HoverCard>
                   </div>
@@ -390,18 +493,28 @@ export default function SarbOverview() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Budget Balance
+                    Budget Balance % of GDP
                   </CardTitle>
                   <Gem className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{primeRate?.value}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Government Revenue - Expenses.
-                    <br />
-                    Positive = Budget Surplus (government saves). Negative =
-                    Budget Deficit (government borrows).
-                  </p>
+                  <div className="text-2xl font-bold">{budgetBalance}%</div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      (Government revenue - expenses) / GDP.
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Positive = budget surplus (government saves).
+                        <br />
+                        Negative = budget deficit (government borrows).
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -414,10 +527,28 @@ export default function SarbOverview() {
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{inflationRate}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Trade balance + income from abroad + transfers
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <div className="text-2xl font-bold">
+                      R{parseFloat(currentAccount).toLocaleString()}m
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {parseFloat(currentAccountPercentGdp).toFixed(1)}% of GDP
+                    </div>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Trade balance + income from abroad + transfers
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -429,12 +560,22 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {unemployRate?.currentValue}%
+                    R{parseFloat(capitalAccount).toLocaleString()}m
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Tracks one-time transfers of capital assets (e.g., debt
-                    forgiveness, land purchases).
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Tracks one-time transfers of capital assets.
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Debt forgiveness, land purchases.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -446,12 +587,23 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {parseFloat(usZarRate).toFixed(2)}
+                    R{parseFloat(financialAccount).toLocaleString()}m
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Tracks investments and financial flows (e.g., foreign direct
-                    investment, stock/bond purchases, and reserve assets).
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Tracks investments and financial flows.
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Foreign direct investment, stock/bond purchases, and
+                        reserve assets.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -463,58 +615,131 @@ export default function SarbOverview() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {realGdpGrowth?.value}%
+                    R{parseFloat(balanceOfPayments).toLocaleString()}m
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Current account + capital account + financial account.
-                    <br />
-                    Tracks all economic transactions between a country and the
-                    world.
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Current account + capital account + financial account.
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        Tracks all economic transactions between South Africa
+                        and the world.
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-3">
-                <CardHeader>
-                  <CardTitle>Government Finances</CardTitle>
-                  <CardDescription>
-                    Debt-to-GDP and Budget Balance
-                  </CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Foreign Direct Investment
+                    Government interest costs % of GDP
                   </CardTitle>
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${mockData.fdi}B</div>
-                  <p className="text-xs text-muted-foreground">Net inflow</p>
+                  <div className="text-2xl font-bold">%</div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">blank </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Current Account Balance
+                    Debt-to-GDP ratio
                   </CardTitle>
-                  <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+                  <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {mockData.currentAccountBalance}%
+                    {parseFloat(debtPercentGdp).toFixed(2)}%
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    (Government Revenue - Government Expenditure) / GDP
-                  </p>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Based on government debt of R
+                      {parseFloat(totalDebt.currentValue).toLocaleString()}m at{" "}
+                      {totalDebt.period}
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        The debt-to-GDP ratio is a metric that compares a
+                        country's public debt to its gross domestic product
+                        (GDP).
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">blank </CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    R{parseFloat(financialAccount).toLocaleString()}m
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">blank </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">blank </CardTitle>
+                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    R{parseFloat(balanceOfPayments).toLocaleString()}m
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">blank </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -585,9 +810,7 @@ export default function SarbOverview() {
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.stockMarketIndex.toLocaleString()}
-                  </div>
+                  <div className="text-2xl font-bold">{allShareIndex}</div>
                   <p className="text-xs text-muted-foreground">
                     Major stock exchange
                   </p>

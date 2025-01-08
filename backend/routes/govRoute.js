@@ -24,6 +24,10 @@ import {
   postSarbOtherIndicatorsController,
   getSarbOtherIndicatorsController,
 } from "../controllers/sarbOtherIndicatorsController.js";
+import {
+  postJseIndex,
+  getJseIndex,
+} from "../controllers/jseIndexController.js";
 import { worldbankController } from "../controllers/worldbankController.js";
 
 const router = express.Router();
@@ -47,6 +51,10 @@ router.get("/sarb-all", getSarbAllData);
 // SARB Other Indicators
 router.post("/sarb-other", postSarbOtherIndicatorsController);
 router.get("/sarb-other", getSarbOtherIndicatorsController);
+
+// JSE
+router.post("/jse", postJseIndex);
+router.get("/jse", getJseIndex);
 
 // Stats SA
 router.post("/stats-sa", postStatsSaController);
