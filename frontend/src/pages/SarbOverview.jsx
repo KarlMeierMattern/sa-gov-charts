@@ -431,6 +431,31 @@ export default function SarbOverview() {
                   </div>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Stock Market Index
+                  </CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{allShareIndex}</div>
+                  <div className="flex flex-row justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Major stock exchange
+                    </p>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {" "}
+                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="text-xs">
+                        blank
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
@@ -734,92 +759,6 @@ export default function SarbOverview() {
                         blank
                       </HoverCardContent>
                     </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Poverty Rate
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.povertyRate}%
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Below poverty line
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Human Development Index
-                  </CardTitle>
-                  <Activity className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{mockData.hdi}</div>
-                  <p className="text-xs text-muted-foreground">HDI Score</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Labor Force Participation
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.laborForceParticipation}%
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Of working-age population
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Stock Market Index
-                  </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{allShareIndex}</div>
-                  <p className="text-xs text-muted-foreground">
-                    Major stock exchange
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Business Confidence</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold mb-2">
-                    {mockData.businessConfidence}
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Consumer Confidence</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold mb-2">
-                    {mockData.consumerConfidence}
                   </div>
                 </CardContent>
               </Card>
