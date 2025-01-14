@@ -32,6 +32,10 @@ import { worldbankController } from "../controllers/worldbankController.js";
 
 const router = express.Router();
 
+// Express.js provides the server framework to handle HTTP requests and responses.
+// Axios is used to scrape data from external websites, process it, and send it back to clients.
+// Express server exposes scraped data via specific endpoints, effectively functioning as an API.
+
 // SARB GDP
 router.post("/sarb-gdp", postSarbGdpData); // call the API and post to database
 router.get("/sarb-gdp", getSarbGdpData); // front-end requests data from database to avoid IP ban for scraping too often
