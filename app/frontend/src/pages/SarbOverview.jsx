@@ -48,7 +48,7 @@ export default function SarbOverview() {
     const fetchOtherData = async () => {
       try {
         setLoadingOther(true);
-        const response = await axios.get("http://localhost:3000/sarb-other");
+        const response = await axios.get("/sarb-other");
         setResponse(response.data);
       } catch (error) {
         console.error(error);
@@ -66,7 +66,7 @@ export default function SarbOverview() {
     const fetchAllData = async () => {
       try {
         setLoadingAll(true);
-        const response = await axios.get("http://localhost:3000/sarb-all");
+        const response = await axios.get("/sarb-all");
         setResponseAll(response.data);
       } catch (error) {
         console.error(error);
@@ -84,7 +84,7 @@ export default function SarbOverview() {
     const fetchFxData = async () => {
       try {
         setLoadingFx(true);
-        const response = await axios.get("http://localhost:3000/sarb-repo"); // fetch from the backend
+        const response = await axios.get("/sarb-repo"); // fetch from the backend
         setResponseFx(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -102,7 +102,7 @@ export default function SarbOverview() {
     const fetchJseData = async () => {
       try {
         setLoadingJse(true);
-        const response = await axios.get("http://localhost:3000/jse"); // fetch from the backend
+        const response = await axios.get("/jse"); // fetch from the backend
         setResponseJse(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);

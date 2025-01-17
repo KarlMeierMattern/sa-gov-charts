@@ -38,7 +38,7 @@ mongoose
 
 // Start the server (for local testing)
 if (process.env.NODE_ENV !== "production") {
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3001; // Default to 3001 if not specified in .env
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });

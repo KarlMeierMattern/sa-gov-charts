@@ -7,7 +7,7 @@ const WorldBank = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/world-bank");
+        const response = await axios.get("/world-bank");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
