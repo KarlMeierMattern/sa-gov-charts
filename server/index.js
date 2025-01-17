@@ -16,13 +16,19 @@ const allowedOrigins =
     ? [process.env.ORIGIN_1, process.env.ORIGIN_2]
     : ["http://localhost:5173"];
 
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("Allowed Origins:", allowedOrigins);
+
 app.use(
   cors({
     origin: (origin, callback) => {
+      console.log("Incoming request from origin:", origin);
+
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        console.log("Origin rejected:", origin);
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
     credentials: true,
