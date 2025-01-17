@@ -30,7 +30,7 @@ const SarbRepo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/gov/sarb-repo"); // fetch from the backend
+        const response = await axios.get("http://localhost:3000/sarb-repo"); // fetch from the backend
         setResponse(response.data);
         console.log(response.data);
       } catch (error) {
@@ -184,7 +184,7 @@ const SarbRepo = () => {
         <span className="font-bold bg-yellow-300">{primeRate}%</span>.
         <br />
         <br />
-        When you hear people talking the "interest rate" they're generally
+        When you hear people talking the interest rate they are generally
         talking about the repo rate (repurchase rate). This is the interest rate
         at which the{" "}
         <span className="font-bold">

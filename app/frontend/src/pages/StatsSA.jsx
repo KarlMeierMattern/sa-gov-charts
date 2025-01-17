@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const StatsSA = () => {
@@ -8,7 +8,7 @@ const StatsSA = () => {
     const fetchData = async () => {
       try {
         // Fetch the scraped data from your backend
-        const response = await axios.get("http://localhost:3000/gov/stats-sa");
+        const response = await axios.get("http://localhost:3000/stats-sa");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

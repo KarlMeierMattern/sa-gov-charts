@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const WorldBank = () => {
@@ -7,9 +7,7 @@ const WorldBank = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/gov/world-bank"
-        );
+        const response = await axios.get("http://localhost:3000/world-bank");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

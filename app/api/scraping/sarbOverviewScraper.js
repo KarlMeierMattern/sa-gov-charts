@@ -28,7 +28,6 @@ const sarbOverviewScraper = async (url) => {
       return {
         cpi,
         repoRate,
-        inflation,
         target,
       };
     });

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useState } from "react";
 import ThemeProvider from "@/components/ThemeProvider";
 import Header from "@/components/Header";

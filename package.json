@@ -6,7 +6,10 @@
     "vite": "^6.0.1"
   },
   "scripts": {
-    "dev": "cd app/frontend && npm run dev",
-    "build": "cd app/frontend && npm run build"
+    "dev": "concurrently \"cd app/frontend && npm run dev\" \"cd app/api && npm run dev\"",
+    "build": "concurrently \"cd app/frontend && npm run build\" \"cd app/api && npm run build\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

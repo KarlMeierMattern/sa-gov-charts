@@ -20,7 +20,7 @@ const SarbCashFin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/gov/sarb-all"); // fetch from the backend
+        const response = await axios.get("http://localhost:3000/sarb-all"); // fetch from the backend
         setResponse(response.data);
         console.log(response.data);
       } catch (error) {

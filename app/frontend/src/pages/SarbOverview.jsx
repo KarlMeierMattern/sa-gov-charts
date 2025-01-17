@@ -10,15 +10,11 @@ import {
 // import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
 import { Overview } from "@/components/ui/overview";
 import { RecentSales } from "@/components/ui/recent-sales";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
   TrendingUpDown,
   TrendingUp,
   Users,
-  ArrowUpDown,
-  Activity,
-  Briefcase,
-  Zap,
   Gem,
   DollarSign,
   Banknote,
@@ -30,22 +26,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-
-// Mock data - replace with real data in a production environment
-const mockData = {
-  tradeBalance: -2.5,
-  debtToGDP: 68.2,
-  budgetDeficit: -4.3,
-  fdi: 4.7,
-  currentAccountBalance: -3.1,
-  povertyRate: 18.9,
-  hdi: 0.709,
-  laborForceParticipation: 60.2,
-  energyPriceIndex: 112.5,
-  businessConfidence: 95.2,
-  consumerConfidence: 83.7,
-  stockMarketIndex: 68423,
-};
 
 export default function SarbOverview() {
   const [response, setResponse] = useState(null);
@@ -68,9 +48,7 @@ export default function SarbOverview() {
     const fetchOtherData = async () => {
       try {
         setLoadingOther(true);
-        const response = await axios.get(
-          "http://localhost:3000/gov/sarb-other"
-        );
+        const response = await axios.get("http://localhost:3000/sarb-other");
         setResponse(response.data);
       } catch (error) {
         console.error(error);
@@ -88,7 +66,7 @@ export default function SarbOverview() {
     const fetchAllData = async () => {
       try {
         setLoadingAll(true);
-        const response = await axios.get("http://localhost:3000/gov/sarb-all");
+        const response = await axios.get("http://localhost:3000/sarb-all");
         setResponseAll(response.data);
       } catch (error) {
         console.error(error);
@@ -106,7 +84,7 @@ export default function SarbOverview() {
     const fetchFxData = async () => {
       try {
         setLoadingFx(true);
-        const response = await axios.get("http://localhost:3000/gov/sarb-repo"); // fetch from the backend
+        const response = await axios.get("http://localhost:3000/sarb-repo"); // fetch from the backend
         setResponseFx(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -124,7 +102,7 @@ export default function SarbOverview() {
     const fetchJseData = async () => {
       try {
         setLoadingJse(true);
-        const response = await axios.get("http://localhost:3000/gov/jse"); // fetch from the backend
+        const response = await axios.get("http://localhost:3000/jse"); // fetch from the backend
         setResponseJse(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -709,8 +687,8 @@ export default function SarbOverview() {
                       </HoverCardTrigger>
                       <HoverCardContent className="text-xs">
                         The debt-to-GDP ratio is a metric that compares a
-                        country's public debt to its gross domestic product
-                        (GDP).
+                        country&aopos;s public debt to its gross domestic
+                        product (GDP).
                       </HoverCardContent>
                     </HoverCard>
                   </div>
