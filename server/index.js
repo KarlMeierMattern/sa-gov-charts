@@ -43,7 +43,7 @@ mongoose
   });
 
 // Start the server (for local testing and production)
-const PORT = process.env.PORT || 3001; // Default to 3001 if not specified by Render or in .env
+const PORT = process.env.PORT || 3000; // Default to 3001 if not specified by Render or in .env
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
