@@ -10,11 +10,12 @@ const app = express();
 // Middleware for parsing incoming requests
 app.use(express.json());
 
-// Allow resource sharing
-const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
-const devOrigin = ["http://localhost:5173"];
+// CORS setup
 const allowedOrigins =
-  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+  process.env.NODE_ENV === "production"
+    ? [process.env.ORIGIN_1, process.env.ORIGIN_2]
+    : ["http://localhost:5173"];
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -29,21 +30,22 @@ app.use(
   })
 );
 
-// Backend routes (Make sure these come **before** static files middleware)
+// Backend routes
 app.use("/", govRoute);
 
-// Connect to MongoDB
+// Connect to MongoDB with fallback URI if not provided
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/defaultDb";
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(mongoUri)
   .then(() => {
     console.log("App connected to database");
   })
   .catch((error) => {
-    console.log("Database connection error:", error);
+    console.error("Database connection error:", error);
   });
 
-// Start the server (for local testing and production)
-const PORT = process.env.PORT || 3000; // Default to 3001 if not specified by Render or in .env
+// Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
