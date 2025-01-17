@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import SarbRepo from "./pages/SarbRepo";
 import SarbGdp from "./pages/SarbGdp";
@@ -14,6 +14,7 @@ import SarbExtFin from "./pages/SarbExtFin";
 const App = () => {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/gov" />} />
       <Route path="/gov" element={<Home />} />
       <Route path="/gov/sarb-repo" element={<SarbRepo />} />
       <Route path="/gov/sarb-gdp" element={<SarbGdp />} />

@@ -13,20 +13,21 @@ app.use(express.json());
 // Allow resource sharing
 app.use(cors());
 
-const port = process.env.PORT || 3001;
-
 app.use("/gov", govRoute);
 
 app.get("/", (req, res) => {
   return res.status(200).send("Hello World");
 });
 
-try {
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log("App connected to database");
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("App connected to database");
+  })
+  .catch((error) => {
+    console.log("Database connection error:", error);
   });
-} catch (error) {
-  console.log(error);
-}
+
+// Export the app for Vercel
+export default app;
