@@ -42,14 +42,11 @@ mongoose
     console.log("Database connection error:", error);
   });
 
-// Start the server (for local testing)
-if (process.env.NODE_ENV !== "production") {
-  // NODE_ENV automatically set by Vercel during deployment, no need to add to .env
-  const PORT = process.env.PORT || 3001; // Default to 3001 if not specified in .env
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
+// Start the server (for local testing and production)
+const PORT = process.env.PORT || 3001; // Default to 3001 if not specified by Render or in .env
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 // Export the app for Vercel
 export default app;
