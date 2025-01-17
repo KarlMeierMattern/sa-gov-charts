@@ -4,6 +4,14 @@ import axios from "axios";
 const StatsSA = () => {
   const [response, setResponse] = useState(null);
 
+  // Get base URL based on environment
+  const baseUrl =
+    import.meta.env.VITE_ENV === "development"
+      ? import.meta.env.VITE_DEV_BASE_URL
+      : import.meta.env.VITE_PROD_BASE_URL;
+
+  axios.defaults.baseURL = baseUrl;
+
   useEffect(() => {
     const fetchData = async () => {
       try {

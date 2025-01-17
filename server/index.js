@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
-import path from "path";
 import govRoute from "./routes/govRoute.js";
 
 const app = express();
@@ -12,19 +11,26 @@ const app = express();
 app.use(express.json());
 
 // Allow resource sharing
-app.use(cors());
+const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
+const devOrigin = ["http://localhost:5173"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 // Backend routes (Make sure these come **before** static files middleware)
 app.use("/", govRoute);
-
-// Serve static files from the frontend's `dist` directory
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-// Fallback route for all other frontend routes (e.g., React routes like `/sarb-overview`)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
-});
 
 // Connect to MongoDB
 mongoose
