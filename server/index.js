@@ -38,6 +38,7 @@ mongoose
 
 // Start the server (for local testing)
 if (process.env.NODE_ENV !== "production") {
+  // NODE_ENV automatically set by Vercel during deployment, no need to add to .env
   const PORT = process.env.PORT || 3001; // Default to 3001 if not specified in .env
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
