@@ -57,7 +57,7 @@ const SarbRepo = () => {
 
   // Data for Chart 1: Interest Rates
   const interestRates = {
-    labels: ["Repo rate", "Sabor", "Zaronia", "Overnight FX rate"],
+    labels: ["Repo rate*", "Sabor", "Zaronia", "Overnight FX rate"],
     datasets: [
       {
         label: "Rate (%)",
@@ -136,7 +136,7 @@ const SarbRepo = () => {
   // Data for Chart 4: Bond Yields and Indices
   const bondYields = {
     labels: [
-      "Prime",
+      "Prime^",
       "R2030",
       "R186",
       "5-10 years",
@@ -184,27 +184,6 @@ const SarbRepo = () => {
 
   return (
     <div>
-      <div className="p-8">
-        As at <span className="font-bold bg-yellow-300">{formattedDate}</span>{" "}
-        the current repo rate in South Africa is{" "}
-        <span className="font-bold bg-yellow-300">{currentRepo}%</span> while
-        the current prime rate is{" "}
-        <span className="font-bold bg-yellow-300">{primeRate}%</span>.
-        <br />
-        <br />
-        When you hear people talking the interest rate they are generally
-        talking about the repo rate (repurchase rate). This is the interest rate
-        at which the{" "}
-        <span className="font-bold">
-          South African Reserve Bank (SARB)
-        </span>{" "}
-        lends money to commercial banks. Banks then use the repo rate to
-        determine the interest rate that they charge you to borrow money and the
-        rate they pay you on your savings. Generally, the best available rate
-        you can get at the bank is known as prime, which is the repo rate plus a
-        certain margin.
-        <br></br>
-      </div>
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
         {/* Chart 1: Interest Rates */}
         <div className="p-4 border rounded shadow">
@@ -251,6 +230,22 @@ const SarbRepo = () => {
             }}
           />
         </div>
+      </div>
+      <div className="p-8 text-xs text-muted-foreground">
+        *At <span className="italic text-rose-800">{formattedDate}</span> the
+        current repo rate in South Africa is{" "}
+        <span className="italic text-rose-800">{currentRepo}%</span>
+        , which represents the rate at which the South African Reserve Bank
+        (SARB) lends money to commercial banks. Banks use the repo rate to
+        determine the interest rate that they charge lenders to borrow money and
+        the rate they pay savers on their savings.
+        <br />
+        ^At <span className="italic text-rose-800">{formattedDate}</span> the
+        prime rate in South Africa is{" "}
+        <span className="italic text-rose-800">{primeRate}%</span>, which
+        represents the best available rate at the bank for the most credit
+        worthy individuals (repo rate + margin).
+        <br></br>
       </div>
     </div>
   );
