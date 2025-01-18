@@ -57,6 +57,7 @@ const SarbRepo = () => {
 
   // Data for Chart 1: Interest Rates
   const interestRates = {
+    title: "Interest rates",
     labels: ["Repo rate*", "Sabor", "Zaronia", "Overnight FX rate"],
     datasets: [
       {
@@ -75,6 +76,7 @@ const SarbRepo = () => {
 
   // Data for Chart 2: Treasury and NCD Rates
   const treasuryRates = {
+    title: "Treasury and NCD Rates",
     labels: [
       "TBill 91 day",
       "TBill 182 day",
@@ -109,6 +111,7 @@ const SarbRepo = () => {
 
   // Data for Chart 3: Currency Exchange Rates
   const currencyRates = {
+    title: "Currency Exchange Rates",
     labels: [
       "ZAR/USD",
       "ZAR/GBP",
@@ -117,7 +120,7 @@ const SarbRepo = () => {
     ],
     datasets: [
       {
-        label: "Exchange Rate (Rand)",
+        label: "Exchange Rate",
         data: [
           "Rand per US Dollar",
           "Rand per British Pound",
@@ -135,6 +138,7 @@ const SarbRepo = () => {
 
   // Data for Chart 4: Bond Yields and Indices
   const bondYields = {
+    title: "Bond Yields and Indices",
     labels: [
       "Prime^",
       "R2030",
@@ -145,7 +149,7 @@ const SarbRepo = () => {
     ],
     datasets: [
       {
-        label: "Value (%)",
+        label: "Rate (%)",
         data: [
           "Prime lending rate",
           "8.00% 2030 (R2030) (closing yields)",
@@ -163,14 +167,18 @@ const SarbRepo = () => {
     ],
   };
 
-  const currentRepo =
-    response.find((item) => item.name === "Repo rate")?.value || 0; // Use optional chaining and provide a default value
+  // Group chart data in an array for mapping
+  const chartData = [interestRates, treasuryRates, currencyRates, bondYields];
 
-  const primeRate =
-    response.find((item) => item.name === "Prime lending rate")?.value || 0;
+  // reduce() iterates over the response array just once to build a lookup map
+  const rateMapStore = response.reduce((map, item) => {
+    map[item.name] = item;
+    return map;
+  }, {});
 
-  const currentPeriod =
-    response.find((item) => item.name === "Repo rate")?.lastPeriod || 0;
+  const currentRepo = rateMapStore["Repo rate"]?.value || 0;
+  const primeRate = rateMapStore["Prime lending rate"]?.value || 0;
+  const currentPeriod = rateMapStore["Repo rate"]?.value || 0;
 
   const date = new Date(currentPeriod);
 
@@ -185,51 +193,18 @@ const SarbRepo = () => {
   return (
     <div>
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
-        {/* Chart 1: Interest Rates */}
-        <div className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">Interest Rates</h2>
-          <Bar
-            data={interestRates}
-            options={{
-              responsive: true,
-              plugins: { tooltip: { enabled: true }, datalabels: false },
-            }}
-          />
-        </div>
-
-        {/* Chart 2: Treasury and NCD Rates */}
-        <div className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">Treasury and NCD Rates</h2>
-          <Bar
-            data={treasuryRates}
-            options={{
-              responsive: true,
-              plugins: { tooltip: { enabled: true }, datalabels: false },
-            }}
-          />
-        </div>
-        {/* Chart 3: Currency Exchange Rates */}
-        <div className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">Currency Exchange Rates</h2>
-          <Bar
-            data={currencyRates}
-            options={{
-              responsive: true,
-              plugins: { tooltip: { enabled: true }, datalabels: false },
-            }}
-          />
-        </div>
-        {/* Chart 4: Bond Yields and Indices */}
-        <div className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">Bond Yields and Indices</h2>
-          <Bar
-            data={bondYields}
-            options={{
-              responsive: true,
-              plugins: { tooltip: { enabled: true }, datalabels: false },
-            }}
-          />
-        </div>
+        {chartData.map((data, index) => (
+          <div key={index} className="p-4 border rounded shadow">
+            <h2 className="text-lg font-bold mb-4">{data.title}</h2>
+            <Bar
+              data={data}
+              options={{
+                responsive: true,
+                plugins: { tooltip: { enabled: true }, datalabels: false },
+              }}
+            />
+          </div>
+        ))}
       </div>
       <div className="p-8 text-xs text-muted-foreground">
         *At <span className="italic text-rose-800">{formattedDate}</span> the

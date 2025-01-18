@@ -53,11 +53,6 @@ export default function Dashboard({ category }: DashboardProps) {
 
   return (
     <Card>
-      <CardHeader className="border-b border-border">
-        <CardTitle>
-          {category.charAt(0).toUpperCase() + category.slice(1)} Data
-        </CardTitle>
-      </CardHeader>
       <CardContent className="p-6 bg-background">{renderContent()}</CardContent>
     </Card>
   );
