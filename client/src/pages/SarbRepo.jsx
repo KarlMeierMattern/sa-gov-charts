@@ -22,18 +22,18 @@ ChartJS.register(
   LineElement
 );
 
+// Get base URL based on environment
+const baseUrl =
+  import.meta.env.VITE_ENV === "development"
+    ? import.meta.env.VITE_DEV_BASE_URL
+    : import.meta.env.VITE_PROD_BASE_URL;
+
+axios.defaults.baseURL = baseUrl;
+
 const SarbRepo = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
-
-  axios.defaults.baseURL = baseUrl;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,9 +126,9 @@ const SarbRepo = () => {
           "Rand per British Pound",
           "Rand per Euro",
           // "Rand per Japanese Yen",
-        ]
-          .map((label) => response.find((item) => item.name === label)?.value)
-          .map((value) => parseFloat(value)),
+        ].map((label) =>
+          parseFloat(response.find((item) => item.name === label)?.value || 0)
+        ),
         backgroundColor: "rgba(255, 206, 86, 0.6)",
         borderColor: "rgba(255, 206, 86, 1)",
         borderWidth: 1,
@@ -157,9 +157,9 @@ const SarbRepo = () => {
           "5-10 years (daily average bond yields)",
           "10 years and longer (daily average bond yields)",
           // "Nominal effective exchange rate",
-        ]
-          .map((label) => response.find((item) => item.name === label)?.value)
-          .map((value) => parseFloat(value)),
+        ].map((label) =>
+          parseFloat(response.find((item) => item.name === label)?.value || 0)
+        ),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
@@ -178,23 +178,16 @@ const SarbRepo = () => {
 
   const currentRepo = rateMapStore["Repo rate"]?.value || 0;
   const primeRate = rateMapStore["Prime lending rate"]?.value || 0;
-  const currentPeriod = rateMapStore["Repo rate"]?.value || 0;
-
-  const date = new Date(currentPeriod);
-
-  // Get the day, month, and year
-  const day = date.getDate();
-  const month = date.toLocaleString("default", { month: "long" });
-  const year = date.getFullYear();
-
-  // Format the output
-  const formattedDate = `${day} ${month} ${year}`;
+  const currentRepoPeriod =
+    rateMapStore["Repo rate"]?.lastPeriod || new Date().toISOString();
+  const currentPrimePeriod =
+    rateMapStore["Prime lending rate"]?.lastPeriod || new Date().toISOString();
 
   return (
     <div>
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
         {chartData.map((data, index) => (
-          <div key={index.name} className="p-4 border rounded shadow">
+          <div key={index} className="p-4 border rounded shadow">
             <h2 className="text-lg font-bold mb-4">{data.title}</h2>
             <Bar
               data={data}
@@ -207,16 +200,18 @@ const SarbRepo = () => {
         ))}
       </div>
       <div className="p-8 text-xs text-muted-foreground">
-        *At <span className="italic text-rose-800">{formattedDate}</span> the
-        current repo rate in South Africa is{" "}
+        *At <span className="italic text-rose-800">{currentRepoPeriod}</span>{" "}
+        the current repo rate in South Africa is{" "}
         <span className="italic text-rose-800">{currentRepo}%</span>
         , which represents the rate at which the South African Reserve Bank
         (SARB) lends money to commercial banks. Banks use the repo rate to
         determine the interest rate that they charge lenders to borrow money and
         the rate they pay savers on their savings.
         <br />
-        ^At <span className="italic text-rose-800">{formattedDate}</span> the
-        prime rate in South Africa is{" "}
+        ^At <span className="italic text-rose-800">
+          {currentPrimePeriod}
+        </span>{" "}
+        the prime rate in South Africa is{" "}
         <span className="italic text-rose-800">{primeRate}%</span>, which
         represents the best available rate at the bank for the most credit
         worthy individuals (repo rate + margin).

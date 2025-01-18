@@ -27,6 +27,14 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
+// Get base URL based on environment
+const baseUrl =
+  import.meta.env.VITE_ENV === "development"
+    ? import.meta.env.VITE_DEV_BASE_URL
+    : import.meta.env.VITE_PROD_BASE_URL;
+
+axios.defaults.baseURL = baseUrl;
+
 const SarbOverview = () => {
   const [response, setResponse] = useState(null);
   const [responseAll, setResponseAll] = useState(null);
@@ -42,14 +50,6 @@ const SarbOverview = () => {
   const [errorAll, setErrorAll] = useState(null);
   const [errorFx, setErrorFx] = useState(null);
   const [errorJse, setErrorJse] = useState(null);
-
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
-
-  axios.defaults.baseURL = baseUrl;
 
   // Fetch inflation rate, repo rate, prime rate, GDP growth data
   useEffect(() => {
