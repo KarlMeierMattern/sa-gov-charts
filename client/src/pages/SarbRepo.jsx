@@ -194,7 +194,7 @@ const SarbRepo = () => {
     <div>
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
         {chartData.map((data, index) => (
-          <div key={index} className="p-4 border rounded shadow">
+          <div key={index.name} className="p-4 border rounded shadow">
             <h2 className="text-lg font-bold mb-4">{data.title}</h2>
             <Bar
               data={data}
