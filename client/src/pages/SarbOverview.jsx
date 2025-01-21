@@ -632,8 +632,8 @@ const SarbOverview = () => {
                       </HoverCardTrigger>
                       <HoverCardContent className="text-xs">
                         The debt-to-GDP ratio is a metric that compares a
-                        country&aopos;s public debt to its gross domestic
-                        product (GDP).
+                        country&apos;s public debt to its gross domestic product
+                        (GDP).
                       </HoverCardContent>
                     </HoverCard>
                   </div>
