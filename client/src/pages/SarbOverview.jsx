@@ -242,12 +242,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       Consumer Price Index (CPI)
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -348,12 +342,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       Of labor force for {unemployRate?.period}
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -372,12 +360,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       Population for {population?.period}
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -396,12 +378,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       FX Rate @ {usZarRate?.lastPeriod}
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -418,12 +394,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       Major stock exchange
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -535,12 +505,6 @@ const SarbOverview = () => {
                     <p className="text-xs text-muted-foreground">
                       Trade balance + income from abroad + transfers
                     </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
@@ -641,12 +605,6 @@ const SarbOverview = () => {
                   <div className="text-2xl font-bold">%</div>
                   <div className="flex flex-row justify-between">
                     <p className="text-xs text-muted-foreground">blank </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                    </HoverCard>
                   </div>
                 </CardContent>
               </Card>
