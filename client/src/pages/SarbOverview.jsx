@@ -664,9 +664,7 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
+                      <HoverCardContent className="text-xs"></HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -697,52 +695,6 @@ const SarbOverview = () => {
                         The debt-to-GDP ratio is a metric that compares a
                         country&aopos;s public debt to its gross domestic
                         product (GDP).
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">blank </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(financialAccount).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">blank </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">blank </CardTitle>
-                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(balanceOfPayments).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">blank </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
                       </HoverCardContent>
                     </HoverCard>
                   </div>
