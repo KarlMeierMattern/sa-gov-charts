@@ -247,9 +247,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        The inflation rate is...
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -356,9 +353,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -383,9 +377,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -410,9 +401,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -435,9 +423,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -555,9 +540,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        blank
-                      </HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
@@ -664,7 +646,6 @@ const SarbOverview = () => {
                         {" "}
                         <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </HoverCardTrigger>
-                      <HoverCardContent className="text-xs"></HoverCardContent>
                     </HoverCard>
                   </div>
                 </CardContent>
