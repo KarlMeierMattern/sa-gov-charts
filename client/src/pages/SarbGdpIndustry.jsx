@@ -356,11 +356,8 @@ const SarbGdpIndustry = () => {
           products.
           <br />
           <br />
-          Total Value Added at Basic Prices ={" "}
-          <span className="bg-yellow-300">
-            R{parseFloat(totalGDP).toLocaleString()}m
-          </span>
-          .
+          Total Value Added at Basic Prices = R
+          {parseFloat(totalGDP).toLocaleString()}m .
           <br />
           <br />
           The top three sectors in South Africa for the latest period are:
