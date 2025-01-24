@@ -5,7 +5,7 @@ import sarbOverviewScraper from "../scraping/sarbOverviewScraper.js";
 
 const postSarbOverview = async (req, res) => {};
 
-// new test
+// we don't use the function
 const getSarbOverview = async (req, res) => {
   try {
     const url = process.env.SARB_OVERVIEW;
