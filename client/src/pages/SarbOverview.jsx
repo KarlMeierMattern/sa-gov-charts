@@ -26,6 +26,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+// import { CountUp } from "countup.js";
 
 const SarbOverview = () => {
   const [response, setResponse] = useState(null);
@@ -130,7 +131,10 @@ const SarbOverview = () => {
   if (errorFx) return <div>Error: {errorFx}</div>;
   if (errorJse) return <div>Error: {errorJse}</div>;
 
-  const inflationRate = response.find((item) => item.name === "CPI")?.value;
+  // Get inflation rate from response (after it's fetched)
+  const inflationRate = Array.isArray(response)
+    ? response.find((item) => item.name === "CPI")?.value
+    : null;
 
   const repoRate = response.find(
     (item) => item.name === "Dates of change in the repurchase rate"
@@ -217,16 +221,8 @@ const SarbOverview = () => {
           <h2 className="text-3xl font-bold tracking-tight pb-4">
             Macro Dashboard
           </h2>
-          {/* <div className="flex items-center space-x-2">
-            <CalendarDateRangePicker date={dateRange} setDate={setDateRange} />
-          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
-          {/* <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-          </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
