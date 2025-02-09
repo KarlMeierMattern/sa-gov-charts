@@ -4,6 +4,7 @@ dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
 import govRoute from "./routes/govRoute.js";
+import { errorHandlerMiddleware } from "./middleware/error-handler.js";
 
 const app = express();
 
@@ -38,6 +39,9 @@ app.use(
 
 // Routes
 app.use("/", govRoute);
+
+// Error handler middleware (must be last)
+app.use(errorHandlerMiddleware);
 
 // Connect to MongoDB with fallback URI if not provided
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/defaultDb";
