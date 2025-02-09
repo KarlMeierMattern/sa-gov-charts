@@ -3,7 +3,10 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.status(200).send("Fake login register");
+  const { username, password } = req.body;
+  res
+    .status(200)
+    .json({ msg: "Success", data: { username: username, password: password } });
 };
 
 export { signup, login };
