@@ -36,25 +36,28 @@ app.use(
   })
 );
 
-// Backend routes
+// Routes
 app.use("/", govRoute);
 
 // Connect to MongoDB with fallback URI if not provided
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/defaultDb";
-mongoose
-  .connect(mongoUri)
-  .then(() => {
-    console.log("App connected to database");
-  })
-  .catch((error) => {
-    console.error("Database connection error:", error);
-  });
 
-// Start the server
-const PORT = process.env.PORT || 3000; // in production Render automatically assigns PORT
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// In production Render automatically assigns PORT
+const PORT = process.env.PORT || 3000;
+
+const start = async () => {
+  try {
+    await mongoose.connect(mongoUri);
+    console.log("App connected to database ✅");
+    app.listen(PORT, () => {
+      console.log(`Server running on port http://localhost:${PORT} 🚀`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
 
 // Export the app for Vercel
 export default app;
