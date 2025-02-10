@@ -29,7 +29,7 @@ import {
   getJseIndex,
 } from "../controllers/jseIndexController.js";
 import { worldbankController } from "../controllers/worldbankController.js";
-import { login, signup } from "../controllers/login.js";
+import { login, signup, dashboard } from "../controllers/login.js";
 
 const router = express.Router();
 
@@ -38,8 +38,9 @@ const router = express.Router();
 // Express server exposes scraped data via specific endpoints, effectively functioning as an API.
 
 // Signup & Login
-router.post("/signup", signup);
 router.post("/login", login);
+router.post("/signup", signup);
+router.get("/dashboard", dashboard);
 
 // SARB GDP
 router.post("/sarb-gdp", postSarbGdpData); // call the API and post to database

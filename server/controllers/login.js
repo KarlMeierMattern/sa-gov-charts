@@ -15,7 +15,7 @@ const login = async (req, res) => {
 
     if (username === user.username && password === user.password) {
       // payload, secret, options
-      jwt = jwt.sign({ username }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ username }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       res
@@ -27,6 +27,7 @@ const login = async (req, res) => {
         .json({ message: "Invalid credentials" });
     }
   } catch (error) {
+    console.error("Login error:", error); // Log the error to the console for debugging
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Server error" });
@@ -39,22 +40,24 @@ const dashboard = async (req, res) => {
     const token = authHeader.split(" ")[1];
 
     if (!token) {
-      res
+      return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: "Server error" });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        res.sendStatus(StatusCodes.FORBIDDEN);
+        return res.sendStatus(StatusCodes.FORBIDDEN);
       }
-      res.json({ message: `Hello, ${user.username}! This is protected.` });
+      return res.json({
+        message: `Hello, ${user.username}! This is protected.`,
+      });
     });
   } catch (error) {
-    res
+    return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Server error" });
   }
 };
 
-export { signup, login };
+export { signup, login, dashboard };
