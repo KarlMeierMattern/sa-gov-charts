@@ -14,50 +14,31 @@ const login = async (req, res) => {
     const { username, password } = req.body;
 
     if (username === user.username && password === user.password) {
-      // payload, secret, options
       const token = jwt.sign({ username }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
+
       res
+        .cookie("token", token, {
+          httpOnly: true, // Secure against XSS
+          secure: process.env.NODE_ENV === "production", // Send only over HTTPS (set to false for local testing)
+          sameSite: "Strict", // Prevent CSRF attacks
+          maxAge: 60 * 60 * 1000, // 1 hour
+          domain: "localhost", // Add this for dev
+        })
         .status(StatusCodes.OK)
-        .json({ msg: "Success", data: { username, password }, token });
+        .json({ msg: "Login successful" });
     } else {
       res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    console.error("Login error:", error); // Log the error to the console for debugging
+    console.error("Login error:", error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Server error" });
   }
 };
 
-const dashboard = async (req, res) => {
-  try {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader.split(" ")[1];
-
-    if (!token) {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: "Server error" });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(StatusCodes.FORBIDDEN);
-      }
-      return res.json({
-        message: `Hello, ${user.username}! This is protected.`,
-      });
-    });
-  } catch (error) {
-    return res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: "Server error" });
-  }
-};
-
-export { signup, login, dashboard };
+export { signup, login };

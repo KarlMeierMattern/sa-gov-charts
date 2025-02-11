@@ -4,12 +4,38 @@ dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
 import govRoute from "./routes/govRoute.js";
+import { login } from "./controllers/login.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
+import { StatusCodes } from "http-status-codes";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken"; // Add this
 
 const app = express();
 
 // Middleware for parsing incoming requests
 app.use(express.json());
+
+// JWT authentication using HTTP-only cookies
+app.use(cookieParser());
+
+// Authentication Middleware
+const authenticateJWT = (req, res, next) => {
+  const token = req.cookies.token; // Get JWT from HTTP-only cookie
+
+  if (!token) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Unauthorized" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Attach user info to request
+    next();
+  } catch (error) {
+    return res.status(StatusCodes.FORBIDDEN).json({ message: "Invalid token" });
+  }
+};
 
 // CORS setup
 const allowedOrigins =
@@ -32,13 +58,15 @@ app.use(
         callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
+    // origin: "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
 // Routes
-app.use("/", govRoute);
+app.post("/login", login); // Public route
+app.use("/", authenticateJWT, govRoute); // Protected route
 
 // Error handler middleware (must be last)
 app.use(errorHandlerMiddleware);

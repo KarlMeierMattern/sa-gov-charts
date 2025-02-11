@@ -1,43 +1,32 @@
+"use client";
+
 import axios from "axios";
+axios.defaults.withCredentials = true; // Global setting
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  // Get base URL based on environment
   const baseUrl =
     import.meta.env.VITE_ENV === "development"
       ? import.meta.env.VITE_DEV_BASE_URL
       : import.meta.env.VITE_PROD_BASE_URL;
 
   axios.defaults.baseURL = baseUrl;
+  axios.defaults.withCredentials = true; // Send cookies with requests
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/login", {
-        username,
-        password,
-      });
-      setToken(response.data.token);
+      await axios.post("/login", { username, password }); // JWT is stored in cookie
       setMessage("Logged in successfully!");
+      navigate("/"); // Redirect after login
     } catch (error) {
       console.log(error);
       setMessage("Login failed");
-    }
-  };
-
-  const getProtected = async () => {
-    try {
-      const response = await axios.get("/dashboard", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMessage(response.data.message);
-    } catch (error) {
-      console.log(error);
-      setMessage("Access denied");
     }
   };
 
@@ -56,9 +45,6 @@ export default function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={handleLogin}>Login</button>
-      <h2>Protected Data</h2>
-      <button onClick={getProtected}>Get Protected Data</button>
-
       <pre>{message}</pre>
     </>
   );
