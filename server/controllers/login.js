@@ -1,6 +1,7 @@
-import { CustomError } from "../errors/custom-error.js";
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
+import { CustomError } from "../errors/custom-error.js";
+import { UnauthenticatedError } from "../errors/unauthenticated.js";
 
 const signup = async (req, res) => {
   res.status(200).send("Signup route");
@@ -9,7 +10,7 @@ const signup = async (req, res) => {
 const user = { username: "karl", password: "12345" };
 
 // Ensure that only requests with JWT can access the dashboard
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -29,15 +30,10 @@ const login = async (req, res) => {
         .status(StatusCodes.OK)
         .json({ msg: "Login successful" });
     } else {
-      res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: "Invalid credentials" });
+      throw new UnauthenticatedError("Not authorized to access this route");
     }
   } catch (error) {
-    console.error("Login error:", error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: "Server error" });
+    next(error); // Pass the error to the error handler which handles both custom errors and unexpected server issues.
   }
 };
 
