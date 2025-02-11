@@ -9,6 +9,7 @@ import { errorHandlerMiddleware } from "./middleware/error-handler.js";
 import { StatusCodes } from "http-status-codes";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken"; // Add this
+import { authenticateJWT } from "./middleware/auth.js";
 
 const app = express();
 
@@ -17,25 +18,6 @@ app.use(express.json());
 
 // JWT authentication using HTTP-only cookies
 app.use(cookieParser());
-
-// Authentication Middleware
-const authenticateJWT = (req, res, next) => {
-  const token = req.cookies.token; // Get JWT from HTTP-only cookie
-
-  if (!token) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "Unauthorized" });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user info to request
-    next();
-  } catch (error) {
-    return res.status(StatusCodes.FORBIDDEN).json({ message: "Invalid token" });
-  }
-};
 
 // CORS setup
 const allowedOrigins =
