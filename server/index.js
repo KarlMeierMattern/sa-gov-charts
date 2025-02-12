@@ -6,9 +6,7 @@ import mongoose from "mongoose";
 import govRoute from "./routes/govRoute.js";
 import { login } from "./controllers/login.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
-import { StatusCodes } from "http-status-codes";
 import cookieParser from "cookie-parser";
-import jwt from "jsonwebtoken"; // Add this
 import { authenticateJWT } from "./middleware/auth.js";
 
 const app = express();
