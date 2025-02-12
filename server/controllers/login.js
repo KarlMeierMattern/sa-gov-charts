@@ -7,7 +7,7 @@ const signup = async (req, res) => {
   res.status(200).send("Signup route");
 };
 
-const user = { username: "karl", password: "12345" };
+const user = { username: "karl", password: "1234" };
 
 // Ensure that only requests with JWT can access the dashboard
 const login = async (req, res, next) => {
