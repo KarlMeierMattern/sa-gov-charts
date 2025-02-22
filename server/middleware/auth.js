@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"; // Add this
+import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 
 // Authentication Middleware
