@@ -9,8 +9,4 @@ class UnauthenticatedError extends CustomError {
   }
 }
 
-// const error = new UnauthenticatedError("Access denied");
-// console.log(error.message);
-// console.log(error.statusCode);
-
 export { UnauthenticatedError };

@@ -68,4 +68,8 @@ router.get("/stats-sa", downloadStats);
 // World Bank
 router.get("/world-bank", worldbankController);
 
+router.get("/user-info", (req, res) => {
+  res.json({ username: req.user.username });
+});
+
 export default router;

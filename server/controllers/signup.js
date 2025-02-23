@@ -1,9 +1,19 @@
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
-import { CustomError } from "../errors/custom-error.js";
 import { UnauthenticatedError } from "../errors/unauthenticated.js";
 
-// test user
+const signup = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+
+    // check DB for whether a user with that email exists.
+    // if user email already exists then direct them to login page
+    // if not save username and password to database.
+  } catch (error) {
+    next(error);
+  }
+};
+
 const user = { username: "karl", password: "1234" };
 
 // Ensure that only requests with JWT can access the dashboard
@@ -25,7 +35,7 @@ const login = async (req, res, next) => {
           domain: "localhost", // Add this for dev
         })
         .status(StatusCodes.OK)
-        .json({ msg: "Login successful", token: token });
+        .json({ msg: "Login successful" });
     } else {
       throw new UnauthenticatedError("Not authorized to access this route");
     }
@@ -34,4 +44,4 @@ const login = async (req, res, next) => {
   }
 };
 
-export { login };
+export { signup };

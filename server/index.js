@@ -43,6 +43,11 @@ app.use(
   })
 );
 
+// Add a response for the base route "/"
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the API!" }); // Response for the / route
+});
+
 // Routes
 app.post("/login", login); // Public route
 app.use("/", authenticateJWT, govRoute); // Protected route
