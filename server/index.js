@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import govRoute from "./routes/govRoute.js";
 import { login } from "./controllers/login.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
-import cookieParser from "cookie-parser";
 
 const app = express();
 
