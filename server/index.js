@@ -7,15 +7,11 @@ import govRoute from "./routes/govRoute.js";
 import { login } from "./controllers/login.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
 import cookieParser from "cookie-parser";
-import { authenticateJWT } from "./middleware/auth.js";
 
 const app = express();
 
 // Middleware for parsing incoming requests
 app.use(express.json());
-
-// JWT authentication using HTTP-only cookies
-app.use(cookieParser());
 
 // CORS setup
 const allowedOrigins =
@@ -49,8 +45,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.post("/login", login); // Public route
-app.use("/", authenticateJWT, govRoute); // Protected route
+app.use("/", govRoute);
 
 // Error handler middleware (must be last)
 app.use(errorHandlerMiddleware);
