@@ -1,74 +1,137 @@
-# sa-gov-charts
+# SA Gov Charts
 
-Charting statistics related to South Africa.
+A comprehensive web application for visualizing and analyzing South African government statistics and economic indicators.
 
-1. Data Types
+## Overview
 
-Fiscal Data:
-• National Budget: Revenue, expenditure, debt servicing, deficits/surpluses.
-• Economic Indicators: GDP growth, inflation rates, trade balance, exchange rates.
-• Taxation Data: Breakdown of tax revenue sources, VAT vs income tax contributions.
+SA Gov Charts is a modern web application that provides interactive visualizations of various South African statistics, including economic indicators, social metrics, and government data. The project aims to make complex government data more accessible and understandable to citizens, researchers, and policymakers.
 
-Social Data:
-• Unemployment Rates: Categorized by age, region, and educational level.
-• Population Statistics: Age distribution, urban vs rural populations, migration trends.
-• Education: Literacy rates, school enrollment, pass rates in national exams.
-• Health: Infant mortality rates, public vs private healthcare spending, vaccination rates.
+## Features
 
-Infrastructure Data:
-• Utilities: Access to water, electricity, sanitation.
-• Transportation: Public transport usage, road network development, traffic data.
+- **Interactive Dashboards**: Dynamic visualizations of key statistics using Chart.js and Recharts
+- **Real-time Data**: Up-to-date information from various government sources
+- **Dark/Light Mode**: Fully responsive UI with theme support
+- **Multiple Data Categories**:
+  - Economic indicators (GDP, inflation, exchange rates)
+  - JSE market data
+  - Social statistics
+  - Government fiscal data
+  - Environmental metrics
 
-Environmental Data:
-• Climate Data: Rainfall, temperature trends, drought statistics.
-• Energy Use: Renewable vs non-renewable energy sources, emissions data.
+## Tech Stack
 
-Miscellaneous:
-• Crime Rates: Trends by region and category (violent crimes, property crimes, etc.).
-• Housing: Availability of affordable housing, rates of homeownership.
-• Business Data: Number of registered businesses, SME growth trends.
+### Frontend
 
-2. Potential Users
+- React 18
+- Vite
+- TypeScript
+- Tailwind CSS
+- Chart.js/Recharts
+- Radix UI Components
+- React Router DOM
 
-For Citizens:
-• Tools to help people understand how their tax money is spent.
-• Data on job market trends to guide career decisions.
-• Environmental data for farmers or urban planners.
+### Backend
 
-For Government/Policy Makers:
-• Visualizations to highlight inefficiencies in resource allocation.
-• A platform for real-time monitoring of socio-economic goals.
-• Data dashboards to engage with citizens transparently.
+- Node.js
+- Express
+- MongoDB
+- Puppeteer (for data scraping)
+- JWT Authentication
 
-For NGOs/Researchers:
-• Data to support grant applications and research papers.
-• Insights for intervention programs (e.g., education or healthcare).
+## Prerequisites
 
-3. How to Source the Data
+- Node.js >= 16
+- MongoDB
+- npm or yarn
 
-Government Portals:
-• Statistics South Africa (Stats SA): For population, employment, and socio-economic data.
-• National Treasury: Budget and fiscal data.
-• Department of Energy/Environment: Environmental and energy use data.
+## Installation
 
-Public APIs:
-• World Bank API: Offers a range of data for South Africa, including GDP, health, and education statistics.
-• OECD Stats API: For international comparisons where SA data exists.
+1. Clone the repository:
 
-Web Scraping:
-• Scrape publicly available government reports or tables using tools like Python’s BeautifulSoup or Scrapy.
-• Extract data from government press releases and annual reports if APIs aren’t available.
+```bash
+git clone https://github.com/KarlMeierMattern/sa-gov-charts
+cd sa-gov-charts
+```
 
-Open Data Initiatives:
-• South African Data Portal: Aggregates various datasets.
-• Global Data Platforms: Kaggle or DataHub may have curated SA datasets.
+2. Install dependencies:
 
-Partnerships:
-• Collaborate with government departments or universities to access datasets not easily found online.
+```bash
+# Install root dependencies
+npm install
 
-Ideas for Execution: 1. Interactive Dashboards: Use frameworks like D3.js or Chart.js for creating dynamic, easy-to-understand visuals. 2. Focus on Local Languages: Include explanations and labels in major South African languages to ensure inclusivity. 3. Drill-Down Visualizations: Allow users to explore national trends but also zoom in on provincial or district levels. 4. Public Feedback Loop: Enable users to submit insights or concerns based on the data visualizations.
+# Install client dependencies
+cd client && npm install
 
-## Things to include on the website
+# Install server dependencies
+cd server && npm install
+```
 
-Nominal effective exchange rate
-The weighted average exchange rate of the rand is based on trade in and consumption of manufactured goods between South Africa and its most important trading partners. The methodology applied is described in an article in the June 2020 Quarterly Bulletin. As from 1 January 2015, the weighted average exchange rate of the rand is calculated against twenty currencies. The weights of the five major currencies are in brackets: Euro (30,68), Chinese yuan (24,53), US dollar (10,56), Japanese yen (4,95), Indian rupee (4,85). Index: 2015=100
+3. Environment Setup:
+
+   - Create `.env` files in both client and server directories
+   - Required environment variables:
+
+     ```
+     # Server .env
+     MONGO_URI=your_mongodb_uri
+     PORT=3000
+     NODE_ENV=development
+
+     # Client .env
+     VITE_DEV_BASE_URL=http://localhost:3000
+     VITE_PROD_BASE_URL=your_production_url
+     ```
+
+## Running the Application
+
+Development mode:
+
+```bash
+# Run both frontend and backend
+npm run dev
+
+# Run frontend only
+cd client && npm run dev
+
+# Run backend only
+cd server && npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+sa-gov-charts/
+├── client/ # Frontend React application
+│ ├── src/
+│ │ ├── components/ # React components
+│ │ ├── pages/ # Page components
+│ │ └── lib/ # Utility functions
+├── server/ # Backend Node.js application
+│ ├── controllers/ # Route controllers
+│ ├── routes/ # API routes
+│ ├── models/ # Database models
+│ └── scraping/ # Data scraping utilities
+└── package.json # Project dependencies
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Data sources: Statistics South Africa, South African Reserve Bank, JSE
+- Built with [shadcn/ui](https://ui.shadcn.com/) components
+- Deployed on Vercel
