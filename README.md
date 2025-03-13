@@ -105,17 +105,17 @@ npm run build
 
 ## Project Structure
 
-sa-gov-charts/
-├── client/ # Frontend React application
-│ ├── src/
-│ │ ├── components/ # React components
-│ │ ├── pages/ # Page components
-│ │ └── lib/ # Utility functions
-├── server/ # Backend Node.js application
-│ ├── controllers/ # Route controllers
-│ ├── routes/ # API routes
-│ ├── models/ # Database models
-│ └── scraping/ # Data scraping utilities
+sa-gov-charts/  
+├── client/ # Frontend React application  
+│ ├── src/  
+│ │ ├── components/ # React components  
+│ │ ├── pages/ # Page components  
+│ │ └── lib/ # Utility functions  
+├── server/ # Backend Node.js application  
+│ ├── controllers/ # Route controllers  
+│ ├── routes/ # API routes  
+│ ├── models/ # Database models  
+│ └── scraping/ # Data scraping utilities  
 └── package.json # Project dependencies
 
 ## Contributing
