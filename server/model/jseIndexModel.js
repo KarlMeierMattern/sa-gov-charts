@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose";
 
-const jseSchema = mongoose.Schema(
+const jseSchema = new mongoose.Schema(
   {
     index: {
       type: Number,

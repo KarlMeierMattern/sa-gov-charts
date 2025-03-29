@@ -43,28 +43,26 @@ async function main() {
     console.log("Starting full data scrape...");
 
     // Insert JSE data
-    const urlJSE = process.env.JSE_URL;
-    const dataJSE = await jseIndexScraper(urlJSE);
+    const dataJSE = await jseIndexScraper(process.env.JSE_URL);
     const resultJSE = await jseIndex.insertMany(dataJSE);
     console.log(`Successfully seeded JSE data: ${resultJSE.length} entries`);
 
     // Insert All data
-    const urlAll = process.env.SARB_ALL_URL;
-    const dataAll = await sarbAllScraper(urlAll);
+    const dataAll = await sarbAllScraper(process.env.SARB_ALL_URL);
     const resultAll = await allSarbSchema.insertMany(dataAll);
     console.log(`Successfully seeded All data: ${resultAll.length} entries`);
 
     // Insert Other data
-    const urlOther = process.env.SARB_OTHER_URL;
-    const dataOther = await sarbOtherIndicatorsScraper(urlOther);
+    const dataOther = await sarbOtherIndicatorsScraper(
+      process.env.SARB_OTHER_URL
+    );
     const resultOther = await sarbOtherIndicatorsSchema.insertMany(dataOther);
     console.log(
       `Successfully seeded Other data: ${resultOther.length} entries`
     );
 
     // Insert Repo data
-    const urlRepo = process.env.SARB_REPO_URL;
-    const dataRepo = await sarbRepoScraper(urlRepo);
+    const dataRepo = await sarbRepoScraper(process.env.SARB_REPO_URL);
     const resultRepo = await sarbRepoSchema.insertMany(dataRepo);
     console.log(`Successfully seeded Repo data: ${resultRepo.length} entries`);
   } catch (error) {

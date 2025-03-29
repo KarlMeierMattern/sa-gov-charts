@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose";
 
-const allSchema = mongoose.Schema(
+const allSchema = new mongoose.Schema(
   {
     sector: {
       type: String,

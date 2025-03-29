@@ -20,4 +20,4 @@ const repoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const sarbRepoSchema = new mongoose.model("Repo", repoSchema);
+export const sarbRepoSchema = mongoose.model("Repo", repoSchema);
