@@ -4,7 +4,6 @@ dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
 import govRoute from "./routes/govRoute.js";
-import { login } from "./controllers/login.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
 
 const app = express();

@@ -24,9 +24,9 @@ const sarbOtherIndicatorsScraper = async (url) => {
       const cpi = cpiText ? parseFloat(cpiText.replace("%", "")) : null;
 
       results.push({
-        Name: "CPI",
-        Value: cpi,
-        Date: "na",
+        name: "CPI",
+        value: cpi,
+        date: "na",
       });
 
       const rows = document.querySelectorAll("table tr");
@@ -40,9 +40,9 @@ const sarbOtherIndicatorsScraper = async (url) => {
 
           if (name !== "N/A" && val !== "N/A" && date !== "N/A") {
             results.push({
-              Name: name,
-              Value: parseFloat(val),
-              Date: date,
+              name: name,
+              value: parseFloat(val),
+              date: date,
             });
           }
         }

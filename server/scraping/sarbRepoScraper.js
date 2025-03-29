@@ -25,7 +25,7 @@ const sarbRepoScraper = async (url) => {
         const date =
           row.querySelector("td.mperiod")?.textContent.trim() || "N/A";
         const value = row.querySelector("td.mval")?.textContent.trim() || "N/A";
-        results.push({ Name: name, Date: date, Value: value });
+        results.push({ name: name, lastPeriod: date, value: value });
       });
 
       return results;
