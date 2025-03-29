@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-// import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
-import { Overview } from "@/components/ui/overview";
-import { RecentSales } from "@/components/ui/recent-sales";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
   TrendingUpDown,
@@ -162,10 +153,6 @@ const SarbOverview = () => {
     (item) => item.name === "Rand per US Dollar"
   );
 
-  const quarterReported =
-    responseAll.find((item) => item.sector === "Gross domestic expenditure")
-      ?.period || 0;
-
   const exports =
     responseAll.find(
       (item) => item.sector === "Exports of goods and non-factor services (sa)"
@@ -217,11 +204,7 @@ const SarbOverview = () => {
   return (
     <div className="flex-col md:flex">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight pb-4">
-            Macro Dashboard
-          </h2>
-        </div>
+        <div className="flex items-center justify-between space-y-2"></div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -394,28 +377,7 @@ const SarbOverview = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
-                <CardHeader>
-                  <CardTitle>GDP and Unemployment</CardTitle>
-                </CardHeader>
-                <CardContent className="pl-2">
-                  <Overview />
-                </CardContent>
-              </Card>
-              <Card className="col-span-3">
-                <CardHeader>
-                  <CardTitle>GDP</CardTitle>
-                  <CardDescription>
-                    By expenditure type seasonally adjusted and annualised at{" "}
-                    {quarterReported}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RecentSales />
-                </CardContent>
-              </Card>
-            </div>
+
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

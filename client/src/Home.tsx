@@ -18,10 +18,6 @@ export default function Home() {
       <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <div className="flex flex-1">
-          <Sidebar
-            activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
-          />
           <main className="flex-1 p-6">
             <Dashboard category={activeCategory} />
           </main>

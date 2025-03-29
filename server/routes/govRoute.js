@@ -1,9 +1,11 @@
 import express from "express";
 
-import { getSarbRepoData } from "../controllers/sarbRepoController.js";
-import { getSarbAllData } from "../controllers/sarbAllController.js";
-import { getSarbOtherIndicatorsController } from "../controllers/sarbOtherIndicatorsController.js";
-import { getJseIndex } from "../controllers/jseIndexController.js";
+import {
+  getSarbRepoData,
+  getSarbAllData,
+  getSarbOtherIndicatorsController,
+  getJseIndex,
+} from "../controllers/index.js";
 
 const router = express.Router();
 

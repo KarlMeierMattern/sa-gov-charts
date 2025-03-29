@@ -20,4 +20,4 @@ const jseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const jseIndex = mongoose.model("jseIndex", jseSchema, "jse");
+export const JseModel = mongoose.model("jse", jseSchema);

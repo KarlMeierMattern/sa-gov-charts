@@ -1,5 +1,5 @@
 // Handles initial db seeding
-// npm run db:seed
+// To run: cd server -> npm run db:seed
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -12,10 +12,12 @@ import sarbOtherIndicatorsScraper from "../scraping/sarbOtherIndicatorsScraper.j
 import sarbRepoScraper from "../scraping/sarbRepoScraper.js";
 
 // models
-import { jseIndex } from "../model/jseIndexModel.js";
-import { allSarbSchema } from "../model/sarbAllModel.js";
-import { sarbOtherIndicatorsSchema } from "../model/sarbOtherIndicators.js";
-import { sarbRepoSchema } from "../model/sarbRepoModel.js";
+import {
+  JseModel,
+  SarbAllModel,
+  SarbOtherModel,
+  SarbRepoModel,
+} from "../model/index.js";
 
 async function connectDB() {
   try {
@@ -33,10 +35,10 @@ async function main() {
   try {
     // Clear existing data
     console.log("Clearing existing databases...");
-    await jseIndex.deleteMany({});
-    await allSarbSchema.deleteMany({});
-    await sarbOtherIndicatorsSchema.deleteMany({});
-    await sarbRepoSchema.deleteMany({});
+    await JseModel.deleteMany({});
+    await SarbAllModel.deleteMany({});
+    await SarbOtherModel.deleteMany({});
+    await SarbRepoModel.deleteMany({});
     console.log("Cleared existing databases...");
 
     // Initiate scraping
@@ -44,26 +46,26 @@ async function main() {
 
     // Insert JSE data
     const dataJSE = await jseIndexScraper(process.env.JSE_URL);
-    const resultJSE = await jseIndex.insertMany(dataJSE);
+    const resultJSE = await JseModel.insertMany(dataJSE);
     console.log(`Successfully seeded JSE data: ${resultJSE.length} entries`);
 
     // Insert All data
     const dataAll = await sarbAllScraper(process.env.SARB_ALL_URL);
-    const resultAll = await allSarbSchema.insertMany(dataAll);
+    const resultAll = await SarbAllModel.insertMany(dataAll);
     console.log(`Successfully seeded All data: ${resultAll.length} entries`);
 
     // Insert Other data
     const dataOther = await sarbOtherIndicatorsScraper(
       process.env.SARB_OTHER_URL
     );
-    const resultOther = await sarbOtherIndicatorsSchema.insertMany(dataOther);
+    const resultOther = await SarbOtherModel.insertMany(dataOther);
     console.log(
       `Successfully seeded Other data: ${resultOther.length} entries`
     );
 
     // Insert Repo data
     const dataRepo = await sarbRepoScraper(process.env.SARB_REPO_URL);
-    const resultRepo = await sarbRepoSchema.insertMany(dataRepo);
+    const resultRepo = await SarbRepoModel.insertMany(dataRepo);
     console.log(`Successfully seeded Repo data: ${resultRepo.length} entries`);
   } catch (error) {
     console.error("Error seeding database:", error);

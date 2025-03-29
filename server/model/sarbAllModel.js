@@ -37,4 +37,4 @@ const allSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const allSarbSchema = mongoose.model("allSarbData", allSchema);
+export const SarbAllModel = mongoose.model("sarb_all", allSchema);

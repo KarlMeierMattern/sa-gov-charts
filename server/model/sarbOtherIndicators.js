@@ -20,4 +20,4 @@ const otherSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const sarbOtherIndicatorsSchema = mongoose.model("Other", otherSchema);
+export const SarbOtherModel = mongoose.model("sarb_other", otherSchema);

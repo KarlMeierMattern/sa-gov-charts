@@ -1,10 +1,10 @@
 // https://www.resbank.co.za/en/home/what-we-do/statistics/key-statistics/current-market-rates
 
-import { sarbRepoSchema } from "../model/sarbRepoModel.js";
+import { SarbRepoModel } from "../model/index.js";
 
 const getSarbRepoData = async (req, res) => {
   try {
-    const data = await sarbRepoSchema.find(); // Fetch all data from the database
+    const data = await SarbRepoModel.find(); // Fetch all data from the database
     res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching SARB GDP data:", error);

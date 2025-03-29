@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import SarbOverview from "../pages/SarbOverview";
-import SarbRepo from "../pages/SarbRepo";
-import SarbGdp from "../pages/SarbGdp";
-import SarbGdpIndustry from "../pages/SarbGdpIndustry";
-import SarbExpCon from "../pages/SarbExpCon";
-import SarbProdEmploy from "../pages/SarbProdEmploy";
-import SarbCashFin from "../pages/SarbCashFin";
-import SarbExtFin from "../pages/SarbExtFin";
-import SarbResCur from "../pages/SarbResCur";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  SarbOverview,
+  SarbRepo,
+  SarbGdp,
+  SarbGdpIndustry,
+  SarbProdEmploy,
+  SarbCashFin,
+  SarbResCur,
+  SarbExtFin,
+} from "../pages/index.js";
 
 interface DashboardProps {
   category: string;
@@ -26,34 +27,22 @@ export default function Dashboard({ category }: DashboardProps) {
     return <div className="text-center mt-8">Loading...</div>;
   }
 
-  const renderContent = () => {
-    switch (category) {
-      case "Overview":
-        return <SarbOverview />;
-      case "Market Rates":
-        return <SarbRepo />;
-      case "GDP by Expenditure":
-        return <SarbGdp />;
-      case "GDP by Industry":
-        return <SarbGdpIndustry />;
-      case "Expenditure & Consumption":
-        return <SarbExpCon />;
-      case "Production & Employment":
-        return <SarbProdEmploy />;
-      case "Cashflow & Financing":
-        return <SarbCashFin />;
-      case "External Financing":
-        return <SarbExtFin />;
-      case "Reserves & Currencies":
-        return <SarbResCur />;
-      default:
-        return <div>Select a category</div>;
-    }
-  };
-
   return (
     <Card>
-      <CardContent className="p-6 bg-background">{renderContent()}</CardContent>
+      <CardContent className="p-6 bg-background">
+        <SarbOverview />
+        <SarbRepo />
+        <div className="flex flex-row">
+          <SarbGdp />
+          <SarbGdpIndustry />
+        </div>
+        <SarbResCur />
+        <SarbProdEmploy />
+        <div className="flex flex-row">
+          <SarbCashFin />
+          <SarbExtFin />
+        </div>
+      </CardContent>
     </Card>
   );
 }
