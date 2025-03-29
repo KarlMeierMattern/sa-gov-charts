@@ -170,53 +170,20 @@ const SarbRepo = () => {
   // Group chart data in an array for mapping
   const chartData = [interestRates, treasuryRates, currencyRates, bondYields];
 
-  // reduce() iterates over the response array just once to build a lookup map
-  const rateMapStore = response.reduce((map, item) => {
-    map[item.name] = item;
-    return map;
-  }, {});
-
-  const currentRepo = rateMapStore["Repo rate"]?.value || 0;
-  const primeRate = rateMapStore["Prime lending rate"]?.value || 0;
-  const currentRepoPeriod =
-    rateMapStore["Repo rate"]?.lastPeriod || new Date().toISOString();
-  const currentPrimePeriod =
-    rateMapStore["Prime lending rate"]?.lastPeriod || new Date().toISOString();
-
   return (
-    <div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
-        {chartData.map((data, index) => (
-          <div key={index} className="p-4 border rounded shadow">
-            <h2 className="text-lg font-bold mb-4">{data.title}</h2>
-            <Bar
-              data={data}
-              options={{
-                responsive: true,
-                plugins: { tooltip: { enabled: true }, datalabels: false },
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="p-8 text-xs text-muted-foreground">
-        *At <span className="italic text-rose-800">{currentRepoPeriod}</span>{" "}
-        the current repo rate in South Africa is{" "}
-        <span className="italic text-rose-800">{currentRepo}%</span>
-        , which represents the rate at which the South African Reserve Bank
-        (SARB) lends money to commercial banks. Banks use the repo rate to
-        determine the interest rate that they charge lenders to borrow money and
-        the rate they pay savers on their savings.
-        <br />
-        ^At <span className="italic text-rose-800">
-          {currentPrimePeriod}
-        </span>{" "}
-        the prime rate in South Africa is{" "}
-        <span className="italic text-rose-800">{primeRate}%</span>, which
-        represents the best available rate at the bank for the most credit
-        worthy individuals (repo rate + margin).
-        <br></br>
-      </div>
+    <div className="grid md:grid-cols-1 lg:grid-cols-4 gap-4 p-8">
+      {chartData.map((data, index) => (
+        <div key={index} className="p-4 border rounded shadow">
+          <h2 className="text-lg font-bold mb-4">{data.title}</h2>
+          <Bar
+            data={data}
+            options={{
+              responsive: true,
+              plugins: { tooltip: { enabled: true }, datalabels: false },
+            }}
+          />
+        </div>
+      ))}
     </div>
   );
 };

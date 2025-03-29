@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SarbResCur = () => {
+const SarbExtFin = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,75 +45,64 @@ const SarbResCur = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  // Data for Chart 7: International Reserves and Currency
-  const intResCur = {
+  // Data for Chart 6: External Financial Data
+  const exFinance = {
     labels: [
-      "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
+      "Current account (nsa)",
+      "Total exports (nsa)",
+      "Total imports (nsa)",
       "Official Reserve Assets",
-      "IMF reserve position",
-      "Special drawing rights",
-      "Foreign currency reserves",
-      "Other reserve assets",
     ],
     datasets: [
       {
         label: "Current Data (R Million)",
         data: [
-          "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
+          "Current account (nsa)",
+          "Total exports (nsa)",
+          "Total imports (nsa)",
           "Official Reserve Assets",
-          "IMF reserve position",
-          "Special drawing rights",
-          "Foreign currency reserves",
-          "Other reserve assets",
         ]
           .map(
             (label) =>
               response.find((item) => item.sector === label)?.currentValue || 0
           )
           .map((value) => parseFloat(value)),
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
       {
         label: "Previous Data (R Million)",
         data: [
-          "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
+          "Current account (nsa)",
+          "Total exports (nsa)",
+          "Total imports (nsa)",
           "Official Reserve Assets",
-          "IMF reserve position",
-          "Special drawing rights",
-          "Foreign currency reserves",
-          "Other reserve assets",
         ]
           .map(
             (label) =>
               response.find((item) => item.sector === label)?.previousValue || 0
           )
           .map((value) => parseFloat(value)),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(255, 206, 86, 0.6)",
+        borderColor: "rgba(255, 206, 86, 1)",
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-8">
-      {/* Chart 7: International Reserves & Currencies */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">
-          International Reserves & Currencies
-        </h2>
-        <Bar
-          data={intResCur}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true }, datalabels: false },
-          }}
-        />
-      </div>
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-lg font-bold mb-4">External Financial Data</h2>
+      <Bar
+        data={exFinance}
+        options={{
+          responsive: true,
+          plugins: { tooltip: { enabled: true }, datalabels: false },
+        }}
+      />
     </div>
   );
 };
 
-export default SarbResCur;
+export default SarbExtFin;

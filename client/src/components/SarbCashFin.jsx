@@ -48,21 +48,21 @@ const SarbCashFin = () => {
   // Data for Chart 5: Cash-Flow and Financing
   const cashFinance = {
     labels: [
-      "Cash receipts from operating activities",
-      "Cash payments for operating activities",
-      "Of which: Interest",
-      "Net cash-flow from operating activities",
-      "Net cash-flow from investment activities",
+      "Cash receipts",
+      "Cash payments",
+      "Interest",
+      "Cash-flow from operations",
+      "Cash-flow from investments",
       "Cash surplus/deficit",
-      "Net cash-flow from financing activities",
-      "Financial assets other than cash",
+      "Cash-flow from financing",
+      "Financial assets (excl. cash)",
       "Liabilities",
       "Other debt (nsa)",
       "Government guaranteed debt",
-      "Domestic credit to the government sector (net) (nsa)",
-      "Domestic credit to the private sector (nsa)",
+      "Credit to government",
+      "Credit to private sector",
       "External position",
-      "Monetary aggregate: M3 (nsa)",
+      "M3 money",
     ],
     datasets: [
       {
@@ -125,18 +125,15 @@ const SarbCashFin = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-8">
-      {/* Chart 5: Cash Flow & Financing */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Cash Flow & Financing</h2>
-        <Bar
-          data={cashFinance}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true }, datalabels: false },
-          }}
-        />
-      </div>
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-lg font-bold mb-4">Cash Flow & Financing</h2>
+      <Bar
+        data={cashFinance}
+        options={{
+          responsive: true,
+          plugins: { tooltip: { enabled: true }, datalabels: false },
+        }}
+      />
     </div>
   );
 };

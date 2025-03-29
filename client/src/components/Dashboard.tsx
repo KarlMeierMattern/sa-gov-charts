@@ -4,12 +4,14 @@ import {
   SarbOverview,
   SarbRepo,
   SarbGdp,
-  SarbGdpIndustry,
+  EconomicSectors,
   SarbProdEmploy,
   SarbCashFin,
   SarbResCur,
   SarbExtFin,
-} from "../pages/index.js";
+  GdpData,
+} from "./index.js";
+import { ModeToggle } from "./ModeToggle";
 
 interface DashboardProps {
   category: string;
@@ -29,16 +31,23 @@ export default function Dashboard({ category }: DashboardProps) {
 
   return (
     <Card>
+      <header className="bg-background border-b border-border p-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-foreground">
+          South African Macro Dashboard
+        </h1>
+        <ModeToggle />
+      </header>
       <CardContent className="p-6 bg-background">
         <SarbOverview />
         <SarbRepo />
-        <div className="flex flex-row">
+        <div className="grid grid-cols-3 gap-4 p-8">
           <SarbGdp />
-          <SarbGdpIndustry />
+          <EconomicSectors />
+          <GdpData />
         </div>
         <SarbResCur />
         <SarbProdEmploy />
-        <div className="flex flex-row">
+        <div className="grid grid-cols-2 gap-4 p-8">
           <SarbCashFin />
           <SarbExtFin />
         </div>

@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import ThemeProvider from "@/components/ThemeProvider";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
 
 export default function Home() {
@@ -16,7 +14,6 @@ export default function Home() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="flex flex-col min-h-screen bg-background">
-        <Header />
         <div className="flex flex-1">
           <main className="flex-1 p-6">
             <Dashboard category={activeCategory} />

@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const SarbExtFin = () => {
+const SarbGdp = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,7 +30,6 @@ const SarbExtFin = () => {
       try {
         const response = await axios.get("/sarb-all"); // fetch from the backend
         setResponse(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
         setError("Failed to fetch data");
@@ -45,67 +44,77 @@ const SarbExtFin = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  // Data for Chart 6: External Financial Data
-  const exFinance = {
-    labels: [
-      "Current account (nsa)",
-      "Total exports (nsa)",
-      "Total imports (nsa)",
-      "Official Reserve Assets",
-    ],
+  const gdpExpApp = [
+    "Private consumption",
+    "Government consumption",
+    "Domestic fixed investment",
+    "Change in inventories",
+    "Residual item",
+    "Exports",
+    "Imports",
+  ];
+
+  // Prepare data for Chart 1: GDP by Industry
+  const gdpData = {
+    labels: gdpExpApp,
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
-          "Current account (nsa)",
-          "Total exports (nsa)",
-          "Total imports (nsa)",
-          "Official Reserve Assets",
+          "Private consumption expenditure (sa)",
+          "Consumption expenditure by general government (sa)",
+          "Gross domestic fixed investment (sa)",
+          "Change in inventories (sa)",
+          "Residual item (sa)",
+          "Exports of goods and non-factor services (sa)",
+          "Imports of goods and non-factor services (sa)",
         ]
           .map(
             (label) =>
               response.find((item) => item.sector === label)?.currentValue || 0
           )
           .map((value) => parseFloat(value)),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
       {
-        label: "Previous Data (R Million)",
+        label: "Previous Period (R Million)",
         data: [
-          "Current account (nsa)",
-          "Total exports (nsa)",
-          "Total imports (nsa)",
-          "Official Reserve Assets",
+          "Private consumption expenditure (sa)",
+          "Consumption expenditure by general government (sa)",
+          "Gross domestic fixed investment (sa)",
+          "Change in inventories (sa)",
+          "Residual item (sa)",
+          "Exports of goods and non-factor services (sa)",
+          "Imports of goods and non-factor services (sa)",
         ]
           .map(
             (label) =>
               response.find((item) => item.sector === label)?.previousValue || 0
           )
           .map((value) => parseFloat(value)),
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-8">
-      {/* Chart 6: External Financial Data */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">External Financial Data</h2>
-        <Bar
-          data={exFinance}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true }, datalabels: false },
-          }}
-        />
-      </div>
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-lg font-bold mb-4">
+        GDP by Consumption & Expenditure Category
+      </h2>
+      <Bar
+        data={gdpData}
+        options={{
+          responsive: true,
+          plugins: { tooltip: { enabled: true }, datalabels: false },
+        }}
+      />
     </div>
   );
 };
 
-export default SarbExtFin;
+export default SarbGdp;
