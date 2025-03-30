@@ -18,11 +18,11 @@ SarbGdp.propTypes = {
 
 export default function SarbGdp({ response }) {
   const gdpExpApp = [
-    "Private consumption",
-    "Government consumption",
-    "Domestic fixed investment",
-    "Change in inventories",
-    "Residual item",
+    "Private",
+    "Government",
+    "Domestic investment",
+    // "Change in inventories",
+    // "Residual item",
     "Exports",
     "Imports",
   ];
@@ -36,8 +36,8 @@ export default function SarbGdp({ response }) {
           "Private consumption expenditure (sa)",
           "Consumption expenditure by general government (sa)",
           "Gross domestic fixed investment (sa)",
-          "Change in inventories (sa)",
-          "Residual item (sa)",
+          // "Change in inventories (sa)",
+          // "Residual item (sa)",
           "Exports of goods and non-factor services (sa)",
           "Imports of goods and non-factor services (sa)",
         ]
@@ -56,8 +56,8 @@ export default function SarbGdp({ response }) {
           "Private consumption expenditure (sa)",
           "Consumption expenditure by general government (sa)",
           "Gross domestic fixed investment (sa)",
-          "Change in inventories (sa)",
-          "Residual item (sa)",
+          // "Change in inventories (sa)",
+          // "Residual item (sa)",
           "Exports of goods and non-factor services (sa)",
           "Imports of goods and non-factor services (sa)",
         ]

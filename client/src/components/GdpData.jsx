@@ -28,18 +28,13 @@ GdpData.propTypes = {
 
 export default function GdpData({ response }) {
   const gdpData = {
-    labels: [
-      "Total value added at basic prices",
-      "GDP at market prices",
-      "GDP at market prices",
-    ],
+    labels: ["Total value added at basic prices", "GDP at market prices"],
     datasets: [
       {
         label: "Latest Data (R Million)",
         data: [
           "Total value added at basic prices",
           "GDP at market prices (current, sa)",
-          "GDP at market prices (constant, sa)",
         ]
           .map(
             (label) =>
@@ -55,7 +50,6 @@ export default function GdpData({ response }) {
         data: [
           "Total value added at basic prices",
           "GDP at market prices (current, sa)",
-          "GDP at market prices (constant, sa)",
         ]
           .map(
             (label) =>
@@ -82,7 +76,7 @@ export default function GdpData({ response }) {
             datalabels: false,
             legend: {
               display: true,
-              position: "right",
+              position: "top",
             },
           },
         }}

@@ -18,20 +18,14 @@ SarbExtFin.propTypes = {
 
 export default function SarbExtFin({ response }) {
   const exFinance = {
-    labels: [
-      "Current account (nsa)",
-      "Total exports (nsa)",
-      "Total imports (nsa)",
-      "Official Reserve Assets",
-    ],
+    labels: ["Current account", "Capital account", "Financial account"],
     datasets: [
       {
         label: "Latest Data (R Million)",
         data: [
           "Current account (nsa)",
-          "Total exports (nsa)",
-          "Total imports (nsa)",
-          "Official Reserve Assets",
+          "Capital account (nsa)",
+          "Financial account",
         ]
           .map(
             (label) =>
@@ -46,9 +40,8 @@ export default function SarbExtFin({ response }) {
         label: "Previous Data (R Million)",
         data: [
           "Current account (nsa)",
-          "Total exports (nsa)",
-          "Total imports (nsa)",
-          "Official Reserve Assets",
+          "Capital account (nsa)",
+          "Financial account",
         ]
           .map(
             (label) =>
@@ -75,7 +68,7 @@ export default function SarbExtFin({ response }) {
             datalabels: false,
             legend: {
               display: true,
-              position: "bottom",
+              position: "top",
             },
           },
         }}

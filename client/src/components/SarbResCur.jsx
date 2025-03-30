@@ -19,25 +19,11 @@ SarbResCur.propTypes = {
 export default function SarbResCur({ response }) {
   // Data for Chart 7: International Reserves and Currency
   const intResCur = {
-    labels: [
-      "Gold and foreign exchange reserves",
-      "Reserve Assets",
-      "IMF reserves",
-      "Special drawing rights",
-      "Foreign currency reserves",
-      "Other reserve assets",
-    ],
+    labels: ["Gold", "Forex", "Total reserves"],
     datasets: [
       {
         label: "Latest Data (R Million)",
-        data: [
-          "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
-          "Official Reserve Assets",
-          "IMF reserve position",
-          "Special drawing rights",
-          "Foreign currency reserves",
-          "Other reserve assets",
-        ]
+        data: ["Gold", "Foreign currency reserves", "Official Reserve Assets"]
           .map(
             (label) =>
               response?.find((item) => item.sector === label)?.currentValue || 0
@@ -49,14 +35,7 @@ export default function SarbResCur({ response }) {
       },
       {
         label: "Previous Data (R Million)",
-        data: [
-          "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
-          "Official Reserve Assets",
-          "IMF reserve position",
-          "Special drawing rights",
-          "Foreign currency reserves",
-          "Other reserve assets",
-        ]
+        data: ["Gold", "Foreign currency reserves", "Official Reserve Assets"]
           .map(
             (label) =>
               response?.find((item) => item.sector === label)?.previousValue ||

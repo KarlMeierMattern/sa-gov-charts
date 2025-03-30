@@ -19,21 +19,14 @@ SarbProdEmploy.propTypes = {
 export default function SarbProdEmploy({ response }) {
   // Data for Chart 4: Production and Employment Data
   const prodEmploy = {
-    labels: [
-      "Manufacturing Production Index (sa)",
-      "Leading indicator",
-      "Employment (sa)",
-      "Unemployment rate (nsa)",
-      "Wages/Earnings (sa)",
-    ],
+    labels: ["MPI", "Leading indicator", "Employment", "Wages"],
     datasets: [
       {
-        label: "Latest Data (R Million)",
+        label: "Latest Data (2015=100)",
         data: [
           "Manufacturing Production Index (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
           "Leading indicator",
           "Employment (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
-          "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website",
           "Wages/Earnings (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
         ]
           .map(
@@ -46,12 +39,11 @@ export default function SarbProdEmploy({ response }) {
         borderWidth: 1,
       },
       {
-        label: "Previous Data (R Million)",
+        label: "Previous Data (2015=100)",
         data: [
           "Manufacturing Production Index (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
           "Leading indicator",
           "Employment (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
-          "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website",
           "Wages/Earnings (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
         ]
           .map(

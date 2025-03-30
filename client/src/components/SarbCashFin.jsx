@@ -20,41 +20,17 @@ export default function SarbCashFin({ response }) {
   // Data for Chart 5: Cash-Flow and Financing
   const cashFinance = {
     labels: [
-      "Cash receipts",
-      "Cash payments",
-      "Interest",
-      "Cash-flow from operations",
-      "Cash-flow from investments",
-      "Cash surplus/deficit",
-      "Cash-flow from financing",
-      "Financial assets (excl. cash)",
-      "Liabilities",
-      "Other debt (nsa)",
       "Government guaranteed debt",
       "Credit to government",
       "Credit to private sector",
-      "External position",
-      "M3 money",
     ],
     datasets: [
       {
         label: "Latest Data (R Million)",
         data: [
-          "Cash receipts from operating activities",
-          "Cash payments for operating activities",
-          "Of which: Interest",
-          "Net cash-flow from operating activities",
-          "Net cash-flow from investment activities",
-          "Cash surplus/deficit",
-          "Net cash-flow from financing activities",
-          "Financial assets other than cash",
-          "Liabilities",
-          "Other debt (nsa)",
           "Government guaranteed debt",
           "Domestic credit to the government sector (net) (nsa)",
           "Domestic credit to the private sector (nsa)",
-          "External position",
-          "Monetary aggregate: M3 (nsa)",
         ]
           .map(
             (label) =>
@@ -68,21 +44,9 @@ export default function SarbCashFin({ response }) {
       {
         label: "Previous Data (R Million)",
         data: [
-          "Cash receipts from operating activities",
-          "Cash payments for operating activities",
-          "Of which: Interest",
-          "Net cash-flow from operating activities",
-          "Net cash-flow from investment activities",
-          "Cash surplus/deficit",
-          "Net cash-flow from financing activities",
-          "Financial assets other than cash",
-          "Liabilities",
-          "Other debt (nsa)",
           "Government guaranteed debt",
           "Domestic credit to the government sector (net) (nsa)",
           "Domestic credit to the private sector (nsa)",
-          "External position",
-          "Monetary aggregate: M3 (nsa)",
         ]
           .map(
             (label) =>

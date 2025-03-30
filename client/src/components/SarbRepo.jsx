@@ -30,7 +30,7 @@ export default function SarbRepo({ response }) {
   // Data for Chart 1: Interest Rates
   const interestRates = {
     title: "Interest rates",
-    labels: ["Repo rate*", "Sabor", "Zaronia", "Overnight FX rate"],
+    labels: ["Repo", "Sabor", "Zaronia", "Overnight"],
     datasets: [
       {
         label: "Rate (%)",
@@ -48,15 +48,15 @@ export default function SarbRepo({ response }) {
 
   // Data for Chart 2: Treasury and NCD Rates
   const treasuryRates = {
-    title: "Treasury and NCD Rates",
+    title: "Treasury bill and NCD Rates",
     labels: [
-      "TBill 91 day",
-      "TBill 182 day",
-      "TBill 273 day",
-      "TBill 364 day",
-      "NCD 3 months",
-      "NCD 6 months",
-      "NCD 12 months",
+      "91-day",
+      "182-day",
+      "273-day",
+      "364-day",
+      "3-months",
+      "6-months",
+      "12-months",
     ],
     datasets: [
       {
