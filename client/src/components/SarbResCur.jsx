@@ -58,7 +58,11 @@ export default function SarbResCur({ response }) {
         data={intResCur}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: { display: false },
+          },
         }}
       />
     </div>

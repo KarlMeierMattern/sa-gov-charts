@@ -68,7 +68,11 @@ export default function SarbCashFin({ response }) {
         data={cashFinance}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: { display: false },
+          },
         }}
       />
     </div>

@@ -83,7 +83,11 @@ export default function SarbGdp({ response }) {
         data={gdpData}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: { display: false },
+          },
         }}
       />
     </div>

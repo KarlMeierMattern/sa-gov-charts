@@ -67,8 +67,7 @@ export default function SarbExtFin({ response }) {
             tooltip: { enabled: true },
             datalabels: false,
             legend: {
-              display: true,
-              position: "top",
+              display: false,
             },
           },
         }}

@@ -66,7 +66,11 @@ export default function SarbProdEmploy({ response }) {
         data={prodEmploy}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: { display: false },
+          },
         }}
       />
     </div>

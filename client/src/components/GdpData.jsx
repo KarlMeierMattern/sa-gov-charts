@@ -75,8 +75,7 @@ export default function GdpData({ response }) {
             tooltip: { enabled: true },
             datalabels: false,
             legend: {
-              display: true,
-              position: "top",
+              display: false,
             },
           },
         }}

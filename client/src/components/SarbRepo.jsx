@@ -151,7 +151,11 @@ export default function SarbRepo({ response }) {
             data={data}
             options={{
               responsive: true,
-              plugins: { tooltip: { enabled: true }, datalabels: false },
+              plugins: {
+                tooltip: { enabled: true },
+                datalabels: false,
+                legend: { display: false },
+              },
             }}
           />
         </div>
