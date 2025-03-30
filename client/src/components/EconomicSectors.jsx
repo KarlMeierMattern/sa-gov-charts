@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,39 +20,13 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const EconomicSectors = () => {
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import PropTypes from "prop-types";
 
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
+EconomicSectors.propTypes = {
+  response: PropTypes.array.isRequired,
+};
 
-  axios.defaults.baseURL = baseUrl;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/sarb-all"); // fetch from the backend
-        setResponse(response.data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-        setError("Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
-  // Data for Chart 1: Economic Sectors for Current Year
+export default function EconomicSectors({ response }) {
   const economicSectorsCurrent = {
     title: "Current year (R millions)",
     labels: [
@@ -151,6 +123,4 @@ const EconomicSectors = () => {
       />
     </div>
   );
-};
-
-export default EconomicSectors;
+}

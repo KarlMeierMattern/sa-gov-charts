@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
@@ -17,110 +15,21 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import PropTypes from "prop-types";
 
-const SarbOverview = () => {
-  const [response, setResponse] = useState(null);
-  const [responseAll, setResponseAll] = useState(null);
-  const [responseFx, setResponseFx] = useState(null);
-  const [responseJse, setResponseJse] = useState(null);
+SarbOverview.propTypes = {
+  response: PropTypes.array.isRequired,
+  responseAll: PropTypes.array.isRequired,
+  responseFx: PropTypes.array.isRequired,
+  responseJse: PropTypes.array.isRequired,
+};
 
-  const [loadingOther, setLoadingOther] = useState(true);
-  const [loadingAll, setLoadingAll] = useState(true);
-  const [loadingFx, setLoadingFx] = useState(true);
-  const [loadingJse, setLoadingJse] = useState(true);
-
-  const [errorOther, setErrorOther] = useState(null);
-  const [errorAll, setErrorAll] = useState(null);
-  const [errorFx, setErrorFx] = useState(null);
-  const [errorJse, setErrorJse] = useState(null);
-
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
-
-  axios.defaults.baseURL = baseUrl;
-
-  // Fetch inflation rate, repo rate, prime rate, GDP growth data
-  useEffect(() => {
-    const fetchOtherData = async () => {
-      try {
-        setLoadingOther(true);
-        const response = await axios.get("/sarb-other");
-        setResponse(response.data);
-      } catch (error) {
-        console.error(error);
-        setErrorOther("Failed to fetch data for SARB Other.");
-      } finally {
-        setLoadingOther(false);
-      }
-    };
-
-    fetchOtherData();
-  }, []);
-
-  // Fetch unemployment, population data
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        setLoadingAll(true);
-        const response = await axios.get("/sarb-all");
-        setResponseAll(response.data);
-      } catch (error) {
-        console.error(error);
-        setErrorAll("Failed to fetch data for SARB All.");
-      } finally {
-        setLoadingAll(false);
-      }
-    };
-
-    fetchAllData();
-  }, []);
-
-  // Fetch US/ZAR FX rate data
-  useEffect(() => {
-    const fetchFxData = async () => {
-      try {
-        setLoadingFx(true);
-        const response = await axios.get("/sarb-repo"); // fetch from the backend
-        setResponseFx(response.data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-        setErrorFx("Failed to fetch data");
-      } finally {
-        setLoadingFx(false);
-      }
-    };
-
-    fetchFxData();
-  }, []);
-
-  // Fetch JSE data
-  useEffect(() => {
-    const fetchJseData = async () => {
-      try {
-        setLoadingJse(true);
-        const response = await axios.get("/jse"); // fetch from the backend
-        setResponseJse(response.data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-        setErrorJse("Failed to fetch data");
-      } finally {
-        setLoadingJse(false);
-      }
-    };
-
-    fetchJseData();
-  }, []);
-
-  if (loadingOther || loadingAll || loadingFx || loadingJse)
-    return <div>Loading...</div>;
-  if (errorOther) return <div>Error: {errorOther}</div>;
-  if (errorAll) return <div>Error: {errorAll}</div>;
-  if (errorFx) return <div>Error: {errorFx}</div>;
-  if (errorJse) return <div>Error: {errorJse}</div>;
-
+export default function SarbOverview({
+  response,
+  responseAll,
+  responseFx,
+  responseJse,
+}) {
   const inflationRate = response.find((item) => item.name === "CPI");
 
   const repoRate = response.find(
@@ -367,6 +276,4 @@ const SarbOverview = () => {
       </div>
     </div>
   );
-};
-
-export default SarbOverview;
+}

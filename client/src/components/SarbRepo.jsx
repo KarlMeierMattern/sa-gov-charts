@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,39 +20,13 @@ ChartJS.register(
   LineElement
 );
 
-const SarbRepo = () => {
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import PropTypes from "prop-types";
 
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
+SarbRepo.propTypes = {
+  response: PropTypes.array.isRequired,
+};
 
-  axios.defaults.baseURL = baseUrl;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/sarb-repo"); // fetch from the backend
-        setResponse(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-        setError("Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
+export default function SarbRepo({ response }) {
   // Data for Chart 1: Interest Rates
   const interestRates = {
     title: "Interest rates",
@@ -64,7 +36,7 @@ const SarbRepo = () => {
         label: "Rate (%)",
         data: ["Repo rate", "Sabor", "Zaronia", "Overnight FX rate"]
           .map(
-            (label) => response.find((item) => item.name === label)?.value || 0
+            (label) => response?.find((item) => item.name === label)?.value || 0
           )
           .map((value) => parseFloat(value)),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
@@ -99,7 +71,7 @@ const SarbRepo = () => {
           "NCD's - 12 months (closing rates)",
         ]
           .map(
-            (label) => response.find((item) => item.name === label)?.value || 0
+            (label) => response?.find((item) => item.name === label)?.value || 0
           )
           .map((value) => parseFloat(value)),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
@@ -127,7 +99,7 @@ const SarbRepo = () => {
           "Rand per Euro",
           // "Rand per Japanese Yen",
         ].map((label) =>
-          parseFloat(response.find((item) => item.name === label)?.value || 0)
+          parseFloat(response?.find((item) => item.name === label)?.value || 0)
         ),
         backgroundColor: "rgba(255, 206, 86, 0.6)",
         borderColor: "rgba(255, 206, 86, 1)",
@@ -158,7 +130,7 @@ const SarbRepo = () => {
           "10 years and longer (daily average bond yields)",
           // "Nominal effective exchange rate",
         ].map((label) =>
-          parseFloat(response.find((item) => item.name === label)?.value || 0)
+          parseFloat(response?.find((item) => item.name === label)?.value || 0)
         ),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderColor: "rgba(255, 99, 132, 1)",
@@ -186,6 +158,4 @@ const SarbRepo = () => {
       ))}
     </div>
   );
-};
-
-export default SarbRepo;
+}

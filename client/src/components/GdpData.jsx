@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,38 +20,13 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const GdpData = () => {
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import PropTypes from "prop-types";
 
-  // Get base URL based on environment
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
+GdpData.propTypes = {
+  response: PropTypes.array.isRequired,
+};
 
-  axios.defaults.baseURL = baseUrl;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/sarb-all"); // fetch from the backend
-        setResponse(response.data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-        setError("Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
+export default function GdpData({ response }) {
   const gdpData = {
     labels: [
       "Total value added at basic prices*",
@@ -70,7 +43,7 @@ const GdpData = () => {
         ]
           .map(
             (label) =>
-              response.find((item) => item.sector === label)?.currentValue || 0
+              response?.find((item) => item.sector === label)?.currentValue || 0
           )
           .map((value) => parseFloat(value)),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
@@ -86,7 +59,8 @@ const GdpData = () => {
         ]
           .map(
             (label) =>
-              response.find((item) => item.sector === label)?.previousValue || 0
+              response?.find((item) => item.sector === label)?.previousValue ||
+              0
           )
           .map((value) => parseFloat(value)),
         backgroundColor: "rgba(255, 206, 86, 0.6)",
@@ -108,6 +82,4 @@ const GdpData = () => {
       />
     </div>
   );
-};
-
-export default GdpData;
+}
