@@ -102,6 +102,9 @@ export default function EconomicSectors({ response }) {
             legend: {
               display: true,
               position: "bottom",
+              padding: {
+                top: 100,
+              },
             },
             datalabels: {
               display: false,
