@@ -57,7 +57,7 @@ const SarbResCur = () => {
     ],
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
           "Gold and Foreign Exchange Contingency Reserve Account (nsa)",
           "Official Reserve Assets",
@@ -98,20 +98,17 @@ const SarbResCur = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-8">
-      {/* Chart 7: International Reserves & Currencies */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">
-          International Reserves & Currencies
-        </h2>
-        <Bar
-          data={intResCur}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true }, datalabels: false },
-          }}
-        />
-      </div>
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-lg font-bold mb-4">
+        International Reserves & Currencies
+      </h2>
+      <Bar
+        data={intResCur}
+        options={{
+          responsive: true,
+          plugins: { tooltip: { enabled: true }, datalabels: false },
+        }}
+      />
     </div>
   );
 };

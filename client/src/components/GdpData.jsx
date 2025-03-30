@@ -62,7 +62,7 @@ const GdpData = () => {
     ],
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
           "Total value added at basic prices",
           "GDP at market prices (current, sa)",
@@ -95,19 +95,6 @@ const GdpData = () => {
       },
     ],
   };
-
-  const gdpLabels = [
-    "Agriculture, forestry and fishing",
-    "Mining and quarrying",
-    "Manufacturing",
-    "Electricity and water",
-    "Construction (contractors)",
-    "Wholesale and retail trade, catering and accommodation",
-    "Transport, storage and communication",
-    "Finance and insurance, real estate and business services",
-    "Personal services",
-    "General government services",
-  ];
 
   return (
     <div className="p-4 border rounded shadow">

@@ -71,7 +71,7 @@ const EconomicSectors = () => {
     ],
     datasets: [
       {
-        label: "Current Year Data",
+        label: "Latest Data (R Million)",
         data: [
           "Agriculture, forestry and fishing",
           "Mining and quarrying",

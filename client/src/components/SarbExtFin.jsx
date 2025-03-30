@@ -55,7 +55,7 @@ const SarbExtFin = () => {
     ],
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
           "Current account (nsa)",
           "Total exports (nsa)",

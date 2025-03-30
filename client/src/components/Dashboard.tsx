@@ -45,8 +45,10 @@ export default function Dashboard({ category }: DashboardProps) {
           <EconomicSectors />
           <GdpData />
         </div>
-        <SarbResCur />
-        <SarbProdEmploy />
+        <div className="grid grid-cols-2 gap-4 p-8">
+          <SarbResCur />
+          <SarbProdEmploy />
+        </div>
         <div className="grid grid-cols-2 gap-4 p-8">
           <SarbCashFin />
           <SarbExtFin />

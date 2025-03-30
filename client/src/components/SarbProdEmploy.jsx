@@ -56,7 +56,7 @@ const SarbProdEmploy = () => {
     ],
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
           "Manufacturing Production Index (sa)\nPlease see the statement regarding updating of info on the STATS SA website",
           "Leading indicator",
@@ -95,18 +95,15 @@ const SarbProdEmploy = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-8">
-      {/* Chart 4: Production & Employment */}
-      <div className="p-4 border rounded shadow">
-        <h2 className="text-lg font-bold mb-4">Production & Employment</h2>
-        <Bar
-          data={prodEmploy}
-          options={{
-            responsive: true,
-            plugins: { tooltip: { enabled: true }, datalabels: false },
-          }}
-        />
-      </div>
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-lg font-bold mb-4">Production & Employment</h2>
+      <Bar
+        data={prodEmploy}
+        options={{
+          responsive: true,
+          plugins: { tooltip: { enabled: true }, datalabels: false },
+        }}
+      />
     </div>
   );
 };

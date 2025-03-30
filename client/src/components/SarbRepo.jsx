@@ -140,11 +140,11 @@ const SarbRepo = () => {
   const bondYields = {
     title: "Bond Yields and Indices",
     labels: [
-      "Prime^",
+      "Prime",
       "R2030",
       "R186",
       "5-10 years",
-      "10 years +",
+      "+ 10 years",
       // "Nominal effective exchange rate",
     ],
     datasets: [

@@ -66,7 +66,7 @@ const SarbCashFin = () => {
     ],
     datasets: [
       {
-        label: "Current Data (R Million)",
+        label: "Latest Data (R Million)",
         data: [
           "Cash receipts from operating activities",
           "Cash payments for operating activities",

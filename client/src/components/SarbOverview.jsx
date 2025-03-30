@@ -17,7 +17,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-// import { CountUp } from "countup.js";
 
 const SarbOverview = () => {
   const [response, setResponse] = useState(null);
@@ -122,10 +121,7 @@ const SarbOverview = () => {
   if (errorFx) return <div>Error: {errorFx}</div>;
   if (errorJse) return <div>Error: {errorJse}</div>;
 
-  // Get inflation rate from response (after it's fetched)
-  const inflationRate = Array.isArray(response)
-    ? response.find((item) => item.name === "CPI")?.value
-    : null;
+  const inflationRate = response.find((item) => item.name === "CPI");
 
   const repoRate = response.find(
     (item) => item.name === "Dates of change in the repurchase rate"
@@ -180,7 +176,10 @@ const SarbOverview = () => {
       (item) => item.sector === "GDP at market prices (current, sa)"
     )?.currentValue || 0;
 
-  const currentAccountPercentGdp = (currentAccount / gdp) * 100;
+  const gdpDate =
+    responseAll.find(
+      (item) => item.sector === "GDP at market prices (current, sa)"
+    )?.period || 0;
 
   const capitalAccount =
     responseAll.find((item) => item.sector === "Capital account (nsa)")
@@ -201,6 +200,131 @@ const SarbOverview = () => {
   const allShareIndex =
     responseJse.find((item) => item.name === "All Share")?.value || 0;
 
+  const interest = responseAll
+    .filter((item) => item.sector === "Interest")
+    .reduce((acc, item) => acc + item.currentValue, 0);
+
+  const interestPercentGdp = Math.round((interest / gdp) * 100 * 10) / 10;
+
+  const cardData = [
+    {
+      title: "Inflation Rate",
+      value: `${inflationRate?.value}%`,
+      description: "Consumer Price Index (CPI)",
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+      info: null,
+    },
+    {
+      title: "Repo Rate",
+      value: `${repoRate?.value}%`,
+      description: `@ ${repoRate?.date}`,
+      icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
+      info: "Set by the central bank, affects the overall cost of borrowing in the economy.",
+    },
+    {
+      title: "Prime Rate",
+      value: `${primeRate?.value}%`,
+      description: `@ ${primeRate?.date}`,
+      icon: <Gem className="h-4 w-4 text-muted-foreground" />,
+      info: "Rate that commercial banks charge their most creditworthy customers.",
+    },
+    {
+      title: "USD/ZAR Exchange Rate",
+      value: `${parseFloat(usZarRate?.value).toFixed(2)}`,
+      description: `FX Rate @ ${usZarRate?.lastPeriod}`,
+      icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Real GDP Growth",
+      value: `${realGdpGrowth?.value}%`,
+      description: `@ ${realGdpGrowth?.date}`,
+      info: "Economic growth, adjusted for inflation, reflecting the increase in the value of goods and services produced.",
+      icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Unemployment Rate",
+      value: `${unemployRate?.currentValue}%`,
+      description: `Of labor force for ${unemployRate?.period}`,
+      info: "",
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Population",
+      value: `${(population?.currentValue / 1000).toFixed(0)}m`,
+      description: `Population for ${population?.period}`,
+      info: "",
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Stock Market Index",
+      value: `${allShareIndex}`,
+      description: `Major stock exchange`,
+      info: "",
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Trade Balance",
+      value: `R${parseFloat(tradeBalance).toLocaleString()}m`,
+      description:
+        "Exports and imports of goods and services. Trade surplus (positive) or deficit (negative).",
+      info: "The net value of goods and services sold to and bought from other countries. Forms part of the current account.",
+      icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Budget Balance % of GDP",
+      value: `${budgetBalance}%`,
+      description: "(Government revenue - expenses) / GDP.",
+      info: "Positive = budget surplus (government saves).\nNegative = budget deficit (government borrows).",
+      icon: <Gem className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Current Account",
+      value: `R${parseFloat(currentAccount).toLocaleString()}m`,
+      description: "Trade balance + income from abroad + transfers",
+      info: "",
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Capital Account",
+      value: `R${parseFloat(capitalAccount).toLocaleString()}m`,
+      description: "Tracks one-time transfers of capital assets.",
+      info: "Debt forgiveness, land purchases.",
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Financial Account",
+      value: `R${parseFloat(financialAccount).toLocaleString()}m`,
+      description: "Tracks investments and financial flows.",
+      info: "Foreign direct investment, stock/bond purchases, and reserve assets.",
+      icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Balance of Payments",
+      value: `R${parseFloat(balanceOfPayments).toLocaleString()}m`,
+      description: "Current account + capital account + financial account.",
+      info: "Tracks all economic transactions between South Africa and the world.",
+      icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Government interest costs % of GDP",
+      value: `${interestPercentGdp}%`,
+      description: `Based on GDP of R${parseFloat(
+        gdp
+      ).toLocaleString()}m at ${gdpDate}`,
+      info: null,
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Debt-to-GDP ratio",
+      value: `${parseFloat(debtPercentGdp).toFixed(2)}%`,
+      description: `Based on government debt of R${parseFloat(
+        totalDebt.currentValue
+      ).toLocaleString()}m at ${totalDebt.period}`,
+      info: "The debt-to-GDP ratio compares a country's public debt to its GDP.",
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    },
+  ];
+
   return (
     <div className="flex-col md:flex">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -208,395 +332,35 @@ const SarbOverview = () => {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Inflation Rate
-                  </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{inflationRate}%</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Consumer Price Index (CPI)
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Repo Rate
-                  </CardTitle>
-                  <Banknote className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{repoRate?.value}%</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      @ {repoRate.date}
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Set by the central bank, affects the overall cost of
-                        borrowing in the economy.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Prime Rate
-                  </CardTitle>
-                  <Gem className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{primeRate?.value}%</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      @ {primeRate?.date}
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Rate that commercial banks charge their most
-                        creditworthy customers.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Real GDP Growth
-                  </CardTitle>
-                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {realGdpGrowth?.value}%
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      @ {realGdpGrowth?.date}
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Economic growth, adjusted for inflation, reflecting the
-                        increase in the value of goods and services produced.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Unemployment Rate
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {unemployRate?.currentValue}%
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Of labor force for {unemployRate?.period}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Population
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {(population?.currentValue / 1000).toFixed(0)}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Population for {population?.period}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    USD/ZAR Exchange Rate
-                  </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {parseFloat(usZarRate?.value).toFixed(2)}
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      FX Rate @ {usZarRate?.lastPeriod}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Stock Market Index
-                  </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{allShareIndex}</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Major stock exchange
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Trade Balance
-                  </CardTitle>
-                  <Banknote className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(tradeBalance).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Exports and imports of goods and services. Forms part of
-                      the current account.
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        (Exports - Imports): Value of goods and services sold to
-                        (exports) and bought from (imports) other countries.
-                        Forms part of the current account.
-                        <br />
-                        <br />
-                        Trade Surplus: Exports &gt Imports.
-                        <br />
-                        Trade Deficit: Imports &lt Exports.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Budget Balance % of GDP
-                  </CardTitle>
-                  <Gem className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{budgetBalance}%</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      (Government revenue - expenses) / GDP.
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Positive = budget surplus (government saves).
-                        <br />
-                        Negative = budget deficit (government borrows).
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Current Account
-                  </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-row justify-between">
-                    <div className="text-2xl font-bold">
-                      R{parseFloat(currentAccount).toLocaleString()}m
+              {" "}
+              {cardData.map((data) => (
+                <Card key={data.title}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      {data.title}
+                    </CardTitle>
+                    {data.icon}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{data.value}</div>
+                    <div className="flex flex-row justify-between">
+                      <p className="text-xs text-muted-foreground">
+                        {data.description}
+                      </p>
+                      {data.info && (
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                          </HoverCardTrigger>
+                          <HoverCardContent className="text-xs">
+                            {data.info}
+                          </HoverCardContent>
+                        </HoverCard>
+                      )}
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {parseFloat(currentAccountPercentGdp).toFixed(1)}% of GDP
-                    </div>
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Trade balance + income from abroad + transfers
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Capital Account
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(capitalAccount).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Tracks one-time transfers of capital assets.
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Debt forgiveness, land purchases.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Financial Account
-                  </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(financialAccount).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Tracks investments and financial flows.
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Foreign direct investment, stock/bond purchases, and
-                        reserve assets.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Balance of Payments{" "}
-                  </CardTitle>
-                  <TrendingUpDown className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    R{parseFloat(balanceOfPayments).toLocaleString()}m
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Current account + capital account + financial account.
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        Tracks all economic transactions between South Africa
-                        and the world.
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Government interest costs % of GDP
-                  </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">%</div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">blank </p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Debt-to-GDP ratio
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {parseFloat(debtPercentGdp).toFixed(2)}%
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Based on government debt of R
-                      {parseFloat(totalDebt.currentValue).toLocaleString()}m at{" "}
-                      {totalDebt.period}
-                    </p>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        {" "}
-                        <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                      </HoverCardTrigger>
-                      <HoverCardContent className="text-xs">
-                        The debt-to-GDP ratio is a metric that compares a
-                        country&apos;s public debt to its gross domestic product
-                        (GDP).
-                      </HoverCardContent>
-                    </HoverCard>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </TabsContent>
         </Tabs>
