@@ -18,7 +18,7 @@ SarbExtFin.propTypes = {
 
 export default function SarbExtFin({ response }) {
   const exFinance = {
-    labels: ["Current account", "Capital account", "Financial account"],
+    labels: ["Current", "Capital", "Financial"],
     datasets: [
       {
         label: "Latest Data (R Million)",
@@ -58,7 +58,7 @@ export default function SarbExtFin({ response }) {
 
   return (
     <div className="p-4 border rounded shadow">
-      <h2 className="text-lg font-bold mb-4">External Financial Data</h2>
+      <h2 className="text-lg font-bold mb-4">Balance of Payments</h2>
       <Bar
         data={exFinance}
         options={{

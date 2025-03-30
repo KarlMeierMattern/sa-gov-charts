@@ -20,8 +20,8 @@ export default function SarbCashFin({ response }) {
   // Data for Chart 5: Cash-Flow and Financing
   const cashFinance = {
     labels: [
-      "Government guaranteed debt",
-      "Credit to government",
+      "Gov. guaranteed debt",
+      "Credit to gov.",
       "Credit to private sector",
     ],
     datasets: [
