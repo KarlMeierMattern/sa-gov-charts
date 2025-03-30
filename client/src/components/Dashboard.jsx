@@ -78,9 +78,11 @@ export default function Dashboard() {
           responseJse={data.responseJse}
         />
         <SarbRepo response={data.responseFx} />
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
-          <div className="grid gap-4">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">
+          <div>
             <SarbGdp response={data.responseAll} />
+            <div className="mb-4"></div>{" "}
+            {/* Added gap between SarbGdp and GdpData */}
             <GdpData response={data.responseAll} />
           </div>
           <EconomicSectors response={data.responseAll} />
