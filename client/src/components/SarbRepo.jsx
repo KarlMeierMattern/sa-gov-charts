@@ -143,7 +143,7 @@ export default function SarbRepo({ response }) {
   const chartData = [interestRates, treasuryRates, currencyRates, bondYields];
 
   return (
-    <div className="grid md:grid-cols-1 lg:grid-cols-4 gap-4 p-8">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-8">
       {chartData.map((data, index) => (
         <div key={index} className="p-4 border rounded shadow">
           <h2 className="text-lg font-bold mb-4">{data.title}</h2>

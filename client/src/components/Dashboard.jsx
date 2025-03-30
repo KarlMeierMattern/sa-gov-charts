@@ -78,16 +78,16 @@ export default function Dashboard() {
           responseJse={data.responseJse}
         />
         <SarbRepo response={data.responseFx} />
-        <div className="grid grid-cols-3 gap-4 p-8">
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4 p-8">
           <SarbGdp response={data.responseAll} />
           <EconomicSectors response={data.responseAll} />
           <GdpData response={data.responseAll} />
         </div>
-        <div className="grid grid-cols-2 gap-4 p-8">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
           <SarbResCur response={data.responseAll} />
           <SarbProdEmploy response={data.responseAll} />
         </div>
-        <div className="grid grid-cols-2 gap-4 p-8">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
           <SarbCashFin response={data.responseAll} />
           <SarbExtFin response={data.responseAll} />
         </div>

@@ -139,7 +139,7 @@ export default function SarbOverview({
     },
     {
       title: "USD/ZAR Exchange Rate",
-      value: `${parseFloat(usZarRate?.value).toFixed(2)}`,
+      value: `${parseFloat(usZarRate?.value).toFixed(1)}`,
       description: `FX Rate @ ${usZarRate?.lastPeriod}`,
       icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
     },
@@ -172,12 +172,22 @@ export default function SarbOverview({
       icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      title: "Trade Balance",
-      value: `R${parseFloat(tradeBalance).toLocaleString()}m`,
-      description:
-        "Exports and imports of goods and services. Trade surplus (positive) or deficit (negative).",
-      info: "The net value of goods and services sold to and bought from other countries. Forms part of the current account.",
-      icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
+      title: "Government interest costs % of GDP",
+      value: `${interestPercentGdp}%`,
+      description: `Based on GDP of R${parseFloat(
+        gdp
+      ).toLocaleString()}m at ${gdpDate}`,
+      info: null,
+      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Debt-to-GDP ratio",
+      value: `${parseFloat(debtPercentGdp).toFixed(1)}%`,
+      description: `Based on government debt of R${parseFloat(
+        totalDebt.currentValue
+      ).toLocaleString()}m at ${totalDebt.period}`,
+      info: "The debt-to-GDP ratio compares a country's public debt to its GDP.",
+      icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Budget Balance % of GDP",
@@ -185,6 +195,14 @@ export default function SarbOverview({
       description: "(Government revenue - expenses) / GDP.",
       info: "Positive = budget surplus (government saves).\nNegative = budget deficit (government borrows).",
       icon: <Gem className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Trade Balance",
+      value: `R${parseFloat(tradeBalance).toLocaleString()}m`,
+      description:
+        "Exports and imports of goods and services. Trade surplus (positive) or deficit (negative).",
+      info: "The net value of goods and services sold to and bought from other countries. Forms part of the current account.",
+      icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Current Account",
@@ -213,24 +231,6 @@ export default function SarbOverview({
       description: "Current account + capital account + financial account.",
       info: "Tracks all economic transactions between South Africa and the world.",
       icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
-    },
-    {
-      title: "Government interest costs % of GDP",
-      value: `${interestPercentGdp}%`,
-      description: `Based on GDP of R${parseFloat(
-        gdp
-      ).toLocaleString()}m at ${gdpDate}`,
-      info: null,
-      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
-    },
-    {
-      title: "Debt-to-GDP ratio",
-      value: `${parseFloat(debtPercentGdp).toFixed(2)}%`,
-      description: `Based on government debt of R${parseFloat(
-        totalDebt.currentValue
-      ).toLocaleString()}m at ${totalDebt.period}`,
-      info: "The debt-to-GDP ratio compares a country's public debt to its GDP.",
-      icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
   ];
 
