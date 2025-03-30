@@ -165,9 +165,9 @@ export default function SarbOverview({
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      title: "Stock Market Index",
+      title: "All Share Index",
       value: `${allShareIndex}`,
-      description: `Major stock exchange`,
+      description: `JSE`,
       info: "",
       icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
     },
@@ -198,36 +198,45 @@ export default function SarbOverview({
     },
     {
       title: "Trade Balance",
-      value: `R${parseFloat(tradeBalance).toLocaleString()}m`,
-      description:
-        "Exports and imports of goods and services. Trade surplus (positive) or deficit (negative).",
-      info: "The net value of goods and services sold to and bought from other countries. Forms part of the current account.",
+      value: `R${(parseFloat(tradeBalance) / 1000)
+        .toFixed(1)
+        .toLocaleString()}b`,
+      description: "Exports and imports of goods and services.",
+      info: "The net value of goods and services sold to and bought from other countries. Trade surplus (positive) or deficit (negative). Forms part of the current account.",
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Current Account",
-      value: `R${parseFloat(currentAccount).toLocaleString()}m`,
+      value: `R${(parseFloat(currentAccount) / 1000)
+        .toFixed(1)
+        .toLocaleString()}b`,
       description: "Trade balance + income from abroad + transfers",
       info: "",
       icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Capital Account",
-      value: `R${parseFloat(capitalAccount).toLocaleString()}m`,
+      value: `R${(parseFloat(capitalAccount) / 1000)
+        .toFixed(1)
+        .toLocaleString()}b`,
       description: "Tracks one-time transfers of capital assets.",
       info: "Debt forgiveness, land purchases.",
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Financial Account",
-      value: `R${parseFloat(financialAccount).toLocaleString()}m`,
+      value: `R${(parseFloat(financialAccount) / 1000)
+        .toFixed(1)
+        .toLocaleString()}b`,
       description: "Tracks investments and financial flows.",
       info: "Foreign direct investment, stock/bond purchases, and reserve assets.",
       icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Balance of Payments",
-      value: `R${parseFloat(balanceOfPayments).toLocaleString()}m`,
+      value: `R${(parseFloat(balanceOfPayments) / 1000)
+        .toFixed(1)
+        .toLocaleString()}b`,
       description: "Current account + capital account + financial account.",
       info: "Tracks all economic transactions between South Africa and the world.",
       icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
