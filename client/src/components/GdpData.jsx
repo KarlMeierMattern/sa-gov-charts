@@ -29,9 +29,9 @@ GdpData.propTypes = {
 export default function GdpData({ response }) {
   const gdpData = {
     labels: [
-      "Total value added at basic prices*",
-      "GDP at market prices (current, sa)",
-      "GDP at market prices (constant, sa)",
+      "Total value added at basic prices",
+      "GDP at market prices",
+      "GDP at market prices",
     ],
     datasets: [
       {
@@ -77,7 +77,14 @@ export default function GdpData({ response }) {
         data={gdpData}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: {
+              display: true,
+              position: "right",
+            },
+          },
         }}
       />
     </div>

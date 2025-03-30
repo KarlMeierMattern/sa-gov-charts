@@ -70,7 +70,14 @@ export default function SarbExtFin({ response }) {
         data={exFinance}
         options={{
           responsive: true,
-          plugins: { tooltip: { enabled: true }, datalabels: false },
+          plugins: {
+            tooltip: { enabled: true },
+            datalabels: false,
+            legend: {
+              display: true,
+              position: "bottom",
+            },
+          },
         }}
       />
     </div>

@@ -240,7 +240,7 @@ export default function SarbOverview({
         <div className="flex items-center justify-between space-y-2"></div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
               {" "}
               {cardData.map((data) => (
                 <Card key={data.title}>
