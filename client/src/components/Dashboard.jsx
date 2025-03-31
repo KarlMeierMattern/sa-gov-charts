@@ -64,10 +64,27 @@ export default function Dashboard() {
 
   return (
     <Card>
-      <header className="bg-background border-b border-border p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-foreground">
-          South African Macro Dashboard
-        </h1>
+      <header className="flex bg-background border-b border-border p-4 justify-between items-center">
+        <div className="flex-row">
+          <h1 className="text-2xl font-bold text-foreground">
+            South African Macro Dashboard
+          </h1>
+          <p className="text-sm text-gray-500">
+            Visualising important indicators of the health of the SA economy
+          </p>
+          <p className="text-sm text-gray-500">
+            Data provided by{" "}
+            <a
+              href="https://www.resbank.co.za/en/home"
+              className=" underline text-red-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              SARB
+            </a>
+            , updated weekly
+          </p>
+        </div>
         <ModeToggle />
       </header>
       <CardContent className="p-6 bg-background">
@@ -96,6 +113,22 @@ export default function Dashboard() {
           <SarbExtFin response={data.responseAll} />
         </div>
       </CardContent>
+      <footer>
+        <div className="fixed bottom-0 left-0 w-full bg-black text-white p-4 text-center">
+          <p>
+            Built by{" "}
+            <a
+              className="underline text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.linkedin.com/in/karl-alexander-meier-mattern-ca-sa-16a3b919a/"
+            >
+              Karl-Alexander
+            </a>{" "}
+            with 💜
+          </p>
+        </div>
+      </footer>
     </Card>
   );
 }
