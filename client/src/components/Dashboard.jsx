@@ -13,7 +13,8 @@ import {
   GdpData,
 } from "./index.js";
 import { ModeToggle } from "./ModeToggle.tsx";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -58,7 +59,9 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="text-center mt-8">
-        <i className="fa-regular fa-heart fa-beat-fade"></i>
+        <p>
+          Loading... <FontAwesomeIcon icon={faHeart} beatFade />
+        </p>
       </div>
     );
   }
@@ -74,20 +77,8 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold text-foreground">
             South African Macro Dashboard
           </h1>
-          <p className="text-sm text-gray-500">
-            Visualising important indicators of the health of the SA economy
-          </p>
-          <p className="text-sm text-gray-500">
-            Data provided by{" "}
-            <a
-              href="https://www.resbank.co.za/en/home"
-              className=" underline text-red-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SARB
-            </a>
-            , updated weekly
+          <p className="text-sm text-gray-500 italic">
+            Tracking South Africa’s economic health
           </p>
         </div>
         <ModeToggle />
@@ -119,7 +110,7 @@ export default function Dashboard() {
         </div>
       </CardContent>
       <footer>
-        <div className="fixed bottom-0 left-0 w-full bg-black text-white p-4 text-center">
+        <div className="fixed bottom-0 left-0 text-sm w-full bg-black text-white p-4 text-center">
           <p>
             Built by{" "}
             <a
@@ -131,6 +122,18 @@ export default function Dashboard() {
               Karl-Alexander
             </a>{" "}
             with 💜
+          </p>
+          <p className="text-gray-500 italic pt-2">
+            Data provided by{" "}
+            <a
+              href="https://www.resbank.co.za/en/home"
+              className=" underline text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              SARB
+            </a>
+            , updated weekly
           </p>
         </div>
       </footer>
