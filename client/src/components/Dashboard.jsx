@@ -13,6 +13,7 @@ import {
   GdpData,
 } from "./index.js";
 import { ModeToggle } from "./ModeToggle.tsx";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -55,7 +56,11 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return <div className="text-center mt-8">Loading...</div>;
+    return (
+      <div className="text-center mt-8">
+        <i className="fa-regular fa-heart fa-beat-fade"></i>
+      </div>
+    );
   }
 
   if (error) {
