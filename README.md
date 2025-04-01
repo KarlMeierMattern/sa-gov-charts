@@ -1,33 +1,30 @@
 # SA Gov Charts
 
-A comprehensive web application for visualizing and analyzing South African government statistics and economic indicators.
+A web application for visualising and analysing South African government statistics and economic indicators.
 
 ## Overview
 
-SA Gov Charts is a modern web application that provides interactive visualizations of various South African statistics, including economic indicators, social metrics, and government data. The project aims to make complex government data more accessible and understandable to citizens, researchers, and policymakers.
+SA Gov Charts provides visualisations of various South African statistics, including economic indicators, social metrics, and government data. The project aims to make complex government data more accessible and understandable.
 
 ## Features
 
-- **Interactive Dashboards**: Dynamic visualizations of key statistics using Chart.js and Recharts
-- **Real-time Data**: Up-to-date information from various government sources
-- **Dark/Light Mode**: Fully responsive UI with theme support
+- **Interactive Dashboards**: Visualisations of key statistics using Chart.js.
+- **Real-time Data**: Up-to-date information from various SARB website routes.
+- **Dark/Light Mode**: Responsive UI with theme support
 - **Multiple Data Categories**:
   - Economic indicators (GDP, inflation, exchange rates)
   - JSE market data
   - Social statistics
   - Government fiscal data
-  - Environmental metrics
 
 ## Tech Stack
 
 ### Frontend
 
-- React 18
+- React 19
 - Vite
-- TypeScript
 - Tailwind CSS
-- Chart.js/Recharts
-- Radix UI Components
+- Chart.js
 - React Router DOM
 
 ### Backend
@@ -35,8 +32,8 @@ SA Gov Charts is a modern web application that provides interactive visualizatio
 - Node.js
 - Express
 - MongoDB
-- Puppeteer (for data scraping)
-- JWT Authentication
+- Puppeteer
+- Redis (Upstash)
 
 ## Prerequisites
 
@@ -103,28 +100,13 @@ Production build:
 npm run build
 ```
 
-## Project Structure
-
-sa-gov-charts/  
-├── client/ # Frontend React application  
-│ ├── src/  
-│ │ ├── components/ # React components  
-│ │ ├── pages/ # Page components  
-│ │ └── lib/ # Utility functions  
-├── server/ # Backend Node.js application  
-│ ├── controllers/ # Route controllers  
-│ ├── routes/ # API routes  
-│ ├── models/ # Database models  
-│ └── scraping/ # Data scraping utilities  
-└── package.json # Project dependencies
-
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the repo.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
 ## License
 
@@ -132,6 +114,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- Data sources: Statistics South Africa, South African Reserve Bank, JSE
-- Built with [shadcn/ui](https://ui.shadcn.com/) components
-- Deployed on Vercel
+- Data sources: [SARB](https://www.resbank.co.za/en/home) website.
+- Built with [shadcn/ui](https://ui.shadcn.com/) components.
