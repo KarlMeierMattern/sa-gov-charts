@@ -80,7 +80,7 @@ cd server && npm run dev
 
 Production build:
 
-```bash
+```zsh
 npm run build
 ```
 
