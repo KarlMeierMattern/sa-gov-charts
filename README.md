@@ -45,14 +45,14 @@ SA Gov Charts provides visualisations of various South African statistics, inclu
 
 1. Clone the repository:
 
-```bash
+```zsh
 git clone https://github.com/KarlMeierMattern/sa-gov-charts
 cd sa-gov-charts
 ```
 
 2. Install dependencies:
 
-```bash
+```zsh
 # Install root dependencies
 npm install
 
@@ -63,27 +63,11 @@ cd client && npm install
 cd server && npm install
 ```
 
-3. Environment Setup:
-
-   - Create `.env` files in both client and server directories
-   - Required environment variables:
-
-     ```
-     # Server .env
-     MONGO_URI=your_mongodb_uri
-     PORT=3000
-     NODE_ENV=development
-
-     # Client .env
-     VITE_DEV_BASE_URL=http://localhost:3000
-     VITE_PROD_BASE_URL=your_production_url
-     ```
-
 ## Running the Application
 
 Development mode:
 
-```bash
+```zsh
 # Run both frontend and backend
 npm run dev
 
