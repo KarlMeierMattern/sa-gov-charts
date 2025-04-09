@@ -19,12 +19,23 @@ import {
   SarbRepoModel,
 } from "../model/index.js";
 
+// Enhanced logging function
+function logUpdate(message, isError = false) {
+  const timestamp = new Date().toISOString();
+  const formattedMessage = `[${timestamp}] ${message}`;
+  if (isError) {
+    console.error("\x1b[31m%s\x1b[0m", formattedMessage); // Red color for errors
+  } else {
+    console.log("\x1b[36m%s\x1b[0m", formattedMessage); // Cyan color for normal logs
+  }
+}
+
 async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Connected to MongoDB");
+    logUpdate("Connected to MongoDB ✓");
   } catch (error) {
-    console.error("Failed to connect to MongoDB:", error);
+    logUpdate(`Failed to connect to MongoDB: ${error}`, true);
     process.exit(1);
   }
 }
@@ -34,51 +45,51 @@ async function main() {
 
   try {
     // Clear existing data
-    console.log("Clearing existing databases...");
+    logUpdate("Clearing existing databases...");
     await JseModel.deleteMany({});
     await SarbAllModel.deleteMany({});
     await SarbOtherModel.deleteMany({});
     await SarbRepoModel.deleteMany({});
-    console.log("Cleared existing databases...");
+    logUpdate("Cleared existing databases ✓");
 
     // Initiate scraping
-    console.log("Starting full data scrape...");
+    logUpdate("Starting full data scrape...");
 
     // Insert JSE data
     const dataJSE = await jseIndexScraper(process.env.JSE_URL);
     const resultJSE = await JseModel.insertMany(dataJSE);
-    console.log(`Successfully seeded JSE data: ${resultJSE.length} entries`);
+    logUpdate(`Successfully seeded JSE data: ${resultJSE.length} entries ✓`);
 
     // Insert All data
     const dataAll = await sarbAllScraper(process.env.SARB_ALL_URL);
     const resultAll = await SarbAllModel.insertMany(dataAll);
-    console.log(`Successfully seeded All data: ${resultAll.length} entries`);
+    logUpdate(`Successfully seeded All data: ${resultAll.length} entries ✓`);
 
     // Insert Other data
     const dataOther = await sarbOtherIndicatorsScraper(
       process.env.SARB_OTHER_URL
     );
     const resultOther = await SarbOtherModel.insertMany(dataOther);
-    console.log(
-      `Successfully seeded Other data: ${resultOther.length} entries`
+    logUpdate(
+      `Successfully seeded Other data: ${resultOther.length} entries ✓`
     );
 
     // Insert Repo data
     const dataRepo = await sarbRepoScraper(process.env.SARB_REPO_URL);
     const resultRepo = await SarbRepoModel.insertMany(dataRepo);
-    console.log(`Successfully seeded Repo data: ${resultRepo.length} entries`);
+    logUpdate(`Successfully seeded Repo data: ${resultRepo.length} entries ✓`);
   } catch (error) {
-    console.error("Error seeding database:", error);
+    logUpdate(`Error seeding database: ${error}`, true);
     process.exit(1);
   } finally {
     // Close the MongoDB connection
     await mongoose.connection.close();
-    console.log("Database connection closed");
+    logUpdate("Database connection closed ✓");
   }
 }
 
 // Run the seed function
 main().catch((e) => {
-  console.error(e);
+  logUpdate(e.message, true);
   process.exit(1);
 });
