@@ -22,9 +22,10 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
 
   const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
+    import.meta.env.VITE_ENV === "production" ||
+    import.meta.env.VITE_PREVIEW === "true"
+      ? import.meta.env.VITE_PROD_BASE_URL
+      : import.meta.env.VITE_DEV_BASE_URL;
 
   axios.defaults.baseURL = baseUrl;
 
