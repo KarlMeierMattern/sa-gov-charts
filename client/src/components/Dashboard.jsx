@@ -75,7 +75,7 @@ export default function Dashboard() {
       <header className="flex bg-background border-b border-border p-4 justify-between items-center">
         <div className="flex-row">
           <h1 className="text-2xl font-bold text-foreground">
-            South Africa Macro Dashboard
+            South African Macro Dashboard
           </h1>
           <p className="text-sm text-gray-500 italic">
             Tracking South Africa’s economic health
