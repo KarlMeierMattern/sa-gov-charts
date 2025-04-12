@@ -16,12 +16,7 @@ app.use(express.json());
 // CORS setup
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? [
-        process.env.ORIGIN_1,
-        process.env.ORIGIN_2,
-        process.env.ORIGIN_3,
-        process.env.ORIGIN_4,
-      ]
+    ? [process.env.ORIGIN_1, process.env.ORIGIN_2, process.env.ORIGIN_3]
     : ["http://localhost:5173"];
 
 console.log("NODE_ENV:", process.env.NODE_ENV);
