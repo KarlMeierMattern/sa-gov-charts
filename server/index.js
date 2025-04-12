@@ -16,7 +16,12 @@ app.use(express.json());
 // CORS setup
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? [process.env.ORIGIN_1, process.env.ORIGIN_2, process.env.ORIGIN_3]
+    ? [
+        process.env.ORIGIN_1,
+        process.env.ORIGIN_2,
+        process.env.ORIGIN_3,
+        process.env.ORIGIN_4,
+      ]
     : ["http://localhost:5173"];
 
 console.log("NODE_ENV:", process.env.NODE_ENV);
@@ -26,7 +31,15 @@ app.use(
   cors({
     origin: (origin, callback) => {
       console.log("Incoming request from origin:", origin);
+      console.log("Environment variables:", {
+        ORIGIN_1: process.env.ORIGIN_1,
+        ORIGIN_2: process.env.ORIGIN_2,
+        ORIGIN_3: process.env.ORIGIN_3,
+        ORIGIN_4: process.env.ORIGIN_4,
+      });
+
       if (!origin || allowedOrigins.includes(origin)) {
+        console.log("Origin accepted:", origin);
         callback(null, true);
       } else {
         console.log("Origin rejected:", origin);
