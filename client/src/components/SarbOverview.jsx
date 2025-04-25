@@ -32,12 +32,18 @@ export default function SarbOverview({
 }) {
   const inflationRate = response.find((item) => item.name === "CPI");
 
-  const repoRate = response.find(
-    (item) => item.name === "Dates of change in the repurchase rate"
-  );
+  // const repoRate = response.find(
+  //   (item) => item.name === "Dates of change in the repurchase rate"
+  // );
 
-  const primeRate = response.find(
-    (item) => item.name === "Dates of change in the prime lending rate"
+  const repoRate = responseFx.find((item) => item.name === "Repo rate");
+
+  // const primeRate = response.find(
+  //   (item) => item.name === "Dates of change in the prime lending rate"
+  // );
+
+  const primeRate = responseFx.find(
+    (item) => item.name === "Prime lending rate"
   );
 
   const realGdpGrowth = response.find(
@@ -125,15 +131,15 @@ export default function SarbOverview({
     },
     {
       title: "Repo Rate",
-      value: `${repoRate?.value}%`,
-      description: `@ ${repoRate?.date}`,
+      value: `${parseFloat(repoRate?.value).toFixed(1)}%`,
+      description: `@ ${repoRate?.lastPeriod}`,
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
       info: "Set by the central bank, affects the overall cost of borrowing in the economy.",
     },
     {
       title: "Prime Rate",
-      value: `${primeRate?.value}%`,
-      description: `@ ${primeRate?.date}`,
+      value: `${parseFloat(primeRate?.value).toFixed(1)}%`,
+      description: `@ ${primeRate?.lastPeriod}`,
       icon: <Gem className="h-4 w-4 text-muted-foreground" />,
       info: "Rate that commercial banks charge their most creditworthy customers.",
     },
