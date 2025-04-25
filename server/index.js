@@ -97,7 +97,10 @@ const start = async () => {
     await mongoose.connect(mongoUri);
     console.log("App connected to database ✅");
     app.listen(PORT, () => {
-      console.log(`Server running on port http://localhost:${PORT} 🚀`);
+      console.log(`Server running on port ${PORT} 🚀`);
+      if (process.env.NODE_ENV === "production") {
+        console.log("==> Your service is live in production 🎉");
+      }
     });
   } catch (error) {
     console.log(error);
