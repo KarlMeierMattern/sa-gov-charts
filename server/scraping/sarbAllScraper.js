@@ -4,10 +4,16 @@ import puppeteer from "puppeteer";
 
 const sarbAllScraper = async (url) => {
   try {
+    // const browser = await puppeteer.launch({
+    //   headless: "new",
+    //   ignoreHTTPSErrors: true,
+    //   args: ["--ignore-certificate-errors", "--no-sandbox"],
+    // });
+
     const browser = await puppeteer.launch({
-      headless: "new",
-      ignoreHTTPSErrors: true,
-      args: ["--ignore-certificate-errors", "--no-sandbox"],
+      executablePath: "./puppeteer-cache/chrome/linux-*/chrome",
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
 
