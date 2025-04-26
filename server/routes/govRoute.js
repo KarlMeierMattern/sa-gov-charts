@@ -1,18 +1,21 @@
 import express from "express";
+import { cacheMiddleware } from "../middleware/cacheMiddleware.js";
 
 import {
   getSarbRepoData,
   getSarbAllData,
   getSarbOtherIndicatorsController,
   getJseIndex,
+  getTest,
 } from "../controllers/index.js";
 
 const router = express.Router();
 
-router.get("/sarb-repo", getSarbRepoData);
-router.get("/sarb-all", getSarbAllData);
-router.get("/sarb-other", getSarbOtherIndicatorsController);
-router.get("/jse", getJseIndex);
+router.get("/sarb-repo", cacheMiddleware, getSarbRepoData);
+router.get("/sarb-all", cacheMiddleware, getSarbAllData);
+router.get("/sarb-other", cacheMiddleware, getSarbOtherIndicatorsController);
+router.get("/jse", cacheMiddleware, getJseIndex);
+router.get("/test", getTest);
 
 export default router;
 

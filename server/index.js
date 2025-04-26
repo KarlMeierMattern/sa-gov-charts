@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
-import { createClient } from "redis";
 import govRoute from "./routes/govRoute.js";
 import { errorHandlerMiddleware } from "./middleware/error-handler.js";
+import redisClient from "./redisClient.js";
 
 dotenv.config();
 
@@ -38,42 +38,11 @@ app.use(
   })
 );
 
-// Redis setup
-const redisClient = createClient({
-  url: process.env.REDIS_URL,
-  socket: {
-    tls: true, // Enables TLS for secure connection
-  },
-});
-
-redisClient.on("error", (err) => console.error("Redis Error:", err));
-
+// Connect to Redis
 (async () => {
   await redisClient.connect();
   console.log("Connected to Upstash Redis ✅");
 })();
-
-// Middleware to cache responses
-const cacheMiddleware = async (req, res, next) => {
-  const key = req.originalUrl;
-  try {
-    const cachedData = await redisClient.get(key);
-    if (cachedData) {
-      console.log(`Cache hit for ${key}`);
-      return res.json(JSON.parse(cachedData));
-    }
-    console.log(`Cache miss for ${key}`);
-    res.sendResponse = res.json;
-    res.json = (body) => {
-      redisClient.setEx(key, 3600, JSON.stringify(body)); // Cache for 1 hour
-      res.sendResponse(body);
-    };
-    next();
-  } catch (error) {
-    console.error("Redis cache error:", error);
-    next();
-  }
-};
 
 // Add a response for the base route "/"
 app.get("/", (req, res) => {
@@ -81,7 +50,7 @@ app.get("/", (req, res) => {
 });
 
 // Apply cache middleware to all API routes
-app.use("/", cacheMiddleware, govRoute);
+app.use("/", govRoute);
 
 // Error handler middleware (must be last)
 app.use(errorHandlerMiddleware);
