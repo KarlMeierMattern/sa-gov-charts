@@ -11,7 +11,8 @@ const sarbAllScraper = async (url) => {
     // });
 
     const browser = await puppeteer.launch({
-      headless: true,
+      executablePath: "/usr/bin/google-chrome-stable",
+      headless: "new", // Avoid the deprecation warning
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
