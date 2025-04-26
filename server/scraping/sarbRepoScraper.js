@@ -7,7 +7,6 @@ const sarbRepoScraper = async (url) => {
     // const browser = await puppeteer.launch({ headless: true }); // browser operates without a GUI = faster and consumes less memory
 
     const browser = await puppeteer.launch({
-      executablePath: "./puppeteer-cache/chrome/linux-*/chrome",
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });

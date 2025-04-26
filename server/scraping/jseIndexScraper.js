@@ -5,11 +5,12 @@ import puppeteer from "puppeteer";
 const jseIndexScraper = async (url) => {
   try {
     // const browser = await puppeteer.launch({ headless: "new" });
+
     const browser = await puppeteer.launch({
-      executablePath: "./puppeteer-cache/chrome/linux-*/chrome",
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+
     const page = await browser.newPage();
 
     // Navigate to the JSE website

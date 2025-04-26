@@ -7,7 +7,6 @@ const sarbOtherIndicatorsScraper = async (url) => {
     // const browser = await puppeteer.launch({ headless: "new" });
 
     const browser = await puppeteer.launch({
-      executablePath: "./puppeteer-cache/chrome/linux-*/chrome",
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
