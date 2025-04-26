@@ -4,13 +4,7 @@ import puppeteer from "puppeteer";
 
 const sarbRepoScraper = async (url) => {
   try {
-    // const browser = await puppeteer.launch({ headless: true }); // browser operates without a GUI = faster and consumes less memory
-
-    const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/google-chrome-stable",
-      headless: "new", // Avoid the deprecation warning
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    const browser = await puppeteer.launch({ headless: "new" }); // browser operates without a GUI = faster and consumes less memory
 
     const page = await browser.newPage();
 

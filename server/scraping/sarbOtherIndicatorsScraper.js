@@ -4,22 +4,20 @@ import puppeteer from "puppeteer";
 
 const sarbOtherIndicatorsScraper = async (url) => {
   try {
-    // const browser = await puppeteer.launch({ headless: "new" });
-
-    const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/google-chrome-stable",
-      headless: "new", // Avoid the deprecation warning
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    const browser = await puppeteer.launch({ headless: "new" });
 
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 120000,
+    });
+
+    // Add a small delay to allow dynamic content to load
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Wait for table element with longer timeout
-    await page.waitForSelector("table", { timeout: 60000 });
-
-    await page.goto(url, { waitUntil: "networkidle0" });
+    await page.waitForSelector("table", { timeout: 120000 });
 
     const data = await page.evaluate(() => {
       const results = [];

@@ -1,27 +1,25 @@
 // https://resbank.co.za/en/home/what-we-do/statistics/releases/national-summary-data-page
 
 import puppeteer from "puppeteer";
+// import pptr from "puppeteer-core";
 
 const sarbAllScraper = async (url) => {
   try {
-    // const browser = await puppeteer.launch({
-    //   headless: "new",
-    //   ignoreHTTPSErrors: true,
-    //   args: ["--ignore-certificate-errors", "--no-sandbox"],
-    // });
-
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/google-chrome-stable",
-      headless: "new", // Avoid the deprecation warning
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: "new",
+      ignoreHTTPSErrors: true,
+      args: ["--ignore-certificate-errors", "--no-sandbox"],
     });
 
     const page = await browser.newPage();
 
     await page.goto(url, {
-      waitUntil: "networkidle0",
-      timeout: 60000,
+      waitUntil: "domcontentloaded",
+      timeout: 120000,
     });
+
+    // Add a small delay to allow dynamic content to load
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     await page.waitForSelector(".table");
 
