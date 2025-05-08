@@ -13,7 +13,7 @@ export const cacheMiddleware = async (req, res, next) => {
     console.log(`Cache miss for ${key}`);
     res.sendResponse = res.json;
     res.json = (body) => {
-      redisClient.setEx(key, 3600, JSON.stringify(body)); // Cache for 1 hour
+      redisClient.setEx(key, 604800, JSON.stringify(body)); // Cache for 1 week
       res.sendResponse(body);
     };
     next();
