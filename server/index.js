@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the API!" });
 });
 
-// Apply cache middleware to all API routes
+// Apply routes
 app.use("/", govRoute);
 
 // Error handler middleware (must be last)
