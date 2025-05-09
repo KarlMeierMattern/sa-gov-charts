@@ -13,8 +13,7 @@ import {
   GdpData,
 } from "./index.js";
 import { ModeToggle } from "./ModeToggle.tsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import CardSkeleton from "./ui/CardSkeleton";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -32,13 +31,19 @@ export default function Dashboard() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [otherResponse, allResponse, fxResponse, jseResponse] =
-          await Promise.all([
+        const [dataPromise] = await Promise.all([
+          Promise.all([
             axios.get("/sarb-other"),
             axios.get("/sarb-all"),
             axios.get("/sarb-repo"),
             axios.get("/jse"),
-          ]);
+          ]),
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+        ]);
+
+        const [otherResponse, allResponse, fxResponse, jseResponse] =
+          dataPromise;
+
         setData({
           response: otherResponse.data,
           responseAll: allResponse.data,
@@ -57,13 +62,7 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="text-center mt-8">
-        <p>
-          Loading... <FontAwesomeIcon icon={faHeart} beatFade />
-        </p>
-      </div>
-    );
+    return <CardSkeleton />;
   }
 
   if (error) {
@@ -78,7 +77,7 @@ export default function Dashboard() {
             South Africa Macro Dashboard
           </h1>
           <p className="text-sm text-gray-500 italic">
-            Tracking South Africa’s economic health
+            Tracking South Africa&apos;s economic health
           </p>
         </div>
         <ModeToggle />
