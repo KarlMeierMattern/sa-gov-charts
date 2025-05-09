@@ -38,6 +38,7 @@ export default function Dashboard() {
             axios.get("/sarb-repo"),
             axios.get("/jse"),
           ]),
+          // new Promise((resolve) => setTimeout(resolve, 10000)),
         ]);
 
         const [otherResponse, allResponse, fxResponse, jseResponse] =

@@ -62,7 +62,7 @@ const CardSkeleton = () => {
           </div>
           <div className="p-4 border rounded shadow">
             <div className="h-6 w-40 bg-muted animate-pulse rounded mb-4" />
-            <div className="h-48 bg-muted animate-pulse rounded" />
+            <div className="h-96 bg-muted animate-pulse rounded" />
           </div>
         </div>
 
