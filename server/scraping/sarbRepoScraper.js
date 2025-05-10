@@ -9,10 +9,12 @@ const sarbRepoScraper = async (url) => {
     const page = await browser.newPage();
 
     // Navigate to the URL
-    await page.goto(url);
-
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 60000,
+    });
     // Wait for the table to load
-    await page.waitForSelector(".table");
+    await page.waitForSelector(".table", { timeout: 60000 });
 
     // Extract dates and values
     const data = await page.evaluate(() => {

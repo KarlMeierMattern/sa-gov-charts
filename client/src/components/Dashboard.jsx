@@ -37,18 +37,31 @@ export default function Dashboard() {
             axios.get("/sarb-all"),
             axios.get("/sarb-repo"),
             axios.get("/jse"),
+            axios.get("/sarb-repo-timeline"),
+            axios.get("/sarb-fx-timeline"),
+            axios.get("/sarb-real-gdp-timeline"),
           ]),
           // new Promise((resolve) => setTimeout(resolve, 10000)),
         ]);
 
-        const [otherResponse, allResponse, fxResponse, jseResponse] =
-          dataPromise;
+        const [
+          otherResponse,
+          allResponse,
+          fxResponse,
+          jseResponse,
+          repoTimelineResponse,
+          fxTimelineResponse,
+          realGdpTimelineResponse,
+        ] = dataPromise;
 
         setData({
           response: otherResponse.data,
           responseAll: allResponse.data,
           responseFx: fxResponse.data,
           responseJse: jseResponse.data,
+          responseRepoTimeline: repoTimelineResponse.data,
+          responseFxTimeline: fxTimelineResponse.data,
+          responseRealGdpTimeline: realGdpTimelineResponse.data,
         });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -88,6 +101,9 @@ export default function Dashboard() {
           responseAll={data.responseAll}
           responseFx={data.responseFx}
           responseJse={data.responseJse}
+          responseRepoTimeline={data.responseRepoTimeline}
+          responseFxTimeline={data.responseFxTimeline}
+          responseRealGdpTimeline={data.responseRealGdpTimeline}
         />
         <SarbRepo response={data.responseFx} />
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">

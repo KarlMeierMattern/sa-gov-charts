@@ -16,12 +16,16 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import PropTypes from "prop-types";
+import SparklineChart from "./SparklineChart.jsx";
 
 SarbOverview.propTypes = {
   response: PropTypes.array.isRequired,
   responseAll: PropTypes.array.isRequired,
   responseFx: PropTypes.array.isRequired,
   responseJse: PropTypes.array.isRequired,
+  responseRepoTimeline: PropTypes.array.isRequired,
+  responseFxTimeline: PropTypes.array.isRequired,
+  responseRealGdpTimeline: PropTypes.array.isRequired,
 };
 
 export default function SarbOverview({
@@ -29,18 +33,13 @@ export default function SarbOverview({
   responseAll,
   responseFx,
   responseJse,
+  responseRepoTimeline,
+  responseFxTimeline,
+  responseRealGdpTimeline,
 }) {
   const inflationRate = response.find((item) => item.name === "CPI");
 
-  // const repoRate = response.find(
-  //   (item) => item.name === "Dates of change in the repurchase rate"
-  // );
-
   const repoRate = responseFx.find((item) => item.name === "Repo rate");
-
-  // const primeRate = response.find(
-  //   (item) => item.name === "Dates of change in the prime lending rate"
-  // );
 
   const primeRate = responseFx.find(
     (item) => item.name === "Prime lending rate"
@@ -135,6 +134,7 @@ export default function SarbOverview({
       description: `@ ${repoRate?.lastPeriod}`,
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
       info: "Set by the central bank, affects the overall cost of borrowing in the economy.",
+      chart: <SparklineChart data={responseRepoTimeline} />,
     },
     {
       title: "Prime Rate",
@@ -148,6 +148,7 @@ export default function SarbOverview({
       value: `${parseFloat(usZarRate?.value).toFixed(1)}`,
       description: `FX Rate @ ${usZarRate?.lastPeriod}`,
       icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={responseFxTimeline} />,
     },
     {
       title: "Real GDP Growth",
@@ -155,6 +156,7 @@ export default function SarbOverview({
       description: `@ ${realGdpGrowth?.date}`,
       info: "Economic growth, adjusted for inflation, reflecting the increase in the value of goods and services produced.",
       icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={responseRealGdpTimeline} />,
     },
     {
       title: "Unemployment Rate",
@@ -263,6 +265,7 @@ export default function SarbOverview({
                     <CardTitle className="text-sm font-medium">
                       {data.title}
                     </CardTitle>
+                    {data.chart && data.chart}
                     {data.icon}
                   </CardHeader>
                   <CardContent>

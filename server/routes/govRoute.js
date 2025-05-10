@@ -7,6 +7,9 @@ import {
   getSarbOtherIndicatorsController,
   getJseIndex,
   getTest,
+  getSarbRepoTimelineData,
+  getSarbFxTimelineData,
+  getSarbRealGdpTimelineData,
 } from "../controllers/index.js";
 
 const router = express.Router();
@@ -15,8 +18,14 @@ router.get("/sarb-repo", cacheMiddleware, getSarbRepoData);
 router.get("/sarb-all", cacheMiddleware, getSarbAllData);
 router.get("/sarb-other", cacheMiddleware, getSarbOtherIndicatorsController);
 router.get("/jse", cacheMiddleware, getJseIndex);
+router.get("/sarb-repo-timeline", cacheMiddleware, getSarbRepoTimelineData);
+router.get("/sarb-fx-timeline", cacheMiddleware, getSarbFxTimelineData);
+router.get(
+  "/sarb-real-gdp-timeline",
+  cacheMiddleware,
+  getSarbRealGdpTimelineData
+);
 router.get("/test", getTest);
-
 export default router;
 
 // Express.js provides the server framework to handle HTTP requests and responses.

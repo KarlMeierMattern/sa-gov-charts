@@ -7,6 +7,7 @@ import SarbCashFin from "./SarbCashFin.jsx";
 import SarbResCur from "./SarbResCur.jsx";
 import SarbExtFin from "./SarbExtFin.jsx";
 import GdpData from "./GdpData.jsx";
+import RepoSparklineChart from "./SparklineChart.jsx";
 
 export {
   SarbOverview,
@@ -18,4 +19,5 @@ export {
   SarbResCur,
   SarbExtFin,
   GdpData,
+  RepoSparklineChart,
 };

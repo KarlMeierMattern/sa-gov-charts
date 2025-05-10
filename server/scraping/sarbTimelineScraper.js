@@ -2,7 +2,7 @@
 
 import puppeteer from "puppeteer";
 
-const sarbRepoScraper = async (url) => {
+const sarbTimelineScraper = async ({ url, text }) => {
   try {
     const browser = await puppeteer.launch({ headless: "new" });
 
@@ -18,29 +18,49 @@ const sarbRepoScraper = async (url) => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Wait for the table to load
-    await page.waitForSelector(".table tr .mcode a", { timeout: 60000 });
+    await page.waitForSelector(".table tbody tr td.mcode a", {
+      timeout: 60000,
+    });
 
     // Find the "Repo rate" link and click it
-    const links = await page.$$(".table tr .mcode a");
+    const links = await page.$$(".table tbody tr td.mcode a");
     for (const link of links) {
-      const text = await page.evaluate((el) => el.textContent.trim(), link);
-      if (text === "Repo rate") {
+      const linkText = await page.evaluate((el) => el.textContent.trim(), link);
+      if (linkText === text) {
+        console.log(`Found link with text: ${linkText}`);
         await link.click();
+        console.log("Clicked link");
         break;
       }
     }
 
-    // Wait for the new table to appear (not navigation)
-    await page.waitForSelector(".table.repotable td.date", { timeout: 30000 });
+    // Wait for the new table to appear
+    await page.waitForSelector(".table.repotable tbody tr td", {
+      timeout: 30000,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // const tableHtml = await page.evaluate(() => {
+    //   const table = document.querySelector(".table.repotable");
+    //   return table ? table.outerHTML : "Table not found";
+    // });
+    // console.log(tableHtml);
 
     // Now scrape the data
     const data = await page.evaluate(() => {
       const results = [];
+      console.log("Scraping data");
       const rows = document.querySelectorAll(".table.repotable tbody tr");
       for (const row of rows) {
         const dateCell = row.querySelector("td.date");
         const valCell = row.querySelector("td.val");
-        if (dateCell && valCell) {
+        if (
+          dateCell &&
+          valCell &&
+          dateCell.textContent.trim() &&
+          valCell.textContent.trim()
+        ) {
           results.push({
             date: dateCell.textContent.trim(),
             value: valCell.textContent.trim(),
@@ -59,4 +79,4 @@ const sarbRepoScraper = async (url) => {
   }
 };
 
-export default sarbRepoScraper;
+export default sarbTimelineScraper;

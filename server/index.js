@@ -44,11 +44,6 @@ app.use(
   console.log("Connected to Upstash Redis ✅");
 })();
 
-// Add a response for the base route "/"
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the API!" });
-});
-
 // Apply routes
 app.use("/", govRoute);
 
