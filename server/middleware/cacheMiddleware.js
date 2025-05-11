@@ -2,6 +2,8 @@
 
 import redisClient from "../redisClient.js";
 
+const CACHE_TIME = 604800;
+
 export const cacheMiddleware = async (req, res, next) => {
   const key = req.originalUrl;
   try {
@@ -13,7 +15,7 @@ export const cacheMiddleware = async (req, res, next) => {
     console.log(`Cache miss for ${key}`);
     res.sendResponse = res.json;
     res.json = (body) => {
-      redisClient.setEx(key, 604800, JSON.stringify(body)); // Cache for 1 week
+      redisClient.setEx(key, CACHE_TIME, JSON.stringify(body));
       res.sendResponse(body);
     };
     next();

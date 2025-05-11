@@ -5,6 +5,9 @@ const baseUrl =
     ? import.meta.env.VITE_DEV_BASE_URL
     : import.meta.env.VITE_PROD_BASE_URL;
 
+const staleTime = 604800;
+const cacheTime = 604800;
+
 export function useSarbData() {
   const sarbOther = useQuery({
     queryKey: ["sarb-other"],
@@ -19,6 +22,8 @@ export function useSarbData() {
         throw new Error(`Failed to fetch SARB other data: ${error.message}`);
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbAll = useQuery({
@@ -34,6 +39,8 @@ export function useSarbData() {
         throw new Error(`Failed to fetch SARB all data: ${error.message}`);
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbRepo = useQuery({
@@ -49,6 +56,8 @@ export function useSarbData() {
         throw new Error(`Failed to fetch SARB repo data: ${error.message}`);
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbJse = useQuery({
@@ -64,6 +73,8 @@ export function useSarbData() {
         throw new Error(`Failed to fetch JSE data: ${error.message}`);
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbRepoTimeline = useQuery({
@@ -81,6 +92,8 @@ export function useSarbData() {
         );
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbFxTimeline = useQuery({
@@ -98,6 +111,8 @@ export function useSarbData() {
         );
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   const sarbRealGdpTimeline = useQuery({
@@ -115,6 +130,8 @@ export function useSarbData() {
         );
       }
     },
+    staleTime,
+    cacheTime,
   });
 
   return {
