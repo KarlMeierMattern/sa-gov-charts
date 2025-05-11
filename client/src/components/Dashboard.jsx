@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   SarbOverview,
@@ -14,72 +12,53 @@ import {
 } from "./index.js";
 import { ModeToggle } from "./ModeToggle.tsx";
 import CardSkeleton from "./ui/CardSkeleton";
+import { useSarbData } from "../../hooks/useSarbData.js";
+import Footer from "./Footer.jsx";
 
 export default function Dashboard() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    sarbOther,
+    sarbAll,
+    sarbRepo,
+    sarbJse,
+    sarbRepoTimeline,
+    sarbFxTimeline,
+    sarbRealGdpTimeline,
+  } = useSarbData();
 
-  const baseUrl =
-    import.meta.env.VITE_ENV === "development"
-      ? import.meta.env.VITE_DEV_BASE_URL
-      : import.meta.env.VITE_PROD_BASE_URL;
-
-  axios.defaults.baseURL = baseUrl;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [dataPromise] = await Promise.all([
-          Promise.all([
-            axios.get("/sarb-other"),
-            axios.get("/sarb-all"),
-            axios.get("/sarb-repo"),
-            axios.get("/jse"),
-            axios.get("/sarb-repo-timeline"),
-            axios.get("/sarb-fx-timeline"),
-            axios.get("/sarb-real-gdp-timeline"),
-          ]),
-          // new Promise((resolve) => setTimeout(resolve, 10000)),
-        ]);
-
-        const [
-          otherResponse,
-          allResponse,
-          fxResponse,
-          jseResponse,
-          repoTimelineResponse,
-          fxTimelineResponse,
-          realGdpTimelineResponse,
-        ] = dataPromise;
-
-        setData({
-          response: otherResponse.data,
-          responseAll: allResponse.data,
-          responseFx: fxResponse.data,
-          responseJse: jseResponse.data,
-          responseRepoTimeline: repoTimelineResponse.data,
-          responseFxTimeline: fxTimelineResponse.data,
-          responseRealGdpTimeline: realGdpTimelineResponse.data,
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError("Failed to fetch data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
+  if (
+    sarbOther.isLoading ||
+    sarbAll.isLoading ||
+    sarbRepo.isLoading ||
+    sarbJse.isLoading ||
+    sarbRepoTimeline.isLoading ||
+    sarbFxTimeline.isLoading ||
+    sarbRealGdpTimeline.isLoading
+  ) {
     return <CardSkeleton />;
   }
 
-  if (error) {
-    return <div className="text-center mt-8">Error: {error}</div>;
+  if (
+    sarbOther.error ||
+    sarbAll.error ||
+    sarbRepo.error ||
+    sarbJse.error ||
+    sarbRepoTimeline.error ||
+    sarbFxTimeline.error ||
+    sarbRealGdpTimeline.error
+  ) {
+    return (
+      <div className="text-center mt-8">
+        Error:{" "}
+        {sarbOther.error?.message ||
+          sarbAll.error?.message ||
+          sarbRepo.error?.message ||
+          sarbJse.error?.message ||
+          sarbRepoTimeline.error?.message ||
+          sarbFxTimeline.error?.message ||
+          sarbRealGdpTimeline.error?.message}
+      </div>
+    );
   }
 
   return (
@@ -97,61 +76,33 @@ export default function Dashboard() {
       </header>
       <CardContent className="p-6 bg-background">
         <SarbOverview
-          response={data.response}
-          responseAll={data.responseAll}
-          responseFx={data.responseFx}
-          responseJse={data.responseJse}
-          responseRepoTimeline={data.responseRepoTimeline}
-          responseFxTimeline={data.responseFxTimeline}
-          responseRealGdpTimeline={data.responseRealGdpTimeline}
+          response={sarbOther.data}
+          responseAll={sarbAll.data}
+          responseFx={sarbRepo.data}
+          responseJse={sarbJse.data}
+          responseRepoTimeline={sarbRepoTimeline.data}
+          responseFxTimeline={sarbFxTimeline.data}
+          responseRealGdpTimeline={sarbRealGdpTimeline.data}
         />
-        <SarbRepo response={data.responseFx} />
+        <SarbRepo response={sarbRepo.data} />
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">
           <div>
-            <SarbGdp response={data.responseAll} />
-            <div className="mb-4"></div>{" "}
-            {/* Added gap between SarbGdp and GdpData */}
-            <GdpData response={data.responseAll} />
+            <SarbGdp response={sarbAll.data} />
+            <div className="mb-4"></div>
+            <GdpData response={sarbAll.data} />
           </div>
-          <EconomicSectors response={data.responseAll} />
+          <EconomicSectors response={sarbAll.data} />
         </div>
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
-          <SarbResCur response={data.responseAll} />
-          <SarbProdEmploy response={data.responseAll} />
+          <SarbResCur response={sarbAll.data} />
+          <SarbProdEmploy response={sarbAll.data} />
         </div>
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
-          <SarbCashFin response={data.responseAll} />
-          <SarbExtFin response={data.responseAll} />
+          <SarbCashFin response={sarbAll.data} />
+          <SarbExtFin response={sarbAll.data} />
         </div>
       </CardContent>
-      <footer>
-        <div className="fixed bottom-0 left-0 text-sm w-full bg-black text-white p-4 text-center">
-          <p>
-            Built by{" "}
-            <a
-              className="underline text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.linkedin.com/in/karl-alexander-meier-mattern-ca-sa-16a3b919a/"
-            >
-              Karl-Alexander
-            </a>{" "}
-            with 💜
-          </p>
-          <p className="text-gray-500 italic pt-2">
-            Data provided by{" "}
-            <a
-              href="https://www.resbank.co.za/en/home"
-              className=" underline text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SARB
-            </a>
-            , updated weekly
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </Card>
   );
 }
