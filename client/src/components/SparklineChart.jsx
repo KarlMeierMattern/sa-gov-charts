@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export default function SparklineChart({ data }) {
   return (
-    <div className="w-20">
+    <div className="w-20 px-2">
       <Sparklines
         data={data.map((item) => item.value)}
         //   limit={10}
