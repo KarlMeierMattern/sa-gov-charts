@@ -8,6 +8,7 @@ import SarbResCur from "./SarbResCur.jsx";
 import SarbExtFin from "./SarbExtFin.jsx";
 import GdpData from "./GdpData.jsx";
 import RepoSparklineChart from "./SparklineChart.jsx";
+import TimelineChart from "./TimelineChart.jsx";
 
 export {
   SarbOverview,
@@ -20,4 +21,5 @@ export {
   SarbExtFin,
   GdpData,
   RepoSparklineChart,
+  TimelineChart,
 };

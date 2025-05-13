@@ -10,6 +10,9 @@ import {
   getSarbRepoTimelineData,
   getSarbFxTimelineData,
   getSarbRealGdpTimelineData,
+  getSarbPrimeTimelineData,
+  getSarbChangePrimeTimelineData,
+  getSarbChangeRepoTimelineData,
 } from "../controllers/index.js";
 
 const router = express.Router();
@@ -24,6 +27,17 @@ router.get(
   "/sarb-real-gdp-timeline",
   cacheMiddleware,
   getSarbRealGdpTimelineData
+);
+router.get("/sarb-prime-timeline", cacheMiddleware, getSarbPrimeTimelineData);
+router.get(
+  "/sarb-change-prime-timeline",
+  cacheMiddleware,
+  getSarbChangePrimeTimelineData
+);
+router.get(
+  "/sarb-change-repo-timeline",
+  cacheMiddleware,
+  getSarbChangeRepoTimelineData
 );
 router.get("/test", getTest);
 export default router;

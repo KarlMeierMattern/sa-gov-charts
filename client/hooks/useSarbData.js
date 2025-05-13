@@ -134,6 +134,63 @@ export function useSarbData() {
     cacheTime,
   });
 
+  const sarbPrimeTimeline = useQuery({
+    queryKey: ["sarb-prime-timeline"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`${baseUrl}/sarb-prime-timeline`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch SARB prime timeline data");
+        }
+        return res.json();
+      } catch (error) {
+        throw new Error(
+          `Failed to fetch SARB prime timeline data: ${error.message}`
+        );
+      }
+    },
+    staleTime,
+    cacheTime,
+  });
+
+  const sarbChangePrimeTimeline = useQuery({
+    queryKey: ["sarb-change-prime-timeline"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`${baseUrl}/sarb-change-prime-timeline`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch SARB change prime timeline data");
+        }
+        return res.json();
+      } catch (error) {
+        throw new Error(
+          `Failed to fetch SARB change prime timeline data: ${error.message}`
+        );
+      }
+    },
+    staleTime,
+    cacheTime,
+  });
+
+  const sarbChangeRepoTimeline = useQuery({
+    queryKey: ["sarb-change-repo-timeline"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`${baseUrl}/sarb-change-repo-timeline`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch SARB change repo timeline data");
+        }
+        return res.json();
+      } catch (error) {
+        throw new Error(
+          `Failed to fetch SARB change repo timeline data: ${error.message}`
+        );
+      }
+    },
+    staleTime,
+    cacheTime,
+  });
+
   return {
     sarbOther,
     sarbAll,
@@ -142,5 +199,8 @@ export function useSarbData() {
     sarbRepoTimeline,
     sarbFxTimeline,
     sarbRealGdpTimeline,
+    sarbPrimeTimeline,
+    sarbChangePrimeTimeline,
+    sarbChangeRepoTimeline,
   };
 }

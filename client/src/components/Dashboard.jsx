@@ -9,6 +9,7 @@ import {
   SarbResCur,
   SarbExtFin,
   GdpData,
+  TimelineChart,
 } from "./index.js";
 import { ModeToggle } from "./ModeToggle.tsx";
 import CardSkeleton from "./ui/CardSkeleton";
@@ -24,6 +25,9 @@ export default function Dashboard() {
     sarbRepoTimeline,
     sarbFxTimeline,
     sarbRealGdpTimeline,
+    sarbPrimeTimeline,
+    sarbChangePrimeTimeline,
+    sarbChangeRepoTimeline,
   } = useSarbData();
 
   if (
@@ -33,7 +37,10 @@ export default function Dashboard() {
     sarbJse.isLoading ||
     sarbRepoTimeline.isLoading ||
     sarbFxTimeline.isLoading ||
-    sarbRealGdpTimeline.isLoading
+    sarbRealGdpTimeline.isLoading ||
+    sarbPrimeTimeline.isLoading ||
+    sarbChangePrimeTimeline.isLoading ||
+    sarbChangeRepoTimeline.isLoading
   ) {
     return <CardSkeleton />;
   }
@@ -45,7 +52,10 @@ export default function Dashboard() {
     sarbJse.error ||
     sarbRepoTimeline.error ||
     sarbFxTimeline.error ||
-    sarbRealGdpTimeline.error
+    sarbRealGdpTimeline.error ||
+    sarbPrimeTimeline.error ||
+    sarbChangePrimeTimeline.error ||
+    sarbChangeRepoTimeline.error
   ) {
     return (
       <div className="text-center mt-8">
@@ -56,13 +66,16 @@ export default function Dashboard() {
           sarbJse.error?.message ||
           sarbRepoTimeline.error?.message ||
           sarbFxTimeline.error?.message ||
-          sarbRealGdpTimeline.error?.message}
+          sarbRealGdpTimeline.error?.message ||
+          sarbPrimeTimeline.error?.message ||
+          sarbChangePrimeTimeline.error?.message ||
+          sarbChangeRepoTimeline.error?.message}
       </div>
     );
   }
 
   return (
-    <Card>
+    <Card className="mb-20">
       <header className="flex bg-background border-b border-border p-4 justify-between items-center">
         <div className="flex-row">
           <h1 className="text-2xl font-bold text-foreground">
@@ -83,6 +96,7 @@ export default function Dashboard() {
           responseRepoTimeline={sarbRepoTimeline.data}
           responseFxTimeline={sarbFxTimeline.data}
           responseRealGdpTimeline={sarbRealGdpTimeline.data}
+          responsePrimeTimeline={sarbPrimeTimeline.data}
         />
         <SarbRepo response={sarbRepo.data} />
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">
@@ -100,6 +114,12 @@ export default function Dashboard() {
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
           <SarbCashFin response={sarbAll.data} />
           <SarbExtFin response={sarbAll.data} />
+        </div>
+        <div className="grid grid-cols-1 gap-4 p-8">
+          <TimelineChart
+            sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
+            sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
+          />
         </div>
       </CardContent>
       <Footer />

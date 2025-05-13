@@ -26,6 +26,7 @@ SarbOverview.propTypes = {
   responseRepoTimeline: PropTypes.array.isRequired,
   responseFxTimeline: PropTypes.array.isRequired,
   responseRealGdpTimeline: PropTypes.array.isRequired,
+  responsePrimeTimeline: PropTypes.array.isRequired,
 };
 
 export default function SarbOverview({
@@ -36,6 +37,7 @@ export default function SarbOverview({
   responseRepoTimeline,
   responseFxTimeline,
   responseRealGdpTimeline,
+  responsePrimeTimeline,
 }) {
   const inflationRate = response.find((item) => item.name === "CPI");
 
@@ -142,6 +144,7 @@ export default function SarbOverview({
       description: `@ ${primeRate?.lastPeriod}`,
       icon: <Gem className="h-4 w-4 text-muted-foreground" />,
       info: "Rate that commercial banks charge their most creditworthy customers.",
+      chart: <SparklineChart data={responsePrimeTimeline} />,
     },
     {
       title: "USD/ZAR Exchange Rate",
