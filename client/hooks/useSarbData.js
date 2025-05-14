@@ -191,6 +191,43 @@ export function useSarbData() {
     cacheTime,
   });
 
+  const sarbGoldTimeline = useQuery({
+    queryKey: ["sarb-gold-timeline"],
+    queryFn: async () => {
+      const res = await fetch(`${baseUrl}/sarb-gold-timeline`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch SARB gold timeline data");
+      }
+      return res.json();
+    },
+    staleTime,
+    cacheTime,
+  });
+
+  const sarbGbpTimeline = useQuery({
+    queryKey: ["sarb-gbp-timeline"],
+    queryFn: async () => {
+      const res = await fetch(`${baseUrl}/sarb-gbp-timeline`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch SARB gbp timeline data");
+      }
+      return res.json();
+    },
+    staleTime,
+    cacheTime,
+  });
+
+  const sarbEuroTimeline = useQuery({
+    queryKey: ["sarb-euro-timeline"],
+    queryFn: async () => {
+      const res = await fetch(`${baseUrl}/sarb-euro-timeline`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch SARB euro timeline data");
+      }
+      return res.json();
+    },
+  });
+
   return {
     sarbOther,
     sarbAll,
@@ -202,5 +239,8 @@ export function useSarbData() {
     sarbPrimeTimeline,
     sarbChangePrimeTimeline,
     sarbChangeRepoTimeline,
+    sarbGoldTimeline,
+    sarbGbpTimeline,
+    sarbEuroTimeline,
   };
 }

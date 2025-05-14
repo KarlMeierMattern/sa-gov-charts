@@ -7,10 +7,10 @@ const getSarbFxTimelineData = async (req, res) => {
     const data = await SarbFxTimelineModel.find();
     res.status(200).json(data);
   } catch (error) {
-    console.error("Error fetching SARB Repo Timeline data:", error);
+    console.error("Error fetching SARB USD Timeline data:", error);
     res
       .status(500)
-      .json({ error: "Failed to retrieve SARB Repo Timeline data" });
+      .json({ error: "Failed to retrieve SARB USD Timeline data" });
   }
 };
 

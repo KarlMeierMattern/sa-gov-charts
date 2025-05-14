@@ -23,6 +23,9 @@ import {
   SarbPrimeTimelineModel,
   SarbChangePrimeTimelineModel,
   SarbChangeRepoTimelineModel,
+  SarbGoldTimelineModel,
+  SarbGbpTimelineModel,
+  SarbEuroTimelineModel,
 } from "../model/index.js";
 
 // Enhanced logging function
@@ -52,6 +55,86 @@ async function main() {
   try {
     // Initiate scraping
     logUpdate("Starting full data scrape...");
+
+    // Insert FX Timeline data
+    console.time("FX Timeline data scrape time");
+
+    const dataFxTimeline = await sarbTimelineScraper({
+      url: process.env.SARB_REPO_URL,
+      text: "Rand per US Dollar",
+    });
+
+    for (const data of dataFxTimeline) {
+      await SarbFxTimelineModel.updateOne(
+        { date: data.date },
+        { $set: data },
+        { upsert: true }
+      );
+    }
+    console.timeEnd("FX Timeline data scrape time");
+    logUpdate(
+      `Successfully updated FX Timeline data: ${dataFxTimeline.length} entries ✓`
+    );
+
+    // Insert GBP Timeline data
+    console.time("GBP Timeline data scrape time");
+
+    const dataGbpTimeline = await sarbTimelineScraper({
+      url: process.env.SARB_REPO_URL,
+      text: "Rand per British Pound",
+    });
+
+    for (const data of dataGbpTimeline) {
+      await SarbGbpTimelineModel.updateOne(
+        { date: data.date },
+        { $set: data },
+        { upsert: true }
+      );
+    }
+    console.timeEnd("GBP Timeline data scrape time");
+    logUpdate(
+      `Successfully updated GBP Timeline data: ${dataGbpTimeline.length} entries ✓`
+    );
+
+    // Insert Euro Timeline data
+    console.time("Euro Timeline data scrape time");
+
+    const dataEuroTimeline = await sarbTimelineScraper({
+      url: process.env.SARB_REPO_URL,
+      text: "Rand per Euro",
+    });
+
+    for (const data of dataEuroTimeline) {
+      await SarbEuroTimelineModel.updateOne(
+        { date: data.date },
+        { $set: data },
+        { upsert: true }
+      );
+    }
+    console.timeEnd("Euro Timeline data scrape time");
+    logUpdate(
+      `Successfully updated Euro Timeline data: ${dataEuroTimeline.length} entries ✓`
+    );
+
+    // Insert Gold Timeline data
+    console.time("Gold Timeline data scrape time");
+
+    const dataGoldTimeline = await sarbTimelineScraper({
+      url: process.env.SARB_REPO_URL,
+      text: "US Dollar",
+    });
+
+    for (const data of dataGoldTimeline) {
+      await SarbGoldTimelineModel.updateOne(
+        { date: data.date },
+        { $set: data },
+        { upsert: true }
+      );
+    }
+    console.timeEnd("Gold Timeline data scrape time");
+    logUpdate(
+      `Successfully updated Gold Timeline data: ${dataGoldTimeline.length} entries ✓`
+    );
 
     // Insert JSE data
     console.time("JSE scrape time");
@@ -132,26 +215,6 @@ async function main() {
     console.timeEnd("Repo Timeline data scrape time");
     logUpdate(
       `Successfully updated Repo Timeline data: ${dataRepoTimeline.length} entries ✓`
-    );
-
-    // Insert FX Timeline data
-    console.time("FX Timeline data scrape time");
-
-    const dataFxTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
-      text: "Rand per US Dollar",
-    });
-
-    for (const data of dataFxTimeline) {
-      await SarbFxTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
-    }
-    console.timeEnd("FX Timeline data scrape time");
-    logUpdate(
-      `Successfully updated FX Timeline data: ${dataFxTimeline.length} entries ✓`
     );
 
     // Insert Real GDP Timeline data

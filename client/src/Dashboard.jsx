@@ -10,11 +10,11 @@ import {
   SarbExtFin,
   GdpData,
   TimelineChart,
-} from "./index.js";
-import { ModeToggle } from "./ModeToggle.tsx";
-import CardSkeleton from "./ui/CardSkeleton";
-import { useSarbData } from "../../hooks/useSarbData.js";
-import Footer from "./Footer.jsx";
+} from "./components/index.js";
+import { ModeToggle } from "./components/ModeToggle.tsx";
+import CardSkeleton from "./components/ui/CardSkeleton.jsx";
+import { useSarbData } from "../hooks/useSarbData.js";
+import Footer from "./components/Footer.jsx";
 
 export default function Dashboard() {
   const {
@@ -28,6 +28,9 @@ export default function Dashboard() {
     sarbPrimeTimeline,
     sarbChangePrimeTimeline,
     sarbChangeRepoTimeline,
+    sarbGoldTimeline,
+    sarbGbpTimeline,
+    sarbEuroTimeline,
   } = useSarbData();
 
   if (
@@ -40,7 +43,10 @@ export default function Dashboard() {
     sarbRealGdpTimeline.isLoading ||
     sarbPrimeTimeline.isLoading ||
     sarbChangePrimeTimeline.isLoading ||
-    sarbChangeRepoTimeline.isLoading
+    sarbChangeRepoTimeline.isLoading ||
+    sarbGoldTimeline.isLoading ||
+    sarbGbpTimeline.isLoading ||
+    sarbEuroTimeline.isLoading
   ) {
     return <CardSkeleton />;
   }
@@ -55,7 +61,10 @@ export default function Dashboard() {
     sarbRealGdpTimeline.error ||
     sarbPrimeTimeline.error ||
     sarbChangePrimeTimeline.error ||
-    sarbChangeRepoTimeline.error
+    sarbChangeRepoTimeline.error ||
+    sarbGoldTimeline.error ||
+    sarbGbpTimeline.error ||
+    sarbEuroTimeline.error
   ) {
     return (
       <div className="text-center mt-8">
@@ -69,7 +78,10 @@ export default function Dashboard() {
           sarbRealGdpTimeline.error?.message ||
           sarbPrimeTimeline.error?.message ||
           sarbChangePrimeTimeline.error?.message ||
-          sarbChangeRepoTimeline.error?.message}
+          sarbChangeRepoTimeline.error?.message ||
+          sarbGoldTimeline.error?.message ||
+          sarbGbpTimeline.error?.message ||
+          sarbEuroTimeline.error?.message}
       </div>
     );
   }
@@ -97,6 +109,9 @@ export default function Dashboard() {
           responseFxTimeline={sarbFxTimeline.data}
           responseRealGdpTimeline={sarbRealGdpTimeline.data}
           responsePrimeTimeline={sarbPrimeTimeline.data}
+          responseGoldTimeline={sarbGoldTimeline.data}
+          responseGbpTimeline={sarbGbpTimeline.data}
+          responseEuroTimeline={sarbEuroTimeline.data}
         />
         <SarbRepo response={sarbRepo.data} />
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">

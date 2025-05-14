@@ -8,6 +8,9 @@ import { SarbRealGdpTimelineModel } from "./sarbRealGdpTimelineModel.js";
 import { SarbPrimeTimelineModel } from "./sarbPrimeTimelineModel.js";
 import { SarbChangePrimeTimelineModel } from "./sarbChangePrimeTimelineModel.js";
 import { SarbChangeRepoTimelineModel } from "./sarbChangeRepoTimelineModel.js";
+import { SarbGoldTimelineModel } from "./sarbGoldTimelineModel.js";
+import { SarbGbpTimelineModel } from "./sarbGbpTimelineModel.js";
+import { SarbEuroTimelineModel } from "./sarbEuroTimelineModel.js";
 export {
   JseModel,
   SarbAllModel,
@@ -19,4 +22,7 @@ export {
   SarbPrimeTimelineModel,
   SarbChangePrimeTimelineModel,
   SarbChangeRepoTimelineModel,
+  SarbGoldTimelineModel,
+  SarbGbpTimelineModel,
+  SarbEuroTimelineModel,
 };

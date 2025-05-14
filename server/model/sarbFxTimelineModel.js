@@ -16,6 +16,11 @@ const fxTimelineSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add static method to get data sorted by date
+fxTimelineSchema.statics.getSortedData = async function () {
+  return this.find().sort({ date: 1 }); // 1 for ascending order (oldest to newest)
+};
+
 export const SarbFxTimelineModel = mongoose.model(
   "sarb_fx_timeline",
   fxTimelineSchema

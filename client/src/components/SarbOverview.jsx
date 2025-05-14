@@ -5,9 +5,12 @@ import {
   TrendingUp,
   Users,
   Gem,
-  DollarSign,
   Banknote,
   Info,
+  Pickaxe,
+  BadgeEuro,
+  BadgePoundSterling,
+  BadgeDollarSign,
 } from "lucide-react";
 
 import {
@@ -17,6 +20,7 @@ import {
 } from "@/components/ui/hover-card";
 import PropTypes from "prop-types";
 import SparklineChart from "./SparklineChart.jsx";
+// import { getPackedSettings } from "http2";
 
 SarbOverview.propTypes = {
   response: PropTypes.array.isRequired,
@@ -27,6 +31,9 @@ SarbOverview.propTypes = {
   responseFxTimeline: PropTypes.array.isRequired,
   responseRealGdpTimeline: PropTypes.array.isRequired,
   responsePrimeTimeline: PropTypes.array.isRequired,
+  responseGoldTimeline: PropTypes.array.isRequired,
+  responseGbpTimeline: PropTypes.array.isRequired,
+  responseEuroTimeline: PropTypes.array.isRequired,
 };
 
 export default function SarbOverview({
@@ -38,50 +45,62 @@ export default function SarbOverview({
   responseFxTimeline,
   responseRealGdpTimeline,
   responsePrimeTimeline,
+  responseGoldTimeline,
+  responseGbpTimeline,
+  responseEuroTimeline,
 }) {
-  const inflationRate = response.find((item) => item.name === "CPI");
+  // Timelines
+  const reversedRepoTimeline = [...responseRepoTimeline].reverse();
+  const reversedFxTimeline = [...responseFxTimeline].reverse();
+  const reversedRealGdpTimeline = [...responseRealGdpTimeline].reverse();
+  const reversedPrimeTimeline = [...responsePrimeTimeline].reverse();
+  const reversedGoldTimeline = [...responseGoldTimeline].reverse();
+  const reversedGbpTimeline = [...responseGbpTimeline].reverse();
+  const reversedEuroTimeline = [...responseEuroTimeline].reverse();
 
+  // Gold, repo, prime, usd/zar
+  const goldPrice = responseFx.find((item) => item.name === "US Dollar");
   const repoRate = responseFx.find((item) => item.name === "Repo rate");
-
   const primeRate = responseFx.find(
     (item) => item.name === "Prime lending rate"
   );
-
+  const usZarRate = responseFx.find(
+    (item) => item.name === "Rand per US Dollar"
+  );
+  const gbpZarRate = responseFx.find(
+    (item) => item.name === "Rand per British Pound"
+  );
+  const euroZarRate = responseFx.find((item) => item.name === "Rand per Euro");
+  // Inflation rate, real GDP growth, budget balance
+  const inflationRate = response.find((item) => item.name === "CPI");
   const realGdpGrowth = response.find(
     (item) => item.name === "Real GDP growth rate"
   );
+  const budgetBalance =
+    response.find(
+      (item) =>
+        item.name === "National government balance as % of GDP (Fiscal year)"
+    )?.value || 0;
 
+  // Unemployment rate, population, exports, imports, trade balance
   const unemployRate = responseAll.find(
     (item) =>
       item.sector ===
       "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website"
   );
-
   const population = responseAll.find(
     (item) => item.sector === "POPULATION (mid-year estimates as at 30 June)"
   );
-
-  const usZarRate = responseFx.find(
-    (item) => item.name === "Rand per US Dollar"
-  );
-
   const exports =
     responseAll.find(
       (item) => item.sector === "Exports of goods and non-factor services (sa)"
     )?.currentValue || 0;
-
   const imports =
     responseAll.find(
       (item) => item.sector === "Imports of goods and non-factor services (sa)"
     )?.currentValue || 0;
 
   const tradeBalance = exports - imports;
-
-  const budgetBalance =
-    response.find(
-      (item) =>
-        item.name === "National government balance as % of GDP (Fiscal year)"
-    )?.value || 0;
 
   const currentAccount =
     responseAll.find((item) => item.sector === "Current account (nsa)")
@@ -136,7 +155,7 @@ export default function SarbOverview({
       description: `@ ${repoRate?.lastPeriod}`,
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
       info: "Set by the central bank, affects the overall cost of borrowing in the economy.",
-      chart: <SparklineChart data={responseRepoTimeline} />,
+      chart: <SparklineChart data={reversedRepoTimeline} />,
     },
     {
       title: "Prime Rate",
@@ -144,14 +163,7 @@ export default function SarbOverview({
       description: `@ ${primeRate?.lastPeriod}`,
       icon: <Gem className="h-4 w-4 text-muted-foreground" />,
       info: "Rate that commercial banks charge their most creditworthy customers.",
-      chart: <SparklineChart data={responsePrimeTimeline} />,
-    },
-    {
-      title: "USD/ZAR Exchange Rate",
-      value: `${parseFloat(usZarRate?.value).toFixed(1)}`,
-      description: `FX Rate @ ${usZarRate?.lastPeriod}`,
-      icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
-      chart: <SparklineChart data={responseFxTimeline} />,
+      chart: <SparklineChart data={reversedPrimeTimeline} />,
     },
     {
       title: "Real GDP Growth",
@@ -159,8 +171,38 @@ export default function SarbOverview({
       description: `@ ${realGdpGrowth?.date}`,
       info: "Economic growth, adjusted for inflation, reflecting the increase in the value of goods and services produced.",
       icon: <TrendingUpDown className="h-4 w-4 text-muted-foreground" />,
-      chart: <SparklineChart data={responseRealGdpTimeline} />,
+      chart: <SparklineChart data={reversedRealGdpTimeline} />,
     },
+    {
+      title: "USD/ZAR Exchange Rate",
+      value: `${parseFloat(usZarRate?.value).toFixed(1)}`,
+      description: `FX Rate @ ${usZarRate?.lastPeriod}`,
+      icon: <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={reversedFxTimeline} />,
+    },
+    {
+      title: "GBP/ZAR Exchange Rate",
+      value: `${parseFloat(gbpZarRate?.value).toFixed(1)}`,
+      description: `FX Rate @ ${gbpZarRate?.lastPeriod}`,
+      icon: <BadgePoundSterling className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={reversedGbpTimeline} />,
+    },
+    {
+      title: "EUR/ZAR Exchange Rate",
+      value: `${parseFloat(euroZarRate?.value).toFixed(1)}`,
+      description: `FX Rate @ ${euroZarRate?.lastPeriod}`,
+      icon: <BadgeEuro className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={reversedEuroTimeline} />,
+    },
+    {
+      title: "Gold Price",
+      value: `$${parseFloat(goldPrice?.value).toFixed(1)}`,
+      description: `@ ${goldPrice?.lastPeriod}`,
+      info: "Gold price in USD per ounce",
+      icon: <Pickaxe className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={reversedGoldTimeline} />,
+    },
+
     {
       title: "Unemployment Rate",
       value: `${unemployRate?.currentValue}%`,
@@ -216,33 +258,33 @@ export default function SarbOverview({
       info: "The net value of goods and services sold to and bought from other countries. Trade surplus (positive) or deficit (negative). Forms part of the current account.",
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
     },
-    {
-      title: "Current Account",
-      value: `R${(parseFloat(currentAccount) / 1000)
-        .toFixed(1)
-        .toLocaleString()}b`,
-      description: "Trade balance + income from abroad + transfers",
-      info: "",
-      icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
-    },
-    {
-      title: "Capital Account",
-      value: `R${(parseFloat(capitalAccount) / 1000)
-        .toFixed(1)
-        .toLocaleString()}b`,
-      description: "Tracks one-time transfers of capital assets.",
-      info: "Debt forgiveness, land purchases.",
-      icon: <Users className="h-4 w-4 text-muted-foreground" />,
-    },
-    {
-      title: "Financial Account",
-      value: `R${(parseFloat(financialAccount) / 1000)
-        .toFixed(1)
-        .toLocaleString()}b`,
-      description: "Tracks investments and financial flows.",
-      info: "Foreign direct investment, stock/bond purchases, and reserve assets.",
-      icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
-    },
+    // {
+    //   title: "Current Account",
+    //   value: `R${(parseFloat(currentAccount) / 1000)
+    //     .toFixed(1)
+    //     .toLocaleString()}b`,
+    //   description: "Trade balance + income from abroad + transfers",
+    //   info: "",
+    //   icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
+    // },
+    // {
+    //   title: "Capital Account",
+    //   value: `R${(parseFloat(capitalAccount) / 1000)
+    //     .toFixed(1)
+    //     .toLocaleString()}b`,
+    //   description: "Tracks one-time transfers of capital assets.",
+    //   info: "Debt forgiveness, land purchases.",
+    //   icon: <Users className="h-4 w-4 text-muted-foreground" />,
+    // },
+    // {
+    //   title: "Financial Account",
+    //   value: `R${(parseFloat(financialAccount) / 1000)
+    //     .toFixed(1)
+    //     .toLocaleString()}b`,
+    //   description: "Tracks investments and financial flows.",
+    //   info: "Foreign direct investment, stock/bond purchases, and reserve assets.",
+    //   icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+    // },
     {
       title: "Balance of Payments",
       value: `R${(parseFloat(balanceOfPayments) / 1000)

@@ -16,6 +16,11 @@ const repoTimelineSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add static method to get data sorted by date
+repoTimelineSchema.statics.getSortedData = async function () {
+  return this.find().sort({ date: 1 }); // 1 for ascending order (oldest to newest)
+};
+
 export const SarbRepoTimelineModel = mongoose.model(
   "sarb_repo_timeline",
   repoTimelineSchema

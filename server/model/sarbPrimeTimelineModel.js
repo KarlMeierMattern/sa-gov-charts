@@ -16,6 +16,11 @@ const primeTimelineSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add static method to get data sorted by date
+primeTimelineSchema.statics.getSortedData = async function () {
+  return this.find().sort({ date: 1 }); // 1 for ascending order (oldest to newest)
+};
+
 export const SarbPrimeTimelineModel = mongoose.model(
   "sarb_prime_timeline",
   primeTimelineSchema

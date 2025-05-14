@@ -1,7 +1,7 @@
 "use client";
 
 import ThemeProvider from "@/components/ThemeProvider";
-import Dashboard from "@/components/Dashboard";
+import Dashboard from "@/Dashboard";
 
 export default function Home() {
   return (

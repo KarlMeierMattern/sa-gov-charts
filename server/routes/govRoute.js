@@ -13,6 +13,9 @@ import {
   getSarbPrimeTimelineData,
   getSarbChangePrimeTimelineData,
   getSarbChangeRepoTimelineData,
+  getSarbGoldTimelineData,
+  getSarbGbpTimelineData,
+  getSarbEuroTimelineData,
 } from "../controllers/index.js";
 
 const router = express.Router();
@@ -39,6 +42,9 @@ router.get(
   cacheMiddleware,
   getSarbChangeRepoTimelineData
 );
+router.get("/sarb-gold-timeline", cacheMiddleware, getSarbGoldTimelineData);
+router.get("/sarb-gbp-timeline", cacheMiddleware, getSarbGbpTimelineData);
+router.get("/sarb-euro-timeline", cacheMiddleware, getSarbEuroTimelineData);
 router.get("/test", getTest);
 export default router;
 
