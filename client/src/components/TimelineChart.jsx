@@ -8,7 +8,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  TimeScale,
 } from "chart.js";
+import "chartjs-adapter-date-fns";
 import PropTypes from "prop-types";
 
 ChartJS.register(
@@ -18,7 +20,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  TimeScale
 );
 
 TimelineChart.propTypes = {
@@ -34,39 +37,113 @@ TimelineChart.propTypes = {
       value: PropTypes.number.isRequired,
     })
   ).isRequired,
+  responseRealGdpTimeline: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
+
+function toYearMonth(dateStr) {
+  // Handles both YYYY-MM-DD and YYYY-MM-DDTHH:mm:ss formats
+  return dateStr.slice(0, 7);
+}
+
+function addOneMonth(ymStr) {
+  // ymStr is 'YYYY-MM'
+  const [year, month] = ymStr.split("-").map(Number);
+  let newYear = year;
+  let newMonth = month + 1;
+  if (newMonth > 12) {
+    newMonth = 1;
+    newYear += 1;
+  }
+  return `${newYear.toString().padStart(4, "0")}-${newMonth
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+function toYearMonthDay(ymStr) {
+  // Convert YYYY-MM to YYYY-MM-01 for time scale compatibility
+  return `${ymStr}-01`;
+}
 
 export default function TimelineChart({
   sarbChangePrimeTimeline,
   sarbChangeRepoTimeline,
+  responseRealGdpTimeline,
 }) {
-  // Prepare reversed data for chronological order (oldest to newest)
-  const reversedPrime = [...sarbChangePrimeTimeline].reverse();
-  const reversedRepo = [...sarbChangeRepoTimeline].reverse();
+  // Normalize all dates to YYYY-MM
+  const primeYM = sarbChangePrimeTimeline.map((item) => ({
+    ym: toYearMonth(item.date),
+    value: item.value,
+  }));
+  const repoYM = sarbChangeRepoTimeline.map((item) => ({
+    ym: toYearMonth(item.date),
+    value: item.value,
+  }));
+  const gdpYM = responseRealGdpTimeline.map((item) => ({
+    ym: addOneMonth(toYearMonth(item.date)),
+    value: item.value,
+  }));
+
+  // Build a set of all unique YYYY-MM values
+  const allYMSet = new Set([
+    ...primeYM.map((item) => item.ym),
+    ...repoYM.map((item) => item.ym),
+    ...gdpYM.map((item) => item.ym),
+  ]);
+  const allYM = Array.from(allYMSet).sort();
+  const allYMDates = allYM.map((ym) => toYearMonthDay(ym));
+
+  // Create maps for quick lookup
+  const primeMap = new Map(
+    primeYM.map((item) => [toYearMonthDay(item.ym), item.value])
+  );
+  const repoMap = new Map(
+    repoYM.map((item) => [toYearMonthDay(item.ym), item.value])
+  );
+  const gdpMap = new Map(
+    gdpYM.map((item) => [toYearMonthDay(item.ym), item.value])
+  );
 
   const chartData = {
-    title: "Interest rates",
-    labels: reversedPrime.map((item) => item.date.slice(0, 10)),
+    title: "Interest Rates and GDP",
+    labels: allYMDates,
     datasets: [
       {
         label: "Prime Rate",
-        data: reversedPrime.map((item) => item.value),
+        data: allYMDates.map((date) => primeMap.get(date) ?? null),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.4,
         pointHoverRadius: 6,
         pointRadius: 3,
-        fill: "-1",
+        yAxisID: "y",
+        spanGaps: true,
       },
       {
         label: "Repo Rate",
-        data: reversedRepo.map((item) => item.value),
+        data: allYMDates.map((date) => repoMap.get(date) ?? null),
         borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         tension: 0.4,
         pointHoverRadius: 6,
         pointRadius: 3,
-        fill: false,
+        yAxisID: "y",
+        spanGaps: true,
+      },
+      {
+        label: "Real GDP",
+        data: allYMDates.map((date) => gdpMap.get(date) ?? null),
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        tension: 0.4,
+        pointHoverRadius: 6,
+        pointRadius: 3,
+        yAxisID: "y1",
+        spanGaps: true,
       },
     ],
   };
@@ -83,7 +160,6 @@ export default function TimelineChart({
         intersect: false,
         callbacks: {
           title: function (context) {
-            // context[0].label is the formatted date (YYYY-MM-DD)
             return context[0].label;
           },
         },
@@ -98,16 +174,54 @@ export default function TimelineChart({
     },
     scales: {
       y: {
-        beginAtZero: false,
+        type: "linear",
+        display: true,
+        position: "left",
         title: {
           display: true,
-          text: "Rate (%)",
+          text: "Interest Rate (%)",
+        },
+      },
+      y1: {
+        type: "linear",
+        display: true,
+        position: "right",
+        title: {
+          display: true,
+          text: "GDP",
+        },
+        grid: {
+          drawOnChartArea: false,
         },
       },
       x: {
+        type: "time",
+        time: {
+          unit: "year",
+          tooltipFormat: "yyyy-MM",
+          displayFormats: {
+            year: "yyyy",
+            month: "yyyy-MM",
+          },
+        },
         title: {
           display: true,
-          text: "Date",
+          text: "Year",
+        },
+        ticks: {
+          callback: function (value, index, ticks) {
+            const date = new Date(this.getLabelForValue(value));
+            const year = date.getFullYear();
+            if (index === 0) return year;
+            const prevDate = new Date(
+              this.getLabelForValue(ticks[index - 1].value)
+            );
+            const prevYear = prevDate.getFullYear();
+            return year !== prevYear ? year : "";
+          },
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
         },
       },
     },

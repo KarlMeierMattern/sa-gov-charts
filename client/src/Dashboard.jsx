@@ -134,6 +134,7 @@ export default function Dashboard() {
           <TimelineChart
             sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
             sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
+            responseRealGdpTimeline={sarbRealGdpTimeline.data}
           />
         </div>
       </CardContent>
