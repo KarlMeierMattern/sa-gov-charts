@@ -135,7 +135,7 @@ export default function TimelineChart({
         spanGaps: true,
       },
       {
-        label: "Real GDP",
+        label: "Real GDP growth %",
         data: allYMDates.map((date) => gdpMap.get(date) ?? null),
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",

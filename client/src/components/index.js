@@ -9,7 +9,7 @@ import SarbExtFin from "./SarbExtFin.jsx";
 import GdpData from "./GdpData.jsx";
 import RepoSparklineChart from "./SparklineChart.jsx";
 import TimelineChart from "./TimelineChart.jsx";
-
+import FxTimelineChart from "./FxTimelineChart.jsx";
 export {
   SarbOverview,
   SarbRepo,
@@ -22,4 +22,5 @@ export {
   GdpData,
   RepoSparklineChart,
   TimelineChart,
+  FxTimelineChart,
 };

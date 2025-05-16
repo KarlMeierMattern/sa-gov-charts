@@ -10,6 +10,7 @@ import {
   SarbExtFin,
   GdpData,
   TimelineChart,
+  FxTimelineChart,
 } from "./components/index.js";
 import { ModeToggle } from "./components/ModeToggle.tsx";
 import CardSkeleton from "./components/ui/CardSkeleton.jsx";
@@ -106,10 +107,10 @@ export default function Dashboard() {
           responseFx={sarbRepo.data}
           responseJse={sarbJse.data}
           responseRepoTimeline={sarbRepoTimeline.data}
-          responseFxTimeline={sarbFxTimeline.data}
           responseRealGdpTimeline={sarbRealGdpTimeline.data}
           responsePrimeTimeline={sarbPrimeTimeline.data}
           responseGoldTimeline={sarbGoldTimeline.data}
+          responseFxTimeline={sarbFxTimeline.data}
           responseGbpTimeline={sarbGbpTimeline.data}
           responseEuroTimeline={sarbEuroTimeline.data}
         />
@@ -135,6 +136,13 @@ export default function Dashboard() {
             sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
             sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
             responseRealGdpTimeline={sarbRealGdpTimeline.data}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-4 p-8">
+          <FxTimelineChart
+            responseFxTimeline={sarbFxTimeline.data}
+            responseGbpTimeline={sarbGbpTimeline.data}
+            responseEuroTimeline={sarbEuroTimeline.data}
           />
         </div>
       </CardContent>

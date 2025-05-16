@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer>
-      <div className="fixed bottom-0 left-0 text-sm w-full bg-black text-white p-4 text-center">
+      <div className="fixed bottom-0 left-0 text-xs w-full bg-slate-700 text-white p-4 text-center opacity-90">
         <p>
           Built by{" "}
           <a
