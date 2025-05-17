@@ -115,6 +115,18 @@ export default function Dashboard() {
           responseEuroTimeline={sarbEuroTimeline.data}
         />
         <SarbRepo response={sarbRepo.data} />
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
+          <TimelineChart
+            sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
+            sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
+            responseRealGdpTimeline={sarbRealGdpTimeline.data}
+          />
+          <FxTimelineChart
+            responseFxTimeline={sarbFxTimeline.data}
+            responseGbpTimeline={sarbGbpTimeline.data}
+            responseEuroTimeline={sarbEuroTimeline.data}
+          />
+        </div>
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">
           <div>
             <SarbGdp response={sarbAll.data} />
@@ -130,20 +142,6 @@ export default function Dashboard() {
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
           <SarbCashFin response={sarbAll.data} />
           <SarbExtFin response={sarbAll.data} />
-        </div>
-        <div className="grid grid-cols-1 gap-4 p-8">
-          <TimelineChart
-            sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
-            sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
-            responseRealGdpTimeline={sarbRealGdpTimeline.data}
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-4 p-8">
-          <FxTimelineChart
-            responseFxTimeline={sarbFxTimeline.data}
-            responseGbpTimeline={sarbGbpTimeline.data}
-            responseEuroTimeline={sarbEuroTimeline.data}
-          />
         </div>
       </CardContent>
       <Footer />
