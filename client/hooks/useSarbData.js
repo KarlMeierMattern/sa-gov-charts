@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 
 const baseUrl =
   import.meta.env.VITE_ENV === "development"
@@ -8,239 +8,57 @@ const baseUrl =
 const staleTime = 604800;
 const cacheTime = 604800;
 
+const fetchData = async (endpoint) => {
+  try {
+    const res = await fetch(`${baseUrl}/${endpoint}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${endpoint} data`);
+    }
+    return res.json();
+  } catch (error) {
+    throw new Error(`Failed to fetch ${endpoint} data: ${error.message}`);
+  }
+};
+
+const endpoints = [
+  "sarb-other",
+  "sarb-all",
+  "sarb-repo",
+  "jse",
+  "sarb-repo-timeline",
+  "sarb-fx-timeline",
+  "sarb-real-gdp-timeline",
+  "sarb-prime-timeline",
+  "sarb-change-prime-timeline",
+  "sarb-change-repo-timeline",
+  "sarb-gold-timeline",
+  "sarb-gbp-timeline",
+  "sarb-euro-timeline",
+];
+
 export function useSarbData() {
-  const sarbOther = useQuery({
-    queryKey: ["sarb-other"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-other`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB other data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(`Failed to fetch SARB other data: ${error.message}`);
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbAll = useQuery({
-    queryKey: ["sarb-all"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-all`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB all data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(`Failed to fetch SARB all data: ${error.message}`);
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbRepo = useQuery({
-    queryKey: ["sarb-repo"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-repo`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB repo data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(`Failed to fetch SARB repo data: ${error.message}`);
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbJse = useQuery({
-    queryKey: ["jse"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/jse`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch JSE data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(`Failed to fetch JSE data: ${error.message}`);
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbRepoTimeline = useQuery({
-    queryKey: ["sarb-repo-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-repo-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB repo timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB repo timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbFxTimeline = useQuery({
-    queryKey: ["sarb-fx-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-fx-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB fx timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB fx timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbRealGdpTimeline = useQuery({
-    queryKey: ["sarb-real-gdp-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-real-gdp-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB real GDP timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB real GDP timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbPrimeTimeline = useQuery({
-    queryKey: ["sarb-prime-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-prime-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB prime timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB prime timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbChangePrimeTimeline = useQuery({
-    queryKey: ["sarb-change-prime-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-change-prime-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB change prime timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB change prime timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbChangeRepoTimeline = useQuery({
-    queryKey: ["sarb-change-repo-timeline"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${baseUrl}/sarb-change-repo-timeline`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch SARB change repo timeline data");
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(
-          `Failed to fetch SARB change repo timeline data: ${error.message}`
-        );
-      }
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbGoldTimeline = useQuery({
-    queryKey: ["sarb-gold-timeline"],
-    queryFn: async () => {
-      const res = await fetch(`${baseUrl}/sarb-gold-timeline`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch SARB gold timeline data");
-      }
-      return res.json();
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbGbpTimeline = useQuery({
-    queryKey: ["sarb-gbp-timeline"],
-    queryFn: async () => {
-      const res = await fetch(`${baseUrl}/sarb-gbp-timeline`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch SARB gbp timeline data");
-      }
-      return res.json();
-    },
-    staleTime,
-    cacheTime,
-  });
-
-  const sarbEuroTimeline = useQuery({
-    queryKey: ["sarb-euro-timeline"],
-    queryFn: async () => {
-      const res = await fetch(`${baseUrl}/sarb-euro-timeline`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch SARB euro timeline data");
-      }
-      return res.json();
-    },
+  const results = useQueries({
+    queries: endpoints.map((endpoint) => ({
+      queryKey: [endpoint],
+      queryFn: () => fetchData(endpoint),
+      staleTime,
+      cacheTime,
+    })),
   });
 
   return {
-    sarbOther,
-    sarbAll,
-    sarbRepo,
-    sarbJse,
-    sarbRepoTimeline,
-    sarbFxTimeline,
-    sarbRealGdpTimeline,
-    sarbPrimeTimeline,
-    sarbChangePrimeTimeline,
-    sarbChangeRepoTimeline,
-    sarbGoldTimeline,
-    sarbGbpTimeline,
-    sarbEuroTimeline,
+    sarbOther: results[0],
+    sarbAll: results[1],
+    sarbRepo: results[2],
+    sarbJse: results[3],
+    sarbRepoTimeline: results[4],
+    sarbFxTimeline: results[5],
+    sarbRealGdpTimeline: results[6],
+    sarbPrimeTimeline: results[7],
+    sarbChangePrimeTimeline: results[8],
+    sarbChangeRepoTimeline: results[9],
+    sarbGoldTimeline: results[10],
+    sarbGbpTimeline: results[11],
+    sarbEuroTimeline: results[12],
   };
 }
