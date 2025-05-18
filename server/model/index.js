@@ -11,6 +11,8 @@ import { SarbChangeRepoTimelineModel } from "./sarbChangeRepoTimelineModel.js";
 import { SarbGoldTimelineModel } from "./sarbGoldTimelineModel.js";
 import { SarbGbpTimelineModel } from "./sarbGbpTimelineModel.js";
 import { SarbEuroTimelineModel } from "./sarbEuroTimelineModel.js";
+import { SarbUnemploymentModel } from "./sarbUnemploymentModel.js";
+import { SarbUnemploymentTimelineModel } from "./sarbUnemploymentTimelineModel.js";
 export {
   JseModel,
   SarbAllModel,
@@ -25,4 +27,6 @@ export {
   SarbGoldTimelineModel,
   SarbGbpTimelineModel,
   SarbEuroTimelineModel,
+  SarbUnemploymentModel,
+  SarbUnemploymentTimelineModel,
 };

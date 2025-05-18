@@ -188,7 +188,7 @@ export default function TimelineChart({
         position: "right",
         title: {
           display: true,
-          text: "GDP",
+          text: "GDP (%)",
         },
         grid: {
           drawOnChartArea: false,

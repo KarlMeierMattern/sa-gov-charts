@@ -11,6 +11,8 @@ import sarbAllScraper from "../scraping/sarbAllScraper.js";
 import sarbOtherIndicatorsScraper from "../scraping/sarbOtherIndicatorsScraper.js";
 import sarbRepoScraper from "../scraping/sarbRepoScraper.js";
 import sarbTimelineScraper from "../scraping/sarbTimelineScraper.js";
+import unemploymentScraper from "../scraping/unemploymentScraper.js";
+import unemploymentTimelineScraper from "../scraping/unemploymentTimelineScraper.js";
 // models
 import {
   JseModel,
@@ -26,6 +28,8 @@ import {
   SarbGoldTimelineModel,
   SarbGbpTimelineModel,
   SarbEuroTimelineModel,
+  SarbUnemploymentModel,
+  SarbUnemploymentTimelineModel,
 } from "../model/index.js";
 
 // Enhanced logging function
@@ -55,6 +59,40 @@ async function main() {
   try {
     // Initiate scraping
     logUpdate("Starting full data scrape...");
+
+    // Insert Unemployment data
+    console.time("Unemployment data scrape time");
+    const dataUnemployment = await unemploymentScraper(
+      process.env.SARB_UNEMPLOYMENT
+    );
+
+    await SarbUnemploymentModel.updateOne(
+      { unemploymentRate: dataUnemployment.unemploymentRate },
+      { $set: dataUnemployment },
+      { upsert: true }
+    );
+    console.timeEnd("Unemployment data scrape time");
+    logUpdate(
+      `Successfully updated Unemployment data: ${dataUnemployment.unemploymentRate} entries ✓`
+    );
+
+    // Insert Unemployment Timeline data
+    console.time("Unemployment Timeline data scrape time");
+    const dataUnemploymentTimeline = await unemploymentTimelineScraper(
+      process.env.SARB_UNEMPLOYMENT
+    );
+
+    for (const data of dataUnemploymentTimeline) {
+      await SarbUnemploymentTimelineModel.updateOne(
+        { date: data.date },
+        { $set: data },
+        { upsert: true }
+      );
+    }
+    console.timeEnd("Unemployment Timeline data scrape time");
+    logUpdate(
+      `Successfully updated Unemployment Timeline data: ${dataUnemploymentTimeline.length} entries ✓`
+    );
 
     // Insert FX Timeline data
     console.time("FX Timeline data scrape time");
