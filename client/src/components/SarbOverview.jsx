@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/hover-card";
 import PropTypes from "prop-types";
 import SparklineChart from "./SparklineChart.jsx";
-// import { getPackedSettings } from "http2";
+import { quarterToDate } from "../utils/dateUtils";
 
 SarbOverview.propTypes = {
   response: PropTypes.array.isRequired,
@@ -34,6 +34,8 @@ SarbOverview.propTypes = {
   responseGoldTimeline: PropTypes.array.isRequired,
   responseGbpTimeline: PropTypes.array.isRequired,
   responseEuroTimeline: PropTypes.array.isRequired,
+  responseUnemployment: PropTypes.array.isRequired,
+  responseUnemploymentTimeline: PropTypes.array.isRequired,
 };
 
 export default function SarbOverview({
@@ -48,6 +50,8 @@ export default function SarbOverview({
   responseGoldTimeline,
   responseGbpTimeline,
   responseEuroTimeline,
+  responseUnemployment,
+  responseUnemploymentTimeline,
 }) {
   // Timelines
   const reversedRepoTimeline = [...responseRepoTimeline].reverse();
@@ -57,6 +61,20 @@ export default function SarbOverview({
   const reversedGoldTimeline = [...responseGoldTimeline].reverse();
   const reversedGbpTimeline = [...responseGbpTimeline].reverse();
   const reversedEuroTimeline = [...responseEuroTimeline].reverse();
+
+  // Convert quarter string to date and sort by date
+  const unemploymentTimeline = Array.isArray(responseUnemploymentTimeline)
+    ? responseUnemploymentTimeline
+        .map((item) => ({
+          date: quarterToDate(item.date),
+          value: item.value,
+        }))
+        .sort((a, b) => a.date - b.date)
+    : [];
+
+  console.log(
+    `Reversed unemployment timeline: ${responseUnemploymentTimeline}`
+  );
 
   // Gold, repo, prime, usd/zar
   const goldPrice = responseFx.find((item) => item.name === "US Dollar");
@@ -82,12 +100,8 @@ export default function SarbOverview({
         item.name === "National government balance as % of GDP (Fiscal year)"
     )?.value || 0;
 
-  // Unemployment rate, population, exports, imports, trade balance
-  const unemployRate = responseAll.find(
-    (item) =>
-      item.sector ===
-      "Unemployment rate (nsa)\nPlease see the statement regarding updating of info on the STATS SA website"
-  );
+  // Population, exports, imports, trade balance
+
   const population = responseAll.find(
     (item) => item.sector === "POPULATION (mid-year estimates as at 30 June)"
   );
@@ -205,10 +219,11 @@ export default function SarbOverview({
 
     {
       title: "Unemployment Rate",
-      value: `${unemployRate?.currentValue}%`,
-      description: `Of labor force for ${unemployRate?.period}`,
+      value: `${responseUnemployment?.unemploymentRate}%`,
+      description: `Of labor force for ${responseUnemployment?.date}`,
       info: "",
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
+      chart: <SparklineChart data={unemploymentTimeline} />,
     },
     {
       title: "Population",

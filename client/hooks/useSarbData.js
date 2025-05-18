@@ -34,6 +34,8 @@ const endpoints = [
   "sarb-gold-timeline",
   "sarb-gbp-timeline",
   "sarb-euro-timeline",
+  "unemployment",
+  "unemployment-timeline",
 ];
 
 export function useSarbData() {
@@ -60,5 +62,7 @@ export function useSarbData() {
     sarbGoldTimeline: results[10],
     sarbGbpTimeline: results[11],
     sarbEuroTimeline: results[12],
+    sarbUnemployment: results[13],
+    sarbUnemploymentTimeline: results[14],
   };
 }

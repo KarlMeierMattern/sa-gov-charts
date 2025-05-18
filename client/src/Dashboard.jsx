@@ -32,6 +32,8 @@ export default function Dashboard() {
     sarbGoldTimeline,
     sarbGbpTimeline,
     sarbEuroTimeline,
+    sarbUnemployment,
+    sarbUnemploymentTimeline,
   } = useSarbData();
 
   if (
@@ -47,7 +49,9 @@ export default function Dashboard() {
     sarbChangeRepoTimeline.isLoading ||
     sarbGoldTimeline.isLoading ||
     sarbGbpTimeline.isLoading ||
-    sarbEuroTimeline.isLoading
+    sarbEuroTimeline.isLoading ||
+    sarbUnemployment.isLoading ||
+    sarbUnemploymentTimeline.isLoading
   ) {
     return <CardSkeleton />;
   }
@@ -65,7 +69,9 @@ export default function Dashboard() {
     sarbChangeRepoTimeline.error ||
     sarbGoldTimeline.error ||
     sarbGbpTimeline.error ||
-    sarbEuroTimeline.error
+    sarbEuroTimeline.error ||
+    sarbUnemployment.error ||
+    sarbUnemploymentTimeline.error
   ) {
     return (
       <div className="text-center mt-8">
@@ -82,7 +88,9 @@ export default function Dashboard() {
           sarbChangeRepoTimeline.error?.message ||
           sarbGoldTimeline.error?.message ||
           sarbGbpTimeline.error?.message ||
-          sarbEuroTimeline.error?.message}
+          sarbEuroTimeline.error?.message ||
+          sarbUnemployment.error?.message ||
+          sarbUnemploymentTimeline.error?.message}
       </div>
     );
   }
@@ -113,6 +121,8 @@ export default function Dashboard() {
           responseFxTimeline={sarbFxTimeline.data}
           responseGbpTimeline={sarbGbpTimeline.data}
           responseEuroTimeline={sarbEuroTimeline.data}
+          responseUnemployment={sarbUnemployment.data}
+          responseUnemploymentTimeline={sarbUnemploymentTimeline.data || []}
         />
         <SarbRepo response={sarbRepo.data} />
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
