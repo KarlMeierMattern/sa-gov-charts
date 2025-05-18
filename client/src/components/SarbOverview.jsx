@@ -34,7 +34,7 @@ SarbOverview.propTypes = {
   responseGoldTimeline: PropTypes.array.isRequired,
   responseGbpTimeline: PropTypes.array.isRequired,
   responseEuroTimeline: PropTypes.array.isRequired,
-  responseUnemployment: PropTypes.array.isRequired,
+  responseUnemployment: PropTypes.object.isRequired,
   responseUnemploymentTimeline: PropTypes.array.isRequired,
 };
 
@@ -71,10 +71,6 @@ export default function SarbOverview({
         }))
         .sort((a, b) => a.date - b.date)
     : [];
-
-  console.log(
-    `Reversed unemployment timeline: ${responseUnemploymentTimeline}`
-  );
 
   // Gold, repo, prime, usd/zar
   const goldPrice = responseFx.find((item) => item.name === "US Dollar");
