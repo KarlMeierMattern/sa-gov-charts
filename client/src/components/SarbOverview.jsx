@@ -34,7 +34,7 @@ SarbOverview.propTypes = {
   responseGoldTimeline: PropTypes.array.isRequired,
   responseGbpTimeline: PropTypes.array.isRequired,
   responseEuroTimeline: PropTypes.array.isRequired,
-  responseUnemployment: PropTypes.object.isRequired,
+  responseUnemployment: PropTypes.array.isRequired,
   responseUnemploymentTimeline: PropTypes.array.isRequired,
 };
 
@@ -61,6 +61,10 @@ export default function SarbOverview({
   const reversedGoldTimeline = [...responseGoldTimeline].reverse();
   const reversedGbpTimeline = [...responseGbpTimeline].reverse();
   const reversedEuroTimeline = [...responseEuroTimeline].reverse();
+
+  // Unemployment rate and date
+  const unemploymentRate = responseUnemployment[0]?.unemploymentRate;
+  const unemploymentDate = responseUnemployment[0]?.date;
 
   // Convert quarter string to date and sort by date
   const unemploymentTimeline = Array.isArray(responseUnemploymentTimeline)
@@ -215,8 +219,8 @@ export default function SarbOverview({
 
     {
       title: "Unemployment Rate",
-      value: `${responseUnemployment?.unemploymentRate}%`,
-      description: `Of labor force for ${responseUnemployment?.date}`,
+      value: `${unemploymentRate}%`,
+      description: `Of labor force for ${unemploymentDate}`,
       info: "",
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
       chart: <SparklineChart data={unemploymentTimeline} />,

@@ -121,7 +121,7 @@ export default function Dashboard() {
           responseFxTimeline={sarbFxTimeline.data}
           responseGbpTimeline={sarbGbpTimeline.data}
           responseEuroTimeline={sarbEuroTimeline.data}
-          responseUnemployment={sarbUnemployment.data}
+          responseUnemployment={sarbUnemployment.data || []}
           responseUnemploymentTimeline={sarbUnemploymentTimeline.data || []}
         />
         <SarbRepo response={sarbRepo.data} />
