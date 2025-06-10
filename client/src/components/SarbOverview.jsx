@@ -54,13 +54,43 @@ export default function SarbOverview({
   responseUnemploymentTimeline,
 }) {
   // Timelines
-  const reversedRepoTimeline = [...responseRepoTimeline].reverse();
-  const reversedFxTimeline = [...responseFxTimeline].reverse();
-  const reversedRealGdpTimeline = [...responseRealGdpTimeline].reverse();
-  const reversedPrimeTimeline = [...responsePrimeTimeline].reverse();
-  const reversedGoldTimeline = [...responseGoldTimeline].reverse();
-  const reversedGbpTimeline = [...responseGbpTimeline].reverse();
-  const reversedEuroTimeline = [...responseEuroTimeline].reverse();
+  // const reversedRepoTimeline = [...responseRepoTimeline].reverse();
+  const reversedRepoTimeline = [...responseRepoTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  const reversedFxTimeline = [...responseFxTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  const reversedRealGdpTimeline = [...responseRealGdpTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  // const reversedPrimeTimeline = [...responsePrimeTimeline].reverse();
+  const reversedPrimeTimeline = [...responsePrimeTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  const reversedGoldTimeline = [...responseGoldTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  const reversedGbpTimeline = [...responseGbpTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
+  const reversedEuroTimeline = [...responseEuroTimeline].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA - dateB;
+  });
 
   // Unemployment rate and date
   const unemploymentRate = responseUnemployment[0]?.unemploymentRate;
