@@ -18,6 +18,7 @@ import {
   getSarbEuroTimelineData,
   getUnemployment,
   getUnemploymentTimelineData,
+  getWebsiteData,
 } from "../controllers/index.js";
 
 const router = express.Router();
@@ -47,9 +48,14 @@ router.get(
 router.get("/sarb-gold-timeline", cacheMiddleware, getSarbGoldTimelineData);
 router.get("/sarb-gbp-timeline", cacheMiddleware, getSarbGbpTimelineData);
 router.get("/sarb-euro-timeline", cacheMiddleware, getSarbEuroTimelineData);
+router.get("/unemployment", cacheMiddleware, getUnemployment);
+router.get(
+  "/unemployment-timeline",
+  cacheMiddleware,
+  getUnemploymentTimelineData
+);
+router.get("/website-data", getWebsiteData);
 router.get("/test", getTest);
-router.get("/unemployment", getUnemployment);
-router.get("/unemployment-timeline", getUnemploymentTimelineData);
 export default router;
 
 // Express.js provides the server framework to handle HTTP requests and responses.

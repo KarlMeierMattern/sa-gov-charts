@@ -73,7 +73,7 @@ async function main() {
     );
     console.timeEnd("Unemployment data scrape time");
     logUpdate(
-      `Successfully updated Unemployment data: ${dataUnemployment.unemploymentRate} entries ✓`
+      `Successfully updated Unemployment data: ${dataUnemployment.length} entries ✓`
     );
 
     // Insert Unemployment Timeline data
