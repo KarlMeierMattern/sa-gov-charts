@@ -13,6 +13,9 @@ const unemploymentTimelineScraper = async (url) => {
       timeout: 120000,
     });
 
+    // Add a small delay to allow dynamic content to load
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     await page.waitForSelector("div.section-title.px-3");
 
     // Find and click the "Unemployment rate (nsa)" link

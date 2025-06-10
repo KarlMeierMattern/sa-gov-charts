@@ -13,6 +13,10 @@ const sarbRepoScraper = async (url) => {
       waitUntil: "domcontentloaded",
       timeout: 60000,
     });
+
+    // Add a small delay to allow dynamic content to load
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     // Wait for the table to load
     await page.waitForSelector(".table", { timeout: 60000 });
 

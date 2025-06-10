@@ -1,4 +1,5 @@
 import sarbRepoTimelineScraper from "../scraping/sarbTimelineScraper.js";
+import sarbRepoScraper from "../scraping/sarbRepoScraper.js";
 
 const testData = [
   {
@@ -40,10 +41,15 @@ const testData = [
   },
 ];
 
+// export const getTest = async (req, res) => {
+//   const data = await sarbRepoTimelineScraper({
+//     url: testData[0].url,
+//     text: testData[0].name,
+//   });
+//   res.send(data);
+// };
+
 export const getTest = async (req, res) => {
-  const data = await sarbRepoTimelineScraper({
-    url: testData[9].url,
-    text: testData[9].name,
-  });
+  const data = await sarbRepoScraper(process.env.SARB_REPO_URL);
   res.send(data);
 };
