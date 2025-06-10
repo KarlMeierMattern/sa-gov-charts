@@ -14,7 +14,6 @@ import { getSarbEuroTimelineData } from "./sarbEuroTimelineController.js";
 import { getTest } from "./testController.js";
 import { getUnemployment } from "./sarbUnemploymentController.js";
 import { getUnemploymentTimelineData } from "./sarbUnemploymentTimelineController.js";
-import { getWebsiteData } from "./websiteController.js";
 export {
   getJseIndex,
   getSarbAllData,
@@ -32,5 +31,4 @@ export {
   getTest,
   getUnemployment,
   getUnemploymentTimelineData,
-  getWebsiteData,
 };
