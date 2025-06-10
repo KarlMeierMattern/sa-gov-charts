@@ -165,7 +165,7 @@ export default function SarbOverview({
     },
     {
       title: "Repo Rate",
-      value: `${parseFloat(repoRate?.value).toFixed(1)}%`,
+      value: `${parseFloat(repoRate?.value).toFixed(2)}%`,
       description: `@ ${repoRate?.lastPeriod}`,
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
       info: "Set by the central bank, affects the overall cost of borrowing in the economy.",
