@@ -54,7 +54,6 @@ router.get(
   cacheMiddleware,
   getUnemploymentTimelineData
 );
-router.get("/website-data", getWebsiteData);
 router.get("/test", getTest);
 export default router;
 
