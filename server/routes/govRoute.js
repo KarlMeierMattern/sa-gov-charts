@@ -18,7 +18,6 @@ import {
   getSarbEuroTimelineData,
   getUnemployment,
   getUnemploymentTimelineData,
-  handleCronJob,
 } from "../controllers/index.js";
 
 const router = express.Router();
@@ -55,7 +54,7 @@ router.get(
   getUnemploymentTimelineData
 );
 router.get("/test", getTest);
-router.get("/api/cron", handleCronJob);
+
 export default router;
 
 // Express.js provides the server framework to handle HTTP requests and responses.
