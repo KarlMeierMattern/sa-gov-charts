@@ -73,6 +73,18 @@ export default function SarbCashFin({ response }) {
             datalabels: false,
             legend: { display: false },
           },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
         }}
       />
     </div>

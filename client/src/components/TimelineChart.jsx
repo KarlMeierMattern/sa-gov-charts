@@ -181,6 +181,9 @@ export default function TimelineChart({
           display: true,
           text: "Interest Rate (%)",
         },
+        grid: {
+          display: false,
+        },
       },
       y1: {
         type: "linear",
@@ -191,7 +194,7 @@ export default function TimelineChart({
           text: "GDP (%)",
         },
         grid: {
-          drawOnChartArea: false,
+          display: false,
         },
       },
       x: {
@@ -207,6 +210,9 @@ export default function TimelineChart({
         title: {
           display: true,
           text: "Year",
+        },
+        grid: {
+          display: false,
         },
         ticks: {
           callback: function (value, index, ticks) {

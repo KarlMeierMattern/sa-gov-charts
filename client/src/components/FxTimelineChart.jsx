@@ -128,11 +128,17 @@ export default function FxTimelineChart({
           display: true,
           text: "Exchange Rate",
         },
+        grid: {
+          display: false,
+        },
       },
       x: {
         title: {
           display: true,
           text: "Date",
+        },
+        grid: {
+          display: false,
         },
         ticks: {
           callback: function (value, index) {

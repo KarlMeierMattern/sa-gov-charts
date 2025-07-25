@@ -78,6 +78,18 @@ export default function GdpData({ response }) {
               display: false,
             },
           },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
         }}
       />
     </div>

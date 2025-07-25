@@ -156,6 +156,18 @@ export default function SarbRepo({ response }) {
                 datalabels: false,
                 legend: { display: false },
               },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                  },
+                },
+                y: {
+                  grid: {
+                    display: false,
+                  },
+                },
+              },
             }}
           />
         </div>
