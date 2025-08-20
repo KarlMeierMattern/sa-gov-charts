@@ -342,46 +342,42 @@ export default function SarbOverview({
   ];
 
   return (
-    <div className="flex-col md:flex">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2"></div>
-        <Tabs defaultValue="overview" className="space-y-4">
-          <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-              {" "}
-              {cardData.map((data) => (
-                <Card key={data.title}>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {data.title}
-                    </CardTitle>
-                    {data.chart && data.chart}
-                    {data.icon}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{data.value}</div>
-                    <div className="flex flex-row justify-between">
-                      <p className="text-xs text-muted-foreground">
-                        {data.description}
-                      </p>
-                      {data.info && (
-                        <HoverCard>
-                          <HoverCardTrigger>
-                            <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
-                          </HoverCardTrigger>
-                          <HoverCardContent className="text-xs">
-                            {data.info}
-                          </HoverCardContent>
-                        </HoverCard>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+    <div className="p-8 pt-6">
+      <Tabs defaultValue="overview" className="space-y-4">
+        <TabsContent value="overview">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            {cardData.map((data) => (
+              <Card key={data.title}>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    {data.title}
+                  </CardTitle>
+                  {data.chart && data.chart}
+                  {data.icon}
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{data.value}</div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs text-muted-foreground">
+                      {data.description}
+                    </p>
+                    {data.info && (
+                      <HoverCard>
+                        <HoverCardTrigger>
+                          <Info className="h-4 w-4 text-muted-foreground cursor-pointer" />
+                        </HoverCardTrigger>
+                        <HoverCardContent className="text-xs">
+                          {data.info}
+                        </HoverCardContent>
+                      </HoverCard>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
