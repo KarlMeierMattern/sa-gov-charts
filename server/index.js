@@ -97,7 +97,11 @@ const start = async () => {
       socketTimeoutMS: 45000, // Socket timeout
       bufferCommands: false, // Disable mongoose buffering for better performance
     });
-    console.log("App connected to database ✅");
+    console.log(
+      process.env.NODE_ENV === "development"
+        ? "App connected to local database ✅"
+        : "App connected to VPS database ✅"
+    );
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT} 🚀`);
       if (process.env.NODE_ENV === "production") {
