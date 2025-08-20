@@ -7,6 +7,7 @@ const jseIndexScraper = async (url) => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true,
+      ignoreHTTPSErrors: true, // Add this
     });
 
     const page = await browser.newPage();

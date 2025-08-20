@@ -7,6 +7,7 @@ const unemploymentScraper = async (url) => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true,
+      ignoreHTTPSErrors: true,
     });
 
     const page = await browser.newPage();

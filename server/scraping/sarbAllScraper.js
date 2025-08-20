@@ -8,6 +8,7 @@ const sarbAllScraper = async (url) => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true,
+      ignoreHTTPSErrors: true,
       // ignoreHTTPSErrors: true,
       // args: ["--ignore-certificate-errors", "--no-sandbox"],
     });
