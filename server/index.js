@@ -45,28 +45,26 @@ const allowedOrigins =
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("Allowed Origins:", allowedOrigins);
 
-// Add CORS headers directly
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  console.log("Incoming request from origin:", origin);
-
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-  }
-
-  // Handle preflight
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  next();
-});
+// Go back to using cors middleware
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      console.log("Incoming request from origin:", origin);
+      // Check if origin is in allowed list
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin || true);
+      } else {
+        console.log("Origin rejected:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Accept"],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 
 // Connect to Redis
 (async () => {
