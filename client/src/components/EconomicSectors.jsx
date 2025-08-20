@@ -91,7 +91,7 @@ export default function EconomicSectors({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow">
+    <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">Economic Sectors</h2>
       <div className="h-[400px] flex items-center justify-center">
         <Doughnut

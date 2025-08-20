@@ -60,7 +60,7 @@ export default function SarbProdEmploy({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow">
+    <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">Production & Employment</h2>
       <Bar
         data={prodEmploy}

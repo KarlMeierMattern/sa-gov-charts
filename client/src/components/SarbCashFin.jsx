@@ -62,7 +62,7 @@ export default function SarbCashFin({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow">
+    <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">Cash Flow & Financing</h2>
       <Bar
         data={cashFinance}

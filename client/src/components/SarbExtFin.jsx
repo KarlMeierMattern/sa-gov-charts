@@ -57,7 +57,7 @@ export default function SarbExtFin({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow">
+    <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">Balance of Payments</h2>
       <Bar
         data={exFinance}

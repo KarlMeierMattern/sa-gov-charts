@@ -6,19 +6,9 @@ import {
   LinearScale,
   Tooltip,
   Legend,
-  PointElement,
-  LineElement,
 } from "chart.js";
 
-ChartJS.register(
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-  PointElement,
-  LineElement
-);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 import PropTypes from "prop-types";
 
@@ -143,38 +133,35 @@ export default function SarbRepo({ response }) {
   const chartData = [interestRates, treasuryRates, currencyRates, bondYields];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4">
+    <>
       {chartData.map((data, index) => (
-        <div key={index} className="p-4 border rounded shadow">
-          <h2 className="text-lg font-bold mb-4">{data.title}</h2>
-          <div className="h-[400px] flex items-center justify-center">
-            <Bar
-              data={data}
-              options={{
-                maintainAspectRatio: true,
-                responsive: true,
-                plugins: {
-                  tooltip: { enabled: true },
-                  datalabels: false,
-                  legend: { display: false },
-                },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    grid: {
-                      display: false,
-                    },
+        <div key={index} className="p-4 border rounded-2xl shadow">
+          <h2 className="text-lg font-bold">{data.title}</h2>
+          <Bar
+            data={data}
+            options={{
+              responsive: true,
+              plugins: {
+                tooltip: { enabled: true },
+                datalabels: false,
+                legend: { display: false },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
                   },
                 },
-              }}
-            />
-          </div>
+                y: {
+                  grid: {
+                    display: false,
+                  },
+                },
+              },
+            }}
+          />
         </div>
       ))}
-    </div>
+    </>
   );
 }

@@ -75,7 +75,7 @@ export default function SarbGdp({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow">
+    <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">
         GDP by Consumption & Expenditure Category
       </h2>

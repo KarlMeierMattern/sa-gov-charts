@@ -125,10 +125,10 @@ export default function Dashboard() {
             responseUnemploymentTimeline={sarbUnemploymentTimeline.data || []}
           />
         </div>
-        <div className="px-4 lg:px-8 mb-4">
+        <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 px-4 lg:px-8 mb-4">
           <SarbRepo response={sarbRepo.data} />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
+        <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
           <TimelineChart
             sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
             sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
@@ -140,15 +140,15 @@ export default function Dashboard() {
             responseEuroTimeline={sarbEuroTimeline.data}
           />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
           <SarbGdp response={sarbAll.data} />
           <EconomicSectors response={sarbAll.data} />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8">
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
           <SarbResCur response={sarbAll.data} />
           <SarbProdEmploy response={sarbAll.data} />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8">
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
           <SarbCashFin response={sarbAll.data} />
           <SarbExtFin response={sarbAll.data} />
         </div>
