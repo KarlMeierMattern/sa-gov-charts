@@ -33,6 +33,15 @@ console.log(
 
 const app = express();
 
+// Trust Traefik proxy and ensure HTTPS
+app.enable("trust proxy");
+app.use((req, res, next) => {
+  if (req.headers["x-forwarded-proto"] === "http") {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+  next();
+});
+
 // Middleware for parsing incoming requests
 app.use(express.json());
 
