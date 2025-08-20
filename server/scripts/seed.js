@@ -6,13 +6,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // scrapers
-import jseIndexScraper from "../scraping/jseIndexScraper.js";
-import sarbAllScraper from "../scraping/sarbAllScraper.js";
-import sarbOtherIndicatorsScraper from "../scraping/sarbOtherIndicatorsScraper.js";
-import sarbRepoScraper from "../scraping/sarbRepoScraper.js";
-import sarbTimelineScraper from "../scraping/sarbTimelineScraper.js";
-import unemploymentScraper from "../scraping/unemploymentScraper.js";
-import unemploymentTimelineScraper from "../scraping/unemploymentTimelineScraper.js";
+import {
+  jseIndexScraper,
+  sarbAllScraper,
+  sarbOtherIndicatorsScraper,
+  sarbRepoScraper,
+  sarbTimelineScraper,
+  unemploymentScraper,
+  unemploymentTimelineScraper,
+} from "../scraping/index.js";
+
 // models
 import {
   JseModel,
