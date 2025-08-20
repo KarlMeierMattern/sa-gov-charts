@@ -33,15 +33,6 @@ console.log(
 
 const app = express();
 
-// Trust Traefik proxy and ensure HTTPS
-app.enable("trust proxy");
-app.use((req, res, next) => {
-  if (req.headers["x-forwarded-proto"] === "http") {
-    return res.redirect(`https://${req.headers.host}${req.url}`);
-  }
-  next();
-});
-
 // Middleware for parsing incoming requests
 app.use(express.json());
 
@@ -55,10 +46,23 @@ console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("Allowed Origins:", allowedOrigins);
 
 // Go back to using cors middleware
+// Add middleware to log all requests
+app.use((req, res, next) => {
+  console.log(
+    "Debug - Full request headers:",
+    JSON.stringify(req.headers, null, 2)
+  );
+  console.log("Debug - Protocol:", req.protocol);
+  console.log("Debug - X-Forwarded-Proto:", req.headers["x-forwarded-proto"]);
+  next();
+});
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("Incoming request from origin:", origin);
+      console.log("Debug - Allowed origins:", allowedOrigins);
+      console.log("Debug - Incoming origin:", origin);
+
       // Check if origin is in allowed list
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, origin || true);
