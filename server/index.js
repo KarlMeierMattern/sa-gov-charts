@@ -49,7 +49,13 @@ app.use(
   cors({
     origin: (origin, callback) => {
       console.log("Incoming request from origin:", origin);
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // Check if origin is in allowed list
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         console.log("Origin rejected:", origin);
@@ -58,6 +64,9 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Origin", "Authorization"],
+    exposedHeaders: ["Access-Control-Allow-Origin"],
+    maxAge: 86400, // 24 hours in seconds
   })
 );
 

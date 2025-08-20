@@ -15,6 +15,7 @@ const fetchData = async (endpoint) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        Origin: import.meta.env.VITE_PROD_BASE_URL,
       },
     });
     if (!res.ok) {
