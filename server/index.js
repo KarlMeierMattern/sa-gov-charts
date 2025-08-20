@@ -8,6 +8,29 @@ import redisClient from "./redisClient.js";
 
 dotenv.config();
 
+console.log("ORIGIN_1:", process.env.ORIGIN_1 ? "✅ Set" : "❌ Missing");
+console.log("ORIGIN_2:", process.env.ORIGIN_2 ? "✅ Set" : "❌ Missing");
+console.log(
+  "REDIS_URL:",
+  process.env.NODE_ENV === "development"
+    ? process.env.REDIS_URL_DEV
+      ? "✅ Dev Set"
+      : "❌ Dev Missing"
+    : process.env.REDIS_URL_PROD
+    ? "✅ Prod Set"
+    : "❌ Prod Missing"
+);
+console.log(
+  "MONGO_URI:",
+  process.env.NODE_ENV === "development"
+    ? process.env.MONGO_URI_DEV
+      ? "✅ Dev Set"
+      : "❌ Dev Missing"
+    : process.env.MONGO_URI_PROD
+    ? "✅ Prod Set"
+    : "❌ Prod Missing"
+);
+
 const app = express();
 
 // Middleware for parsing incoming requests
@@ -51,7 +74,10 @@ app.use("/", govRoute);
 app.use(errorHandlerMiddleware);
 
 // Connect to MongoDB with fallback URI if not provided
-const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/defaultDb";
+const mongoUri =
+  process.env.NODE_ENV === "development"
+    ? process.env.MONGO_URI_DEV
+    : process.env.MONGO_URI_PROD;
 
 // In production Render automatically assigns PORT
 const PORT = process.env.PORT || 3000;

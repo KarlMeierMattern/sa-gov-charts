@@ -3,8 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const redisClient = createClient({
-  url: process.env.REDIS_URL,
-  socket: { tls: true },
+  url:
+    process.env.NODE_ENV === "development"
+      ? process.env.REDIS_URL_DEV
+      : process.env.REDIS_URL_PROD,
+  socket: { tls: process.env.NODE_ENV === "development" ? true : false },
 });
 
 redisClient.on("error", (err) => console.error("Redis Error:", err));

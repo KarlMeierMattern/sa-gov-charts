@@ -11,7 +11,7 @@ const jseSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      index: true, // Add index for faster lookups
+      index: true,
     },
     value: {
       type: String,
