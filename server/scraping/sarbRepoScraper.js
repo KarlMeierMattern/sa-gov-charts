@@ -1,22 +1,10 @@
 // https://www.resbank.co.za/en/home/what-we-do/statistics/key-statistics/current-market-rates
 
-import puppeteer from "puppeteer";
+import { initPuppeteer } from "../utils/puppeteer-config.js";
 
 const sarbRepoScraper = async (url) => {
   try {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
-
-    const page = await browser.newPage();
-
-    // Navigate to the URL
-    await page.goto(url, {
-      waitUntil: "domcontentloaded",
-      timeout: 60000,
-    });
+    const { browser, page } = await initPuppeteer(url);
 
     // Add a small delay to allow dynamic content to load
     await new Promise((resolve) => setTimeout(resolve, 5000));

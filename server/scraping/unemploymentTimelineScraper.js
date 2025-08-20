@@ -1,19 +1,8 @@
-import puppeteer from "puppeteer";
+import { initPuppeteer } from "../utils/puppeteer-config.js";
 
 const unemploymentTimelineScraper = async (url) => {
   try {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
-
-    const page = await browser.newPage();
-
-    await page.goto(url, {
-      waitUntil: "domcontentloaded",
-      timeout: 120000,
-    });
+    const { browser, page } = await initPuppeteer(url);
 
     // Add a small delay to allow dynamic content to load
     await new Promise((resolve) => setTimeout(resolve, 5000));
