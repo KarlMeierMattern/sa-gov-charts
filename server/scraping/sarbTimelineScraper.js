@@ -4,7 +4,10 @@ import puppeteer from "puppeteer";
 
 const sarbTimelineScraper = async ({ url, text }) => {
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: true,
+    });
 
     const page = await browser.newPage();
 

@@ -6,9 +6,10 @@ import puppeteer from "puppeteer";
 const sarbAllScraper = async (url) => {
   try {
     const browser = await puppeteer.launch({
-      headless: "new",
-      ignoreHTTPSErrors: true,
-      args: ["--ignore-certificate-errors", "--no-sandbox"],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: true,
+      // ignoreHTTPSErrors: true,
+      // args: ["--ignore-certificate-errors", "--no-sandbox"],
     });
 
     const page = await browser.newPage();
