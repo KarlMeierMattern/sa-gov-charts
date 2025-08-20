@@ -10,7 +10,13 @@ const cacheTime = 604800;
 
 const fetchData = async (endpoint) => {
   try {
-    const res = await fetch(`${baseUrl}/${endpoint}`);
+    const res = await fetch(`${baseUrl}/${endpoint}`, {
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!res.ok) {
       throw new Error(`Failed to fetch ${endpoint} data`);
     }
