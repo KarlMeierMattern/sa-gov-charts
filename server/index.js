@@ -45,30 +45,28 @@ const allowedOrigins =
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("Allowed Origins:", allowedOrigins);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      console.log("Incoming request from origin:", origin);
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) {
-        return callback(null, true);
-      }
+// Add CORS headers directly
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  console.log("Incoming request from origin:", origin);
 
-      // Check if origin is in allowed list
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log("Origin rejected:", origin);
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Origin", "Authorization"],
-    exposedHeaders: ["Access-Control-Allow-Origin"],
-    maxAge: 86400, // 24 hours in seconds
-  })
-);
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  next();
+});
 
 // Connect to Redis
 (async () => {

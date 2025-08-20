@@ -11,11 +11,12 @@ const cacheTime = 604800;
 const fetchData = async (endpoint) => {
   try {
     const res = await fetch(`${baseUrl}/${endpoint}`, {
+      method: "GET",
       mode: "cors",
       credentials: "include",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
-        Origin: import.meta.env.VITE_PROD_BASE_URL,
       },
     });
     if (!res.ok) {
