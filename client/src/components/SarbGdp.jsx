@@ -86,7 +86,9 @@ export default function SarbGdp({ response }) {
           plugins: {
             tooltip: { enabled: true },
             datalabels: false,
-            legend: { display: false },
+            legend: {
+              display: false,
+            },
           },
           scales: {
             x: {

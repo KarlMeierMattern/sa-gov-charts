@@ -93,37 +93,40 @@ export default function EconomicSectors({ response }) {
   return (
     <div className="p-4 border rounded shadow">
       <h2 className="text-lg font-bold mb-4">Economic Sectors</h2>
-      <Doughnut
-        data={economicSectorsCurrent}
-        options={{
-          responsive: true,
-          plugins: {
-            tooltip: { enabled: true },
-            legend: {
-              display: true,
-              position: "bottom",
-              padding: {
-                top: 100,
+      <div className="h-[400px] flex items-center justify-center">
+        <Doughnut
+          data={economicSectorsCurrent}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              tooltip: { enabled: true },
+              legend: {
+                display: true,
+                position: "right",
+                padding: {
+                  top: 100,
+                },
+              },
+              datalabels: {
+                display: false,
+                color: "white",
+                formatter: (value, context) => {
+                  const currentValue =
+                    context.chart.data.datasets[0].data[context.dataIndex];
+                  return currentValue;
+                },
+                align: "center",
+                anchor: "center",
+                font: {
+                  size: 12,
+                },
+                textAlign: "center",
               },
             },
-            datalabels: {
-              display: false,
-              color: "white",
-              formatter: (value, context) => {
-                const currentValue =
-                  context.chart.data.datasets[0].data[context.dataIndex];
-                return currentValue;
-              },
-              align: "center",
-              anchor: "center",
-              font: {
-                size: 12,
-              },
-              textAlign: "center",
-            },
-          },
-        }}
-      />
+          }}
+        />
+      </div>
     </div>
   );
 }

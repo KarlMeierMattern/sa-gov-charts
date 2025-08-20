@@ -236,7 +236,16 @@ export default function TimelineChart({
   return (
     <div className="p-4 border rounded shadow">
       <h2 className="text-lg font-bold mb-4">{chartData.title}</h2>
-      <Line data={chartData} options={options} />
+      <div className="h-[400px]">
+        <Line
+          data={chartData}
+          options={{
+            ...options,
+            maintainAspectRatio: false,
+            responsive: true,
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -8,7 +8,6 @@ import {
   SarbCashFin,
   SarbResCur,
   SarbExtFin,
-  GdpData,
   TimelineChart,
   FxTimelineChart,
 } from "./components/index.js";
@@ -109,23 +108,27 @@ export default function Dashboard() {
         <ModeToggle />
       </header>
       <CardContent className="p-6 bg-background">
-        <SarbOverview
-          response={sarbOther.data}
-          responseAll={sarbAll.data}
-          responseFx={sarbRepo.data}
-          responseJse={sarbJse.data}
-          responseRepoTimeline={sarbRepoTimeline.data}
-          responseRealGdpTimeline={sarbRealGdpTimeline.data}
-          responsePrimeTimeline={sarbPrimeTimeline.data}
-          responseGoldTimeline={sarbGoldTimeline.data}
-          responseFxTimeline={sarbFxTimeline.data}
-          responseGbpTimeline={sarbGbpTimeline.data}
-          responseEuroTimeline={sarbEuroTimeline.data}
-          responseUnemployment={sarbUnemployment.data || []}
-          responseUnemploymentTimeline={sarbUnemploymentTimeline.data || []}
-        />
-        <SarbRepo response={sarbRepo.data} />
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
+        <div className="px-4 lg:px-8 mb-4">
+          <SarbOverview
+            response={sarbOther.data}
+            responseAll={sarbAll.data}
+            responseFx={sarbRepo.data}
+            responseJse={sarbJse.data}
+            responseRepoTimeline={sarbRepoTimeline.data}
+            responseRealGdpTimeline={sarbRealGdpTimeline.data}
+            responsePrimeTimeline={sarbPrimeTimeline.data}
+            responseGoldTimeline={sarbGoldTimeline.data}
+            responseFxTimeline={sarbFxTimeline.data}
+            responseGbpTimeline={sarbGbpTimeline.data}
+            responseEuroTimeline={sarbEuroTimeline.data}
+            responseUnemployment={sarbUnemployment.data || []}
+            responseUnemploymentTimeline={sarbUnemploymentTimeline.data || []}
+          />
+        </div>
+        <div className="px-4 lg:px-8 mb-4">
+          <SarbRepo response={sarbRepo.data} />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
           <TimelineChart
             sarbChangePrimeTimeline={sarbChangePrimeTimeline.data}
             sarbChangeRepoTimeline={sarbChangeRepoTimeline.data}
@@ -137,19 +140,15 @@ export default function Dashboard() {
             responseEuroTimeline={sarbEuroTimeline.data}
           />
         </div>
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8 overflow-hidden">
-          <div>
-            <SarbGdp response={sarbAll.data} />
-            <div className="mb-4"></div>
-            <GdpData response={sarbAll.data} />
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8 mb-4">
+          <SarbGdp response={sarbAll.data} />
           <EconomicSectors response={sarbAll.data} />
         </div>
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8">
           <SarbResCur response={sarbAll.data} />
           <SarbProdEmploy response={sarbAll.data} />
         </div>
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-8">
           <SarbCashFin response={sarbAll.data} />
           <SarbExtFin response={sarbAll.data} />
         </div>

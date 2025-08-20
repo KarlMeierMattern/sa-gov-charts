@@ -142,7 +142,13 @@ export default function FxTimelineChart({
         },
         ticks: {
           callback: function (value, index) {
-            return index % 4 === 0 ? this.getLabelForValue(value) : "";
+            // Show fewer ticks on smaller screens
+            const screenWidth = window.innerWidth;
+            const skipFactor =
+              screenWidth < 768 ? 8 : screenWidth < 1024 ? 6 : 4;
+            return index % skipFactor === 0
+              ? this.getLabelForValue(value).slice(0, 10)
+              : "";
           },
           autoSkip: false,
           maxRotation: 0,
@@ -157,7 +163,16 @@ export default function FxTimelineChart({
       <h2 className="text-lg font-bold mb-4">
         FX Timeline (USD, GBP, EUR vs ZAR)
       </h2>
-      <Line data={chartData} options={options} />
+      <div className="h-[400px]">
+        <Line
+          data={chartData}
+          options={{
+            ...options,
+            maintainAspectRatio: false,
+            responsive: true,
+          }}
+        />
+      </div>
     </div>
   );
 }

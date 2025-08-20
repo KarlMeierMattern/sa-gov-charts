@@ -6,7 +6,6 @@ import SarbProdEmploy from "./SarbProdEmploy.jsx";
 import SarbCashFin from "./SarbCashFin.jsx";
 import SarbResCur from "./SarbResCur.jsx";
 import SarbExtFin from "./SarbExtFin.jsx";
-import GdpData from "./GdpData.jsx";
 import RepoSparklineChart from "./SparklineChart.jsx";
 import TimelineChart from "./TimelineChart.jsx";
 import FxTimelineChart from "./FxTimelineChart.jsx";
@@ -19,7 +18,6 @@ export {
   SarbCashFin,
   SarbResCur,
   SarbExtFin,
-  GdpData,
   RepoSparklineChart,
   TimelineChart,
   FxTimelineChart,

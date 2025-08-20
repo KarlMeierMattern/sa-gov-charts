@@ -303,33 +303,7 @@ export default function SarbOverview({
       info: "The net value of goods and services sold to and bought from other countries. Trade surplus (positive) or deficit (negative). Forms part of the current account.",
       icon: <Banknote className="h-4 w-4 text-muted-foreground" />,
     },
-    // {
-    //   title: "Current Account",
-    //   value: `R${(parseFloat(currentAccount) / 1000)
-    //     .toFixed(1)
-    //     .toLocaleString()}b`,
-    //   description: "Trade balance + income from abroad + transfers",
-    //   info: "",
-    //   icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
-    // },
-    // {
-    //   title: "Capital Account",
-    //   value: `R${(parseFloat(capitalAccount) / 1000)
-    //     .toFixed(1)
-    //     .toLocaleString()}b`,
-    //   description: "Tracks one-time transfers of capital assets.",
-    //   info: "Debt forgiveness, land purchases.",
-    //   icon: <Users className="h-4 w-4 text-muted-foreground" />,
-    // },
-    // {
-    //   title: "Financial Account",
-    //   value: `R${(parseFloat(financialAccount) / 1000)
-    //     .toFixed(1)
-    //     .toLocaleString()}b`,
-    //   description: "Tracks investments and financial flows.",
-    //   info: "Foreign direct investment, stock/bond purchases, and reserve assets.",
-    //   icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
-    // },
+
     {
       title: "Balance of Payments",
       value: `R${(parseFloat(balanceOfPayments) / 1000)
@@ -342,10 +316,10 @@ export default function SarbOverview({
   ];
 
   return (
-    <div className="p-8 pt-6">
+    <div>
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsContent value="overview">
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {cardData.map((data) => (
               <Card key={data.title}>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
