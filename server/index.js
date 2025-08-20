@@ -64,7 +64,11 @@ app.use(
 // Connect to Redis
 (async () => {
   await redisClient.connect();
-  console.log("Connected to Upstash Redis ✅");
+  console.log(
+    process.env.NODE_ENV === "development"
+      ? "Connected to Upstash Redis ✅"
+      : "Connected to VPS Redis ✅"
+  );
 })();
 
 // Apply routes
