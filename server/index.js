@@ -58,7 +58,15 @@ const PORT = process.env.PORT || 3000;
 
 const start = async () => {
   try {
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      // Connection pooling optimization
+      maxPoolSize: 10, // Maximum number of connections in the pool
+      minPoolSize: 2, // Minimum number of connections in the pool
+      maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
+      serverSelectionTimeoutMS: 5000, // Timeout for server selection
+      socketTimeoutMS: 45000, // Socket timeout
+      bufferCommands: false, // Disable mongoose buffering for better performance
+    });
     console.log("App connected to database ✅");
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT} 🚀`);

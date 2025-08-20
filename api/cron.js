@@ -1,4 +1,3 @@
-// /api/cron.js
 import seedDatabase from "../server/scripts/seed.js";
 
 export default async function handler(req, res) {
