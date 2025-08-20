@@ -12,7 +12,7 @@ const fetchData = async (endpoint) => {
   try {
     const res = await fetch(`${baseUrl}/${endpoint}`, {
       mode: "cors",
-      credentials: "same-origin",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
