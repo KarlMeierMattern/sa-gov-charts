@@ -43,9 +43,14 @@ function logUpdate(message, isError = false) {
   }
 }
 
+const mongoUri =
+  process.env.NODE_ENV === "development"
+    ? process.env.MONGO_URI_DEV
+    : process.env.MONGO_URI_PROD;
+
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(mongoUri);
     logUpdate("Connected to MongoDB ✓");
   } catch (error) {
     logUpdate(`Failed to connect to MongoDB: ${error}`, true);
@@ -76,9 +81,7 @@ export default async function seedDatabase() {
 
     // Insert Unemployment data
     console.time("Unemployment data scrape time");
-    const dataUnemployment = await unemploymentScraper(
-      process.env.SARB_UNEMPLOYMENT
-    );
+    const dataUnemployment = await unemploymentScraper(SARB_UNEMPLOYMENT);
 
     await SarbUnemploymentModel.updateOne(
       { unemploymentRate: dataUnemployment.unemploymentRate },
@@ -93,7 +96,7 @@ export default async function seedDatabase() {
     // Insert Unemployment Timeline data
     console.time("Unemployment Timeline data scrape time");
     const dataUnemploymentTimeline = await unemploymentTimelineScraper(
-      process.env.SARB_UNEMPLOYMENT
+      SARB_UNEMPLOYMENT
     );
 
     for (const data of dataUnemploymentTimeline) {
@@ -112,7 +115,7 @@ export default async function seedDatabase() {
     console.time("FX Timeline data scrape time");
 
     const dataFxTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "Rand per US Dollar",
     });
 
@@ -132,7 +135,7 @@ export default async function seedDatabase() {
     console.time("GBP Timeline data scrape time");
 
     const dataGbpTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "Rand per British Pound",
     });
 
@@ -152,7 +155,7 @@ export default async function seedDatabase() {
     console.time("Euro Timeline data scrape time");
 
     const dataEuroTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "Rand per Euro",
     });
 
@@ -172,7 +175,7 @@ export default async function seedDatabase() {
     console.time("Gold Timeline data scrape time");
 
     const dataGoldTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "US Dollar",
     });
 
@@ -190,7 +193,7 @@ export default async function seedDatabase() {
 
     // Insert JSE data
     console.time("JSE scrape time");
-    const dataJSE = await jseIndexScraper(process.env.JSE_URL);
+    const dataJSE = await jseIndexScraper(JSE_URL);
 
     for (const data of dataJSE) {
       await JseModel.updateOne(
@@ -206,7 +209,7 @@ export default async function seedDatabase() {
 
     // Insert All data
     console.time("All data scrape time");
-    const dataAll = await sarbAllScraper(process.env.SARB_ALL_URL);
+    const dataAll = await sarbAllScraper(SARB_ALL_URL);
 
     for (const data of dataAll) {
       await SarbAllModel.updateOne(
@@ -221,9 +224,7 @@ export default async function seedDatabase() {
 
     // Insert Other data
     console.time("Other data scrape time");
-    const dataOther = await sarbOtherIndicatorsScraper(
-      process.env.SARB_OTHER_URL
-    );
+    const dataOther = await sarbOtherIndicatorsScraper(SARB_OTHER_URL);
     for (const data of dataOther) {
       await SarbOtherModel.updateOne(
         { name: data.name },
@@ -236,7 +237,7 @@ export default async function seedDatabase() {
 
     // Insert Repo data
     console.time("Repo data scrape time");
-    const dataRepo = await sarbRepoScraper(process.env.SARB_REPO_URL);
+    const dataRepo = await sarbRepoScraper(SARB_REPO_URL);
 
     for (const data of dataRepo) {
       await SarbRepoModel.updateOne(
@@ -253,7 +254,7 @@ export default async function seedDatabase() {
     console.time("Repo Timeline data scrape time");
 
     const dataRepoTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "Repo rate",
     });
 
@@ -273,7 +274,7 @@ export default async function seedDatabase() {
     console.time("Real GDP Timeline data scrape time");
 
     const dataRealGdpTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_OTHER_URL,
+      url: SARB_OTHER_URL,
       text: "Real GDP growth rate",
     });
 
@@ -293,7 +294,7 @@ export default async function seedDatabase() {
     console.time("Prime Timeline data scrape time");
 
     const dataPrimeTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_REPO_URL,
+      url: SARB_REPO_URL,
       text: "Prime lending rate",
     });
 
@@ -313,7 +314,7 @@ export default async function seedDatabase() {
     console.time("Change Prime Timeline data scrape time");
 
     const dataChangePrimeTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_OTHER_URL,
+      url: SARB_OTHER_URL,
       text: "Dates of change in the prime lending rate",
     });
 
@@ -333,7 +334,7 @@ export default async function seedDatabase() {
     console.time("Change Repo Timeline data scrape time");
 
     const dataChangeRepoTimeline = await sarbTimelineScraper({
-      url: process.env.SARB_OTHER_URL,
+      url: SARB_OTHER_URL,
       text: "Dates of change in the repurchase rate",
     });
 
@@ -359,7 +360,7 @@ export default async function seedDatabase() {
 }
 
 // Run the seed function
-// seedDatabase().catch((e) => {
-//   logUpdate(e.message, true);
-//   process.exit(1);
-// });
+seedDatabase().catch((e) => {
+  logUpdate(e.message, true);
+  process.exit(1);
+});
