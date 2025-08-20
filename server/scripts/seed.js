@@ -54,6 +54,20 @@ async function connectDB() {
 }
 
 export default async function seedDatabase() {
+  const SARB_REPO_URL =
+    "https://www.resbank.co.za/en/home/what-we-do/statistics/key-statistics/current-market-rates";
+
+  const SARB_ALL_URL =
+    "https://resbank.co.za/en/home/what-we-do/statistics/releases/national-summary-data-page";
+
+  const SARB_OTHER_URL =
+    "https://www.resbank.co.za/en/home/what-we-do/statistics/key-statistics";
+
+  const JSE_URL = "https://www.jse.co.za/";
+
+  const SARB_UNEMPLOYMENT =
+    "https://www.resbank.co.za/en/home/what-we-do/statistics/releases/economic-and-financial-data-for-south-africa";
+
   await connectDB();
 
   try {
