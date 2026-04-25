@@ -73,287 +73,183 @@ export default async function seedDatabase() {
 
   await connectDB();
 
-  try {
-    // Initiate scraping
-    logUpdate("Starting full data scrape...");
+  const failures = [];
 
-    // Insert Unemployment data
+  async function run(label, fn) {
+    try {
+      await fn();
+    } catch (error) {
+      logUpdate(`[SKIPPED] ${label}: ${error.message}`, true);
+      failures.push(label);
+    }
+  }
+
+  logUpdate("Starting full data scrape...");
+
+  await run("Unemployment data", async () => {
     console.time("Unemployment data scrape time");
-    const dataUnemployment = await unemploymentScraper(SARB_UNEMPLOYMENT);
-
+    const data = await unemploymentScraper(SARB_UNEMPLOYMENT);
     await SarbUnemploymentModel.updateOne(
-      { unemploymentRate: dataUnemployment.unemploymentRate },
-      { $set: dataUnemployment },
+      { unemploymentRate: data.unemploymentRate },
+      { $set: data },
       { upsert: true }
     );
     console.timeEnd("Unemployment data scrape time");
-    logUpdate(
-      `Successfully updated Unemployment data: ${dataUnemployment.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Unemployment data ✓`);
+  });
 
-    // Insert Unemployment Timeline data
+  await run("Unemployment Timeline data", async () => {
     console.time("Unemployment Timeline data scrape time");
-    const dataUnemploymentTimeline = await unemploymentTimelineScraper(
-      SARB_UNEMPLOYMENT
-    );
-
-    for (const data of dataUnemploymentTimeline) {
+    const data = await unemploymentTimelineScraper(SARB_UNEMPLOYMENT);
+    for (const d of data) {
       await SarbUnemploymentTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
+        { date: d.date },
+        { $set: d },
         { upsert: true }
       );
     }
     console.timeEnd("Unemployment Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Unemployment Timeline data: ${dataUnemploymentTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Unemployment Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert FX Timeline data
+  await run("FX Timeline data", async () => {
     console.time("FX Timeline data scrape time");
-
-    const dataFxTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "Rand per US Dollar",
-    });
-
-    for (const data of dataFxTimeline) {
-      await SarbFxTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "Rand per US Dollar" });
+    for (const d of data) {
+      await SarbFxTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("FX Timeline data scrape time");
-    logUpdate(
-      `Successfully updated FX Timeline data: ${dataFxTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated FX Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert GBP Timeline data
+  await run("GBP Timeline data", async () => {
     console.time("GBP Timeline data scrape time");
-
-    const dataGbpTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "Rand per British Pound",
-    });
-
-    for (const data of dataGbpTimeline) {
-      await SarbGbpTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "Rand per British Pound" });
+    for (const d of data) {
+      await SarbGbpTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("GBP Timeline data scrape time");
-    logUpdate(
-      `Successfully updated GBP Timeline data: ${dataGbpTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated GBP Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Euro Timeline data
+  await run("Euro Timeline data", async () => {
     console.time("Euro Timeline data scrape time");
-
-    const dataEuroTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "Rand per Euro",
-    });
-
-    for (const data of dataEuroTimeline) {
-      await SarbEuroTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "Rand per Euro" });
+    for (const d of data) {
+      await SarbEuroTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Euro Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Euro Timeline data: ${dataEuroTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Euro Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Gold Timeline data
+  await run("Gold Timeline data", async () => {
     console.time("Gold Timeline data scrape time");
-
-    const dataGoldTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "US Dollar",
-    });
-
-    for (const data of dataGoldTimeline) {
-      await SarbGoldTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "US Dollar" });
+    for (const d of data) {
+      await SarbGoldTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Gold Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Gold Timeline data: ${dataGoldTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Gold Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert JSE data
+  await run("JSE data", async () => {
     console.time("JSE scrape time");
-    const dataJSE = await jseIndexScraper(JSE_URL);
-
-    for (const data of dataJSE) {
-      await JseModel.updateOne(
-        { index: data.index }, // unique identifier
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await jseIndexScraper(JSE_URL);
+    for (const d of data) {
+      await JseModel.updateOne({ index: d.index }, { $set: d }, { upsert: true });
     }
     console.timeEnd("JSE scrape time");
+    logUpdate(`Successfully updated JSE data: ${data.length} entries ✓`);
+  });
 
-    // const resultJSE = await JseModel.insertMany(dataJSE);
-    logUpdate(`Successfully updated JSE data: ${dataJSE.length} entries ✓`);
-
-    // Insert All data
+  await run("All data", async () => {
     console.time("All data scrape time");
-    const dataAll = await sarbAllScraper(SARB_ALL_URL);
-
-    for (const data of dataAll) {
-      await SarbAllModel.updateOne(
-        { sector: data.sector },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbAllScraper(SARB_ALL_URL);
+    for (const d of data) {
+      await SarbAllModel.updateOne({ sector: d.sector }, { $set: d }, { upsert: true });
     }
     console.timeEnd("All data scrape time");
-    // const resultAll = await SarbAllModel.insertMany(dataAll);
-    logUpdate(`Successfully updated All data: ${dataAll.length} entries ✓`);
+    logUpdate(`Successfully updated All data: ${data.length} entries ✓`);
+  });
 
-    // Insert Other data
+  await run("Other data", async () => {
     console.time("Other data scrape time");
-    const dataOther = await sarbOtherIndicatorsScraper(SARB_OTHER_URL);
-    for (const data of dataOther) {
-      await SarbOtherModel.updateOne(
-        { name: data.name },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbOtherIndicatorsScraper(SARB_OTHER_URL);
+    for (const d of data) {
+      await SarbOtherModel.updateOne({ name: d.name }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Other data scrape time");
-    logUpdate(`Successfully updated Other data: ${dataOther.length} entries ✓`);
+    logUpdate(`Successfully updated Other data: ${data.length} entries ✓`);
+  });
 
-    // Insert Repo data
+  await run("Repo data", async () => {
     console.time("Repo data scrape time");
-    const dataRepo = await sarbRepoScraper(SARB_REPO_URL);
-
-    for (const data of dataRepo) {
-      await SarbRepoModel.updateOne(
-        { name: data.name },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbRepoScraper(SARB_REPO_URL);
+    for (const d of data) {
+      await SarbRepoModel.updateOne({ name: d.name }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Repo data scrape time");
-    // const resultRepo = await SarbRepoModel.insertMany(dataRepo);
-    logUpdate(`Successfully updated Repo data: ${dataRepo.length} entries ✓`);
+    logUpdate(`Successfully updated Repo data: ${data.length} entries ✓`);
+  });
 
-    // Insert Repo Timeline data
+  await run("Repo Timeline data", async () => {
     console.time("Repo Timeline data scrape time");
-
-    const dataRepoTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "Repo rate",
-    });
-
-    for (const data of dataRepoTimeline) {
-      await SarbRepoTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "Repo rate" });
+    for (const d of data) {
+      await SarbRepoTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Repo Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Repo Timeline data: ${dataRepoTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Repo Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Real GDP Timeline data
+  await run("Real GDP Timeline data", async () => {
     console.time("Real GDP Timeline data scrape time");
-
-    const dataRealGdpTimeline = await sarbTimelineScraper({
-      url: SARB_OTHER_URL,
-      text: "Real GDP growth rate",
-    });
-
-    for (const data of dataRealGdpTimeline) {
-      await SarbRealGdpTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_OTHER_URL, text: "Real GDP growth rate" });
+    for (const d of data) {
+      await SarbRealGdpTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Real GDP Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Real GDP Timeline data: ${dataRealGdpTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Real GDP Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Prime Timeline data
+  await run("Prime Timeline data", async () => {
     console.time("Prime Timeline data scrape time");
-
-    const dataPrimeTimeline = await sarbTimelineScraper({
-      url: SARB_REPO_URL,
-      text: "Prime lending rate",
-    });
-
-    for (const data of dataPrimeTimeline) {
-      await SarbPrimeTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_REPO_URL, text: "Prime lending rate" });
+    for (const d of data) {
+      await SarbPrimeTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Prime Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Prime Timeline data: ${dataPrimeTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Prime Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Change Prime Timeline data
+  await run("Change Prime Timeline data", async () => {
     console.time("Change Prime Timeline data scrape time");
-
-    const dataChangePrimeTimeline = await sarbTimelineScraper({
-      url: SARB_OTHER_URL,
-      text: "Dates of change in the prime lending rate",
-    });
-
-    for (const data of dataChangePrimeTimeline) {
-      await SarbChangePrimeTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_OTHER_URL, text: "Dates of change in the prime lending rate" });
+    for (const d of data) {
+      await SarbChangePrimeTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Change Prime Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Change Prime Timeline data: ${dataChangePrimeTimeline.length} entries ✓`
-    );
+    logUpdate(`Successfully updated Change Prime Timeline data: ${data.length} entries ✓`);
+  });
 
-    // Insert Change Repo Timeline data
+  await run("Change Repo Timeline data", async () => {
     console.time("Change Repo Timeline data scrape time");
-
-    const dataChangeRepoTimeline = await sarbTimelineScraper({
-      url: SARB_OTHER_URL,
-      text: "Dates of change in the repurchase rate",
-    });
-
-    for (const data of dataChangeRepoTimeline) {
-      await SarbChangeRepoTimelineModel.updateOne(
-        { date: data.date },
-        { $set: data },
-        { upsert: true }
-      );
+    const data = await sarbTimelineScraper({ url: SARB_OTHER_URL, text: "Dates of change in the repurchase rate" });
+    for (const d of data) {
+      await SarbChangeRepoTimelineModel.updateOne({ date: d.date }, { $set: d }, { upsert: true });
     }
     console.timeEnd("Change Repo Timeline data scrape time");
-    logUpdate(
-      `Successfully updated Change Repo Timeline data: ${dataChangeRepoTimeline.length} entries ✓`
-    );
-  } catch (error) {
-    logUpdate(`Error seeding database: ${error}`, true);
+    logUpdate(`Successfully updated Change Repo Timeline data: ${data.length} entries ✓`);
+  });
+
+  await mongoose.connection.close();
+  logUpdate("Database connection closed ✓");
+
+  if (failures.length > 0) {
+    logUpdate(`Seed completed with ${failures.length} failure(s): ${failures.join(", ")}`, true);
     process.exit(1);
-  } finally {
-    // Close the MongoDB connection
-    await mongoose.connection.close();
-    logUpdate("Database connection closed ✓");
+  } else {
+    logUpdate("Seed completed successfully ✓");
   }
 }
 
