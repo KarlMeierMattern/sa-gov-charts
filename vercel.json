@@ -4,12 +4,6 @@
   "buildCommand": "cd client && npm run build",
   "outputDirectory": "client/dist",
   "framework": null,
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "0 0 * * 5"
-    }
-  ],
   "rewrites": [
     {
       "source": "/((?!api/).*)",
@@ -19,9 +13,6 @@
   "functions": {
     "api/[...path].js": {
       "maxDuration": 30
-    },
-    "api/cron.js": {
-      "maxDuration": 300
     }
   }
 }

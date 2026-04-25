@@ -1,16 +1,8 @@
-import { createClient } from "redis";
-import dotenv from "dotenv";
-dotenv.config();
+import { Redis } from "@upstash/redis";
 
-// node-redis v4 auto-detects TLS when the URL uses the `rediss://` scheme,
-// so no explicit socket.tls config is required.
-const redisClient = createClient({
-  url: process.env.REDIS_URL,
-});
-
-redisClient.on("error", (err) => console.error("Redis Error:", err));
-redisClient.on("connect", () => console.log("Redis client connected"));
-redisClient.on("ready", () => console.log("Redis client ready"));
-redisClient.on("end", () => console.log("Redis client connection closed"));
+// HTTP-based REST client. Stateless: every command is a single HTTPS call,
+// no TCP handshake, no connection lifecycle. Reads UPSTASH_REDIS_REST_URL
+// and UPSTASH_REDIS_REST_TOKEN from the environment.
+const redisClient = Redis.fromEnv();
 
 export default redisClient;
