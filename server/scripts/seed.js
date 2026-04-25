@@ -46,14 +46,9 @@ function logUpdate(message, isError = false) {
   }
 }
 
-const mongoUri =
-  process.env.NODE_ENV === "development"
-    ? process.env.MONGO_URI_DEV
-    : process.env.MONGO_URI_PROD;
-
 async function connectDB() {
   try {
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(process.env.MONGO_URI);
     logUpdate("Connected to MongoDB ✓");
   } catch (error) {
     logUpdate(`Failed to connect to MongoDB: ${error}`, true);

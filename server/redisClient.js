@@ -2,12 +2,10 @@ import { createClient } from "redis";
 import dotenv from "dotenv";
 dotenv.config();
 
+// node-redis v4 auto-detects TLS when the URL uses the `rediss://` scheme,
+// so no explicit socket.tls config is required.
 const redisClient = createClient({
-  url:
-    process.env.NODE_ENV === "development"
-      ? process.env.REDIS_URL_DEV
-      : process.env.REDIS_URL_PROD,
-  socket: { tls: process.env.NODE_ENV === "development" ? true : false },
+  url: process.env.REDIS_URL,
 });
 
 redisClient.on("error", (err) => console.error("Redis Error:", err));

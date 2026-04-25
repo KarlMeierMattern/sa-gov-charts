@@ -1,9 +1,24 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install && npm install --prefix server",
   "crons": [
     {
       "path": "/api/cron",
       "schedule": "0 0 * * 5"
     }
-  ]
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/api/index"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    },
+    "api/cron.js": {
+      "maxDuration": 300
+    }
+  }
 }
