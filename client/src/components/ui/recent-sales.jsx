@@ -2,13 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// Get base URL based on environment
-const baseUrl =
-  import.meta.env.VITE_ENV === "development"
-    ? import.meta.env.VITE_DEV_BASE_URL
-    : import.meta.env.VITE_PROD_BASE_URL;
-
-axios.defaults.baseURL = baseUrl;
+axios.defaults.baseURL = "/api";
 
 export function RecentSales() {
   const [response, setResponse] = useState(null);
@@ -18,7 +12,7 @@ export function RecentSales() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/sarb-all"); // fetch from the backend
+        const response = await axios.get("/sarb-all");
         setResponse(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);

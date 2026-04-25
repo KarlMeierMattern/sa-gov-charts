@@ -30,7 +30,7 @@ app.use(
   }),
 );
 
-app.use("/", govRoute);
+app.use("/api", govRoute);
 
 app.use(errorHandlerMiddleware);
 

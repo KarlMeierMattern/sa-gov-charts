@@ -10,11 +10,16 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // Ensure this matches tsconfig paths
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  server: {
+    proxy: {
+      "/api": "http://localhost:3000",
     },
   },
   build: {
-    outDir: "dist", // Explicitly set the output directory for production builds
-    assetsDir: "assets", // Optional: Customize where static assets are stored
+    outDir: "dist",
+    assetsDir: "assets",
   },
 });

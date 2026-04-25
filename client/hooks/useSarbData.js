@@ -1,19 +1,12 @@
 import { useQueries } from "@tanstack/react-query";
 
-const baseUrl =
-  import.meta.env.VITE_ENV === "development"
-    ? import.meta.env.VITE_DEV_BASE_URL
-    : import.meta.env.VITE_PROD_BASE_URL;
-
 const staleTime = 604800;
 const cacheTime = 604800;
 
 const fetchData = async (endpoint) => {
   try {
-    const res = await fetch(`${baseUrl}/${endpoint}`, {
+    const res = await fetch(`/api/${endpoint}`, {
       method: "GET",
-      mode: "cors",
-      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
