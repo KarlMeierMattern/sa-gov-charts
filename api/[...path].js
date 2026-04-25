@@ -1,3 +1,5 @@
+// Production (Vercel serverless) entry point. Catch-all handler for all /api/* routes.
+
 import app from "../server/app.js";
 import { connectAll } from "../server/db.js";
 

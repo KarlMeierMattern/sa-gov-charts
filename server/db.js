@@ -8,22 +8,22 @@ export async function connectMongo() {
   if (mongoose.connection.readyState === 1) return mongoose.connection;
   if (mongoPromise) return mongoPromise;
 
-  mongoPromise = mongoose
-    .connect(process.env.MONGO_URI, {
-      maxPoolSize: 10,
-      minPoolSize: 1,
-      maxIdleTimeMS: 30000,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    })
-    .then((m) => {
+  mongoPromise = (async () => {
+    try {
+      const m = await mongoose.connect(process.env.MONGO_URI, {
+        maxPoolSize: 10,
+        minPoolSize: 1,
+        maxIdleTimeMS: 30000,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+      });
       console.log("App connected to MongoDB ✅");
       return m.connection;
-    })
-    .catch((err) => {
+    } catch (err) {
       mongoPromise = null;
       throw err;
-    });
+    }
+  })();
 
   return mongoPromise;
 }

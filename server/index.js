@@ -1,3 +1,4 @@
+// Local development entry point. Not used in production (see api/[...path].js).
 import dotenv from "dotenv";
 dotenv.config();
 
