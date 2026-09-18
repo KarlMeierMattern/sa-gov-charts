@@ -134,7 +134,7 @@ export default function Dashboard() {
   }, [query.data]);
 
   return (
-    <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pb-20">
+    <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pb-8">
       <header className="flex items-start justify-between gap-4 mb-10">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
