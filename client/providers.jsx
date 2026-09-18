@@ -7,7 +7,10 @@ import PropTypes from "prop-types";
 const queryDefaults = {
   staleTime: 604800,
   gcTime: 604800,
-  retry: 2,
+  retry: 1,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
+  refetchOnMount: false,
 };
 
 export default function Providers({ children }) {

@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
+import { memo } from "react";
 
-export default function SparklineChart({ data }) {
+function SparklineChart({ data }) {
   if (!data?.length) return null;
 
-  const values = data.map((item) => Number(item.value)).filter((v) => !Number.isNaN(v));
+  const values = data
+    .map((item) => Number(item.value))
+    .filter((v) => !Number.isNaN(v));
   if (values.length < 2) return null;
 
   const min = Math.min(...values);
@@ -16,8 +19,7 @@ export default function SparklineChart({ data }) {
   const points = values
     .map((value, index) => {
       const x =
-        padding +
-        (index / (values.length - 1)) * (width - padding * 2);
+        padding + (index / (values.length - 1)) * (width - padding * 2);
       const y =
         height -
         padding -
@@ -49,3 +51,5 @@ export default function SparklineChart({ data }) {
 SparklineChart.propTypes = {
   data: PropTypes.array.isRequired,
 };
+
+export default memo(SparklineChart);

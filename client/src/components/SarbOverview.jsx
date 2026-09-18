@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   TrendingUpDown,
@@ -22,6 +22,7 @@ import {
 import PropTypes from "prop-types";
 import SparklineChart from "./SparklineChart.jsx";
 import { quarterToDate, sortByDate, formatNumber } from "../utils/dateUtils";
+import { statCardClass } from "../lib/panelStyles";
 
 // SARB labels gold price under "US Dollar" on the market rates page
 const SARB_GOLD_LABEL = "US Dollar";
@@ -64,7 +65,7 @@ InfoButton.propTypes = {
   info: PropTypes.string.isRequired,
 };
 
-export default function SarbOverview({
+function SarbOverview({
   response,
   responseAll,
   responseFx,
@@ -360,8 +361,8 @@ export default function SarbOverview({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cardData.map((data) => (
-        <Card key={data.title}>
-          <CardHeader className="flex flex-row items-start justify-between gap-2 pb-2">
+        <Card key={data.title} className={statCardClass}>
+          <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0 pb-2">
             <CardTitle className="text-sm font-medium min-w-0 truncate">
               {data.title}
             </CardTitle>
@@ -382,3 +383,5 @@ export default function SarbOverview({
     </div>
   );
 }
+
+export default memo(SarbOverview);

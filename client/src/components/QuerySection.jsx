@@ -24,7 +24,7 @@ export default function QuerySection({ queries, skeleton, children }) {
     return (
       <div
         role="alert"
-        className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center"
+        className="rounded-lg bg-destructive/10 p-6 text-center"
       >
         <AlertCircle className="mx-auto mb-2 h-5 w-5 text-destructive" />
         <p className="text-sm text-destructive">{failed.error?.message}</p>

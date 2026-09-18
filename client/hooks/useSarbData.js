@@ -1,65 +1,65 @@
-import { useQueries } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const staleTime = 604800;
 const gcTime = 604800;
 
-const fetchData = async (endpoint) => {
-  const res = await fetch(`/api/${endpoint}`, {
+async function fetchDashboard() {
+  const res = await fetch("/api/dashboard", {
     method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+    headers: { Accept: "application/json" },
   });
   if (!res.ok) {
-    throw new Error(`Failed to fetch ${endpoint} data`);
+    throw new Error("Failed to fetch dashboard data");
   }
   return res.json();
-};
+}
 
-const endpoints = [
-  "sarb-other",
-  "sarb-all",
-  "sarb-repo",
-  "jse",
-  "sarb-repo-timeline",
-  "sarb-fx-timeline",
-  "sarb-real-gdp-timeline",
-  "sarb-prime-timeline",
-  "sarb-change-prime-timeline",
-  "sarb-change-repo-timeline",
-  "sarb-gold-timeline",
-  "sarb-gbp-timeline",
-  "sarb-euro-timeline",
-  "unemployment",
-  "unemployment-timeline",
-];
+function createSlice(query, key) {
+  return {
+    data: query.data?.[key],
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    error: query.error,
+    refetch: query.refetch,
+  };
+}
 
 export function useSarbData() {
-  const results = useQueries({
-    queries: endpoints.map((endpoint) => ({
-      queryKey: [endpoint],
-      queryFn: () => fetchData(endpoint),
-      staleTime,
-      gcTime,
-    })),
+  const query = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: fetchDashboard,
+    staleTime,
+    gcTime,
   });
 
-  return {
-    sarbOther: results[0],
-    sarbAll: results[1],
-    sarbRepo: results[2],
-    sarbJse: results[3],
-    sarbRepoTimeline: results[4],
-    sarbFxTimeline: results[5],
-    sarbRealGdpTimeline: results[6],
-    sarbPrimeTimeline: results[7],
-    sarbChangePrimeTimeline: results[8],
-    sarbChangeRepoTimeline: results[9],
-    sarbGoldTimeline: results[10],
-    sarbGbpTimeline: results[11],
-    sarbEuroTimeline: results[12],
-    sarbUnemployment: results[13],
-    sarbUnemploymentTimeline: results[14],
-  };
+  return useMemo(
+    () => ({
+      sarbOther: createSlice(query, "sarbOther"),
+      sarbAll: createSlice(query, "sarbAll"),
+      sarbRepo: createSlice(query, "sarbRepo"),
+      sarbJse: createSlice(query, "jse"),
+      sarbRepoTimeline: createSlice(query, "sarbRepoTimeline"),
+      sarbFxTimeline: createSlice(query, "sarbFxTimeline"),
+      sarbRealGdpTimeline: createSlice(query, "sarbRealGdpTimeline"),
+      sarbPrimeTimeline: createSlice(query, "sarbPrimeTimeline"),
+      sarbChangePrimeTimeline: createSlice(query, "sarbChangePrimeTimeline"),
+      sarbChangeRepoTimeline: createSlice(query, "sarbChangeRepoTimeline"),
+      sarbGoldTimeline: createSlice(query, "sarbGoldTimeline"),
+      sarbGbpTimeline: createSlice(query, "sarbGbpTimeline"),
+      sarbEuroTimeline: createSlice(query, "sarbEuroTimeline"),
+      sarbUnemployment: createSlice(query, "unemployment"),
+      sarbUnemploymentTimeline: createSlice(query, "unemploymentTimeline"),
+      query,
+    }),
+    [
+      query.data,
+      query.isLoading,
+      query.isFetching,
+      query.isError,
+      query.error,
+      query.refetch,
+    ]
+  );
 }

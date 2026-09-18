@@ -1,4 +1,5 @@
 export const API_CACHE_PATHS = [
+  "/api/dashboard",
   "/api/sarb-repo",
   "/api/sarb-all",
   "/api/sarb-other",

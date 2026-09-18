@@ -1,4 +1,5 @@
 import { Bar } from "react-chartjs-2";
+import { panelClass } from "@/lib/panelStyles";
 import PropTypes from "prop-types";
 import { defaultBarOptions } from "@/lib/chartSetup";
 import "@/lib/chartSetup";
@@ -41,7 +42,7 @@ export default function SarbResCur({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded-2xl shadow">
+    <div className={panelClass}>
       <h2 className="text-lg font-bold mb-4">
         International Reserves & Currencies
       </h2>

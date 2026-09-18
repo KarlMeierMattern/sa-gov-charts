@@ -1,4 +1,5 @@
 import { Line } from "react-chartjs-2";
+import { panelClass } from "@/lib/panelStyles";
 import PropTypes from "prop-types";
 import { defaultLineOptions } from "@/lib/chartSetup";
 import "@/lib/chartSetup";
@@ -122,7 +123,7 @@ export default function FxTimelineChart({
 
   return (
     <div
-      className="p-4 border rounded-2xl shadow"
+      className={panelClass}
       role="img"
       aria-label="FX timeline chart showing USD, GBP, and EUR exchange rates against the rand"
     >

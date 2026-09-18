@@ -1,4 +1,5 @@
 import { Line } from "react-chartjs-2";
+import { panelClass } from "@/lib/panelStyles";
 import PropTypes from "prop-types";
 import { defaultLineOptions } from "@/lib/chartSetup";
 import "@/lib/chartSetup";
@@ -192,7 +193,7 @@ export default function TimelineChart({
 
   return (
     <div
-      className="p-4 border rounded-2xl shadow"
+      className={panelClass}
       role="img"
       aria-label="Timeline chart of prime rate, repo rate, and real GDP growth"
     >

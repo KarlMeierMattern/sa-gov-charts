@@ -1,5 +1,6 @@
 import express from "express";
 import { cacheMiddleware } from "../middleware/cacheMiddleware.js";
+import { getDashboardData } from "../controllers/dashboardController.js";
 
 import {
   getSarbRepoData,
@@ -21,6 +22,7 @@ import {
 
 const router = express.Router();
 
+router.get("/dashboard", cacheMiddleware, getDashboardData);
 router.get("/sarb-repo", cacheMiddleware, getSarbRepoData);
 router.get("/sarb-all", cacheMiddleware, getSarbAllData);
 router.get("/sarb-other", cacheMiddleware, getSarbOtherIndicatorsController);

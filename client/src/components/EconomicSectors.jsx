@@ -1,4 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
+import { panelClass } from "@/lib/panelStyles";
 import PropTypes from "prop-types";
 import "@/lib/chartSetup";
 
@@ -71,7 +72,7 @@ export default function EconomicSectors({ response }) {
   };
 
   return (
-    <div className="p-4 border rounded-2xl shadow">
+    <div className={panelClass}>
       <h2 className="text-lg font-bold mb-4">Economic Sectors</h2>
       <div className="h-[400px] flex items-center justify-center">
         <Doughnut
@@ -82,8 +83,7 @@ export default function EconomicSectors({ response }) {
             plugins: {
               tooltip: { enabled: true },
               legend: {
-                display: true,
-                position: "bottom",
+                display: false,
               },
               datalabels: {
                 display: false,

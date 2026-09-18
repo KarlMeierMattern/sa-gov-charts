@@ -1,4 +1,5 @@
 import { Bar } from "react-chartjs-2";
+import { panelClass } from "@/lib/panelStyles";
 import PropTypes from "prop-types";
 import { defaultBarOptions } from "@/lib/chartSetup";
 import "@/lib/chartSetup";
@@ -126,7 +127,7 @@ export default function SarbRepo({ response }) {
   return (
     <>
       {chartData.map((data, index) => (
-        <div key={index} className="p-4 border rounded-2xl shadow">
+        <div key={index} className={panelClass}>
           <h2 className="text-lg font-bold">{data.title}</h2>
           <Bar data={data} options={defaultBarOptions} />
         </div>

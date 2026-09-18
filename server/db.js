@@ -11,7 +11,7 @@ export async function connectMongo() {
   mongoPromise = (async () => {
     try {
       const m = await mongoose.connect(process.env.MONGO_URI, {
-        maxPoolSize: 10,
+        maxPoolSize: 2,
         minPoolSize: 1,
         maxIdleTimeMS: 30000,
         serverSelectionTimeoutMS: 5000,
