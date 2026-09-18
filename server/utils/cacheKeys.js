@@ -1,0 +1,17 @@
+export const API_CACHE_PATHS = [
+  "/api/sarb-repo",
+  "/api/sarb-all",
+  "/api/sarb-other",
+  "/api/jse",
+  "/api/sarb-repo-timeline",
+  "/api/sarb-fx-timeline",
+  "/api/sarb-real-gdp-timeline",
+  "/api/sarb-prime-timeline",
+  "/api/sarb-change-prime-timeline",
+  "/api/sarb-change-repo-timeline",
+  "/api/sarb-gold-timeline",
+  "/api/sarb-gbp-timeline",
+  "/api/sarb-euro-timeline",
+  "/api/unemployment",
+  "/api/unemployment-timeline",
+];

@@ -1,16 +1,7 @@
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
 import PropTypes from "prop-types";
+import { defaultBarOptions } from "@/lib/chartSetup";
+import "@/lib/chartSetup";
 
 SarbCashFin.propTypes = {
   response: PropTypes.array.isRequired,
@@ -64,29 +55,7 @@ export default function SarbCashFin({ response }) {
   return (
     <div className="p-4 border rounded-2xl shadow">
       <h2 className="text-lg font-bold mb-4">Cash Flow & Financing</h2>
-      <Bar
-        data={cashFinance}
-        options={{
-          responsive: true,
-          plugins: {
-            tooltip: { enabled: true },
-            datalabels: false,
-            legend: { display: false },
-          },
-          scales: {
-            x: {
-              grid: {
-                display: false,
-              },
-            },
-            y: {
-              grid: {
-                display: false,
-              },
-            },
-          },
-        }}
-      />
+      <Bar data={cashFinance} options={defaultBarOptions} />
     </div>
   );
 }

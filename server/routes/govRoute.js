@@ -6,7 +6,6 @@ import {
   getSarbAllData,
   getSarbOtherIndicatorsController,
   getJseIndex,
-  getTest,
   getSarbRepoTimelineData,
   getSarbFxTimelineData,
   getSarbRealGdpTimelineData,
@@ -53,10 +52,12 @@ router.get(
   cacheMiddleware,
   getUnemploymentTimelineData
 );
-router.get("/test", getTest);
+
+if (process.env.NODE_ENV !== "production") {
+  router.get("/test", async (req, res, next) => {
+    const { getTest } = await import("../controllers/testController.js");
+    return getTest(req, res, next);
+  });
+}
 
 export default router;
-
-// Express.js provides the server framework to handle HTTP requests and responses.
-// Axios is used to scrape data from external websites, process it, and send it back to clients.
-// Express server exposes scraped data via specific endpoints, effectively functioning as an API.

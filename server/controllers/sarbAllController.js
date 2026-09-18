@@ -1,10 +1,9 @@
-// https://resbank.co.za/en/home/what-we-do/statistics/releases/national-summary-data-page
-
 import { SarbAllModel } from "../model/index.js";
+import { findAllLean } from "../utils/queryHelpers.js";
 
 const getSarbAllData = async (req, res) => {
   try {
-    const data = await SarbAllModel.find();
+    const data = await findAllLean(SarbAllModel);
     res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching SARB All data:", error);

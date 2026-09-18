@@ -1,28 +1,7 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale,
-} from "chart.js";
-import "chartjs-adapter-date-fns";
 import PropTypes from "prop-types";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale
-);
+import { defaultLineOptions } from "@/lib/chartSetup";
+import "@/lib/chartSetup";
 
 TimelineChart.propTypes = {
   sarbChangePrimeTimeline: PropTypes.arrayOf(
@@ -149,29 +128,7 @@ export default function TimelineChart({
   };
 
   const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      tooltip: {
-        enabled: true,
-        mode: "nearest",
-        intersect: false,
-        callbacks: {
-          title: function (context) {
-            return context[0].label;
-          },
-        },
-      },
-      datalabels: {
-        display: false,
-      },
-    },
-    hover: {
-      mode: "nearest",
-      intersect: false,
-    },
+    ...defaultLineOptions,
     scales: {
       y: {
         type: "linear",
@@ -234,17 +191,14 @@ export default function TimelineChart({
   };
 
   return (
-    <div className="p-4 border rounded-2xl shadow">
+    <div
+      className="p-4 border rounded-2xl shadow"
+      role="img"
+      aria-label="Timeline chart of prime rate, repo rate, and real GDP growth"
+    >
       <h2 className="text-lg font-bold mb-4">{chartData.title}</h2>
       <div className="h-[400px]">
-        <Line
-          data={chartData}
-          options={{
-            ...options,
-            maintainAspectRatio: false,
-            responsive: true,
-          }}
-        />
+        <Line data={chartData} options={options} />
       </div>
     </div>
   );

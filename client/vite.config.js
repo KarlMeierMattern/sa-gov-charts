@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { fileURLToPath } from "url";
 
-// Fix for `__dirname`
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
@@ -21,5 +20,19 @@ export default defineConfig({
   build: {
     outDir: "dist",
     assetsDir: "assets",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          charts: [
+            "chart.js",
+            "react-chartjs-2",
+            "chartjs-adapter-date-fns",
+            "chartjs-plugin-datalabels",
+          ],
+          query: ["@tanstack/react-query"],
+        },
+      },
+    },
   },
 });

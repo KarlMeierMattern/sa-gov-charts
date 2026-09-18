@@ -1,16 +1,7 @@
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
 import PropTypes from "prop-types";
+import { defaultBarOptions } from "@/lib/chartSetup";
+import "@/lib/chartSetup";
 
 SarbResCur.propTypes = {
   response: PropTypes.array.isRequired,
@@ -54,29 +45,7 @@ export default function SarbResCur({ response }) {
       <h2 className="text-lg font-bold mb-4">
         International Reserves & Currencies
       </h2>
-      <Bar
-        data={intResCur}
-        options={{
-          responsive: true,
-          plugins: {
-            tooltip: { enabled: true },
-            datalabels: false,
-            legend: { display: false },
-          },
-          scales: {
-            x: {
-              grid: {
-                display: false,
-              },
-            },
-            y: {
-              grid: {
-                display: false,
-              },
-            },
-          },
-        }}
-      />
+      <Bar data={intResCur} options={defaultBarOptions} />
     </div>
   );
 }

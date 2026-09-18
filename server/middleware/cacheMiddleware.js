@@ -11,10 +11,14 @@ export const cacheMiddleware = async (req, res, next) => {
       return res.json(cachedData);
     }
     console.log(`Cache miss for ${key}`);
-    res.sendResponse = res.json;
-    res.json = (body) => {
-      redisClient.set(key, body, { ex: CACHE_TIME });
-      res.sendResponse(body);
+    const originalJson = res.json.bind(res);
+    res.json = async (body) => {
+      try {
+        await redisClient.set(key, body, { ex: CACHE_TIME });
+      } catch (error) {
+        console.error("Redis cache write error:", error);
+      }
+      return originalJson(body);
     };
     next();
   } catch (error) {

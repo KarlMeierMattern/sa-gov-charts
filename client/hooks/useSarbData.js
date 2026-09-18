@@ -1,24 +1,20 @@
 import { useQueries } from "@tanstack/react-query";
 
 const staleTime = 604800;
-const cacheTime = 604800;
+const gcTime = 604800;
 
 const fetchData = async (endpoint) => {
-  try {
-    const res = await fetch(`/api/${endpoint}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${endpoint} data`);
-    }
-    return res.json();
-  } catch (error) {
-    throw new Error(`Failed to fetch ${endpoint} data: ${error.message}`);
+  const res = await fetch(`/api/${endpoint}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${endpoint} data`);
   }
+  return res.json();
 };
 
 const endpoints = [
@@ -45,7 +41,7 @@ export function useSarbData() {
       queryKey: [endpoint],
       queryFn: () => fetchData(endpoint),
       staleTime,
-      cacheTime,
+      gcTime,
     })),
   });
 

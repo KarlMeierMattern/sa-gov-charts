@@ -1,26 +1,6 @@
 import { Doughnut } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  BarElement,
-  LinearScale,
-} from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels"; // Import the plugin
-
-ChartJS.register(
-  ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  BarElement,
-  LinearScale,
-  ChartDataLabels
-);
-
 import PropTypes from "prop-types";
+import "@/lib/chartSetup";
 
 EconomicSectors.propTypes = {
   response: PropTypes.array.isRequired,
@@ -103,10 +83,7 @@ export default function EconomicSectors({ response }) {
               tooltip: { enabled: true },
               legend: {
                 display: true,
-                position: "right",
-                padding: {
-                  top: 100,
-                },
+                position: "bottom",
               },
               datalabels: {
                 display: false,

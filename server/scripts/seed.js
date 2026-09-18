@@ -34,6 +34,8 @@ import {
   SarbUnemploymentModel,
   SarbUnemploymentTimelineModel,
 } from "../model/index.js";
+import redisClient from "../redisClient.js";
+import { API_CACHE_PATHS } from "../utils/cacheKeys.js";
 
 // Enhanced logging function
 function logUpdate(message, isError = false) {
@@ -90,7 +92,7 @@ export default async function seedDatabase() {
     console.time("Unemployment data scrape time");
     const data = await unemploymentScraper(SARB_UNEMPLOYMENT);
     await SarbUnemploymentModel.updateOne(
-      { unemploymentRate: data.unemploymentRate },
+      { date: data.date },
       { $set: data },
       { upsert: true },
     );
@@ -340,6 +342,15 @@ export default async function seedDatabase() {
       `Successfully updated Change Repo Timeline data: ${data.length} entries ✓`,
     );
   });
+
+  if (failures.length === 0) {
+    try {
+      await Promise.all(API_CACHE_PATHS.map((key) => redisClient.del(key)));
+      logUpdate("API cache flushed ✓");
+    } catch (error) {
+      logUpdate(`Cache flush skipped: ${error.message}`, true);
+    }
+  }
 
   await mongoose.connection.close();
   logUpdate("Database connection closed ✓");
