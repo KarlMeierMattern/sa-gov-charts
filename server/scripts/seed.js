@@ -68,8 +68,6 @@ export default async function seedDatabase() {
   const SARB_OTHER_URL =
     "https://www.resbank.co.za/en/home/what-we-do/statistics/key-statistics";
 
-  const JSE_URL = "https://www.jse.co.za/";
-
   const SARB_UNEMPLOYMENT =
     "https://www.resbank.co.za/en/home/what-we-do/statistics/releases/economic-and-financial-data-for-south-africa";
 
@@ -194,7 +192,7 @@ export default async function seedDatabase() {
 
   await run("JSE data", async () => {
     console.time("JSE scrape time");
-    const data = await jseIndexScraper(JSE_URL);
+    const data = await jseIndexScraper();
     for (const d of data) {
       await JseModel.updateOne(
         { index: d.index },
