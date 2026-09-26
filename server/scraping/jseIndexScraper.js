@@ -1,51 +1,54 @@
-// https://www.jse.co.za/
+// JSE index values via Yahoo Finance.
+// jse.co.za is behind Cloudflare and blocks headless browsers in CI.
 
-import { initPuppeteer } from "../utils/puppeteer-config.js";
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
-const jseIndexScraper = async (url) => {
+const INDICES = [
+  { index: 0, symbol: "^J803.JO", name: "All Property" },
+  { index: 1, symbol: "^J203.JO", name: "All Share" },
+  { index: 6, symbol: "^J200.JO", name: "Top 40" },
+  { index: 7, symbol: "^J800.JO", name: "Tradable Property" },
+];
+
+function formatIndexValue(price) {
+  return Math.round(price).toLocaleString("en-US");
+}
+
+async function fetchYahooQuote(symbol) {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`;
+  const response = await fetch(url, {
+    headers: { "User-Agent": USER_AGENT },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Yahoo Finance request failed for ${symbol}: ${response.status}`);
+  }
+
+  const payload = await response.json();
+  const meta = payload?.chart?.result?.[0]?.meta;
+  const price = meta?.regularMarketPrice;
+
+  if (price == null) {
+    throw new Error(`No price returned for ${symbol}`);
+  }
+
+  return price;
+}
+
+const jseIndexScraper = async () => {
   try {
-    const { browser, page } = await initPuppeteer(url);
+    const data = [];
 
-    // Add a small delay to allow dynamic content to load
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    // Define the range of data-slick-index values to scrape
-    const indices = Array.from({ length: 8 }, (_, i) => i); // [0, 1, 2, ..., 7]
-
-    // Wait for at least one of the elements to load
-    await page.waitForSelector(
-      '[data-slick-index="0"] .featured-instrument__price',
-      { timeout: 120000 }
-    );
-
-    // Scrape all values
-    const data = await page.evaluate((indices) => {
-      const results = [];
-
-      indices.forEach((index) => {
-        // Find the element using the current index
-        const element = document.querySelector(
-          `[data-slick-index="${index}"] .featured-instrument__price`
-        );
-        const nameElement = document.querySelector(
-          `[data-slick-index="${index}"] .featured-instrument__name`
-        );
-
-        // Extract the text content
-        const value = element?.textContent.trim() || "N/A";
-        const name = nameElement?.textContent.trim() || `Instrument ${index}`;
-
-        results.push({
-          index: index,
-          name: name,
-          value: value,
-        });
+    for (const { index, symbol, name } of INDICES) {
+      const price = await fetchYahooQuote(symbol);
+      data.push({
+        index,
+        name,
+        value: formatIndexValue(price),
       });
+    }
 
-      return results;
-    }, indices);
-
-    await browser.close();
     return data;
   } catch (error) {
     console.error("Error extracting JSE data:", error.message);
